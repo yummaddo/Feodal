@@ -6,6 +6,9 @@
         Meat,
         Wood,
         Stone,
+        //
+        Manufactory,
+        //
         Intellectual,
         // ---
         Universal,
