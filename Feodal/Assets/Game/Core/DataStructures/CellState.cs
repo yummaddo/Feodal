@@ -22,7 +22,6 @@ namespace Game.Core.DataStructures
             return this;
         }
         protected override string DataNamePattern => $"{type}_{activeType}_State_{id}_{externalName}";
-
         public int id;
         public string externalName;
         public CellType type;
@@ -32,7 +31,6 @@ namespace Game.Core.DataStructures
         public Resource resource;
         public CellState baseState;
         public ICellTransition transition;
-        
         #region ICellState
 
             public int ID { get; set; }
@@ -46,6 +44,5 @@ namespace Game.Core.DataStructures
             public ICellTransition Transition { get; set; }
 
         #endregion
-
     }
 }

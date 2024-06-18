@@ -46,5 +46,9 @@ namespace Game.Services
         {
             _singletonInstances.Remove(typeof(TService));
         }
+        public bool IsRegistered<TService>() where TService : class
+        {
+            return _singletonInstances.ContainsKey(typeof(TService)) || _registeredServices.ContainsKey(typeof(TService));
+        }
     }
 }

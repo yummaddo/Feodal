@@ -22,7 +22,6 @@ namespace Game.Core.DataStructures
             SeedType = seedType;
             return this;
         }
-        
         protected override string DataNamePattern => $"Cell_Container_{containerName}";
 
         #region ICellContainer

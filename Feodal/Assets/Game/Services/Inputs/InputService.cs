@@ -1,5 +1,5 @@
 ﻿using System;
-using Game.Core.Cell;
+using Game.Core.Cells;
 using Game.Services.Abstraction.Service;
 using UnityEngine;
 

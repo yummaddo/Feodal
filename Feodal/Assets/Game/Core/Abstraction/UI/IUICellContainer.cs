@@ -12,6 +12,7 @@ namespace Game.Core.Abstraction.UI
         public Sprite CellImage { get; set; }
         public Sprite CellLendIdentImage { get; set; }
         public string CellTitle { get; set; }
+        public GameObject CellTemplate { get; set; }
         public CellContainer Container { get; set; }
         public List<UICellContainerElement> UIContainer { get; set; }
     }

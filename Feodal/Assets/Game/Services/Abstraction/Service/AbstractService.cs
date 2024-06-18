@@ -19,8 +19,7 @@ namespace Game.Services.Abstraction.Service
         internal event Action OnServiceReStart;
         protected virtual void Freezing() { }
         protected virtual void UnFreezing() { }
-
-        public async void Awake()
+        protected virtual void Awake()
         {
             StateManager = SessionStateManager.Instance;
             Debugger.Logger($"Registering type {this.GetType()}",  ContextDebug.Session,Process.Action);

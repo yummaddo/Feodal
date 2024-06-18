@@ -58,9 +58,9 @@ namespace Game.Meta
                 return _instance;
             }
         }
-        public void RegisterInstance<TService>(Type type, TService instance) where TService : class
+        private void OnDestroy()
         {
-            Container.RegisterInstance(type, instance);
+            Container = null;
         }
     }
 }
