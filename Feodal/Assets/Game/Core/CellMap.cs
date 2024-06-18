@@ -68,5 +68,11 @@ namespace Game.Core
             Service.CellAdded(addable, FindFreeCoordsList());
             callBackMenuExit.OnClick?.Invoke(MenuTypes.ContainerMenu);
         }
+
+        public int GetCountOfCellState(ICellState state)
+        {
+            return 0;
+        }
+
     }
 }
