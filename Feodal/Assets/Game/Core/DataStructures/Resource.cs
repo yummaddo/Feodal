@@ -16,13 +16,14 @@ namespace Game.Core.DataStructures
             return this;
         }
 
-        protected override string DataNamePattern => $"Resource_{type}_{Rare}_{title}";
+        internal override string DataNamePattern => $"Resource_{type}_{Rare}_{title}";
 
         public string title;
         public ResourceType type;
         public ResourceRareType rare;
         public int quantity;
 
+        public override string ToString() { return title; }
         #region IResource
             public string Title { get; set; }
             public ResourceType Type { get; set; }

@@ -25,7 +25,7 @@ namespace Game.Core.DataStructures.UI.Data
             return this;
         }
 
-        protected override string DataNamePattern => $"UICell_ContainerElement_{cellTitle}";
+        internal override string DataNamePattern => $"UICell_ContainerElement_{cellTitle}";
 
         public Sprite CellImage { get; set; }
         public string CellTitle { get; set; }

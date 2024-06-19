@@ -49,7 +49,6 @@ namespace Game.Services.Storage
         {
             if (ResourceDataByIdentifier.ContainsKey(identifier))
             {
-
                 ResourceDataAmountByIdentifier[identifier] = SumAmounts(ResourceDataAmountByIdentifier[identifier], amount);
                 ResourceViews[ResourceViewIndex[identifier]].value = ResourceDataAmountByIdentifier[identifier] ;
             }

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd7b5171d2594db1871def08b4f0b3dd, type: 3}
+  m_Name: ConditionTrade_Seed_AutoumnGrassSeed
+  m_EditorClassIdentifier: 
+  <ConnectedToDependency>k__BackingField:
+    into: {fileID: 11400000, guid: 8e0e5ad1866007f49850721fc47e4f04, type: 2}
+    scaleResourceValue: 12
+    resourceAmountCondition:
+    - resource: {fileID: 11400000, guid: 278774648635c5b4f987e3a4c6a95b54, type: 2}
+      value: 2000
+    - resource: {fileID: 11400000, guid: db64404f0b537524c85e1c7800e85631, type: 2}
+      value: 4200
+    technologyCondition:
+    - {fileID: 11400000, guid: f51617ae027207d4eb74bfb5fbb9a0ef, type: 2}
+  <ConditionName>k__BackingField: 

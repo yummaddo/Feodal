@@ -26,7 +26,7 @@ namespace Game.Core.DataStructures.UI.Data
             Universal = universal.Data;
             return this;
         }
-        protected override string DataNamePattern => $"{type.ToString()}_UIResourcesList";
+        internal override string DataNamePattern => $"{type.ToString()}_UIResourcesList";
         public IResource Universal { get; set; }
         public ResourceType Type { get; set; }
         public List<IUIResource> Resources { get; set; }

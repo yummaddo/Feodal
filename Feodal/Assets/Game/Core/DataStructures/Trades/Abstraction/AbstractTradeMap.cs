@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
 
-namespace Game.Core.DataStructures.Trades
+namespace Game.Core.DataStructures.Trades.Abstraction
 {
     public abstract class AbstractTradeMap<TKey,TValue>
     {

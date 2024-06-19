@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd7b5171d2594db1871def08b4f0b3dd, type: 3}
+  m_Name: ConditionTrade_Seed_GrassSeed
+  m_EditorClassIdentifier: 
+  <ConnectedToDependency>k__BackingField:
+    into: {fileID: 11400000, guid: c16c09b6654b0f04ba36b266d35423dd, type: 2}
+    scaleResourceValue: 2
+    resourceAmountCondition:
+    - resource: {fileID: 11400000, guid: fe9be7a38b3c1aa4fad2cc624bbbc60a, type: 2}
+      value: 25
+    technologyCondition: []
+  <ConditionName>k__BackingField: 

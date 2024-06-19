@@ -1,22 +1,25 @@
 ﻿using System.Collections.Generic;
-using Game.Core.Abstraction;
-using Game.Core.DataStructures.Conditions;
+using Game.Core.DataStructures.Conditions.TradesConditions;
+using Game.Core.DataStructures.Technologies;
+using Game.Core.DataStructures.Trades.Abstraction;
+using Game.Core.DataStructures.Trades.Map;
 using Game.Services.CellControlling;
 using UnityEngine;
 
 namespace Game.Core.DataStructures.Trades
 {
-    public class BuildingTrade: AbstractTrade<CellState>
+    [System.Serializable]
+    public class BuildingTrade: AbstractTrade<CellState,BuildingTrade>
     {
-        [SerializeField] internal List<ResourceAmountCondition> resourceAmountCondition;
+        [SerializeField] internal List<ResourceCounter> resourceAmountCondition;
+        [SerializeField] internal List<Technology> technologyCondition;
         private CellService _cellService;
         private BuildingTradeMap _map;
-        protected override ITrade<CellState> CompareTemplate()
-        {
-            return this;
-        }
+        [SerializeField] public CellState Into;
+        [SerializeField] public int Value;
         internal void Inject(CellService service) => _cellService = service;
-        protected override void Initialization()
+        public override string TradeName => Into.externalName;
+        internal override void Initialization()
         {
             base.Initialization();
             _map = new BuildingTradeMap(this);

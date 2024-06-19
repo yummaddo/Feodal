@@ -1,13 +1,13 @@
-﻿#if UNITY_EDITOR
+﻿using System.Reflection;
+using UnityEditor;
+using UnityEngine;
+
+#if UNITY_EDITOR
 namespace Game.Core.DataStructures.Editor
 {
-    using System.Reflection;
-    using UnityEditor;
-    using UnityEngine;
-    public abstract class AbstractDataStructureEditor<T, TTemplate> : Editor 
+    public abstract class AbstractDataStructureEditor<T, TTemplate> : UnityEditor.Editor 
         
         where T : AbstractDataStructure<TTemplate>
-    
     {
         private MethodInfo _method = null;
 

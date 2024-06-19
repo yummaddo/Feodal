@@ -13,6 +13,7 @@ namespace Game.Core.DataStructures
         public CellSeedType seedType;
         public CellState initial;
         public List<CellState> states;
+        public GameObject template;
         protected override ICellContainer CompareTemplate()
         {
             Initial = initial;
@@ -20,12 +21,13 @@ namespace Game.Core.DataStructures
             foreach (var state in states) { States.Add(state); }
             Price = price;
             SeedType = seedType;
+            CellTemplate = template;
             return this;
         }
-        protected override string DataNamePattern => $"Cell_Container_{containerName}";
+        internal override string DataNamePattern => $"Cell_Container_{containerName}";
 
         #region ICellContainer
-
+            public GameObject CellTemplate { get; set; }
             public int Price { get; set; }
             public CellSeedType SeedType { get; set; }
             public ICellState Initial { get; set; }

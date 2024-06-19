@@ -32,14 +32,20 @@ namespace Game.Core
             
             Service.CellAdded(baseCells, FindFreeCoordsList());
         }
-
+        public int GetCountOfCellState(ICellState state)
+        {
+            return 0;
+        }
+        public int GetCellCount(IResource intoData)
+        {
+            return 0;
+        }
         private void UpdateMap(Cell newCell)
         {
             HexCellsIdentifier.Add(newCell.Position.CellHexCoord,newCell);
             hexIdentifier.Add(newCell.Position.CellHexCoord);
             hexCells.Add(newCell);
         }
-
         public List<ICellPosition> FindFreeCoordsList()
         {
             List<ICellPosition> coordsList = new List<ICellPosition>();
@@ -68,11 +74,5 @@ namespace Game.Core
             Service.CellAdded(addable, FindFreeCoordsList());
             callBackMenuExit.OnClick?.Invoke(MenuTypes.ContainerMenu);
         }
-
-        public int GetCountOfCellState(ICellState state)
-        {
-            return 0;
-        }
-
     }
 }

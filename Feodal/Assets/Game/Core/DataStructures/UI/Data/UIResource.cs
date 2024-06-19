@@ -22,6 +22,6 @@ namespace Game.Core.DataStructures.UI.Data
         public Sprite ResourceImage { get; set; }
         public ItemRareSpiteAtlas ResourceRareImage { get; set; }
         public string Title { get; set; }
-        protected override string DataNamePattern => $"{resource.title}_UIResource";
+        internal override string DataNamePattern => $"{resource.title}_UIResource";
     }
 }

@@ -15,7 +15,7 @@ namespace Game.Core.DataStructures.UI.Data
         public List<UICellContainerElement> uIContainer;
         public GameObject cellTemplate;
 
-        protected override string DataNamePattern => $"UICell_Container_{cellTitle}";
+        internal override string DataNamePattern => $"UICell_Container_{cellTitle}";
         public Sprite CellImage { get; set; }
         public Sprite CellLendIdentImage { get; set; }
         public string CellTitle { get; set; }

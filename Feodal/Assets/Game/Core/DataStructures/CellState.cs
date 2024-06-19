@@ -21,7 +21,12 @@ namespace Game.Core.DataStructures
             Base = baseState;
             return this;
         }
-        protected override string DataNamePattern => $"{type}_{activeType}_State_{id}_{externalName}";
+
+        public override string ToString()
+        {
+            return externalName;
+        }
+        internal override string DataNamePattern => $"{type}_{activeType}_State_{id}_{externalName}";
         public int id;
         public string externalName;
         public CellType type;

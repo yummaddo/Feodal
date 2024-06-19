@@ -1,4 +1,5 @@
 ﻿using Game.Core.Abstraction;
+using Game.Core.Cells;
 using Game.Core.DataStructures;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace Game.Core
         public CellVisualSelection selection;
         internal bool IsBaseState => container.initial.externalName == State.ExternalName;
         internal ICellState State;
+        
         [SerializeField] internal Transform root;
         [SerializeField] internal CellDirection direction;
         [SerializeField] internal CellContainer container;

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Game.Core.Abstraction;
+using Game.Core.DataStructures.Trades.Abstraction;
 
-namespace Game.Core.DataStructures.Trades
+namespace Game.Core.DataStructures.Trades.Map
 {
     public class BuildingTradeMap :  AbstractTradeMap<ICellState, IResource>
     {
@@ -11,9 +12,9 @@ namespace Game.Core.DataStructures.Trades
             From = new List<MapValue<IResource>>();
             foreach (var element in trade.resourceAmountCondition)
             {
-                From.Add(new MapValue<IResource>(element.resource.Data, element.amount));
+                From.Add(new MapValue<IResource>(element.resource.Data, element.value));
             }
-            Into = new MapValue<ICellState>(trade.Into.Data, 1);
+            Into = new MapValue<ICellState>(trade.Into, 1);
         }
         public override Dictionary<IResource, int> GetAmount(int amount)
         {

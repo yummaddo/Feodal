@@ -28,6 +28,8 @@ namespace Game.Services.Storage
             Debugger.Logger("OnApplicationQuit: Save Resource Repositories", ContextDebug.Session, Process.Load);
             resourceRepository.SaveResourceData();
         }
+        
+        
 #if UNITY_WEBGL
         private void OnDestroy()
         {

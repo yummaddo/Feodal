@@ -24,7 +24,6 @@ namespace Game.Services.CellControlling
         
         private Dictionary<HexCoords, GameObject> _freeCellTransform = new Dictionary<HexCoords, GameObject>();
         public event Action<Cell, List<ICellPosition>> OnCellAdded;
-
         protected override void OnAwake()
         {
         }
