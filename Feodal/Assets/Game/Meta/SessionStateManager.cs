@@ -60,6 +60,7 @@ namespace Game.Meta
         }
         private void OnDestroy()
         {
+            _instance = null;
             Container = null;
         }
     }

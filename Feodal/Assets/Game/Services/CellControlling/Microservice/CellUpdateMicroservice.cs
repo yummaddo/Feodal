@@ -39,7 +39,7 @@ namespace Game.Services.CellControlling.Microservice
         {
             _selectedCell.selection.UnSelect();
             menuExitCallBack.OnClick?.Invoke(MenuTypes.BuildingMenu);
-            Debug.Log(obj.State.Data.ExternalName);
+            Debugger.Logger(obj.State.Data.ExternalName, Process.Action);
             _selectedCell.MigrateToNewState(obj.State.Data);
         }
 

@@ -18,3 +18,4 @@ MonoBehaviour:
   initial: {fileID: 11400000, guid: 4c8a688557acea049aa38ae26cc2834d, type: 2}
   states:
   - {fileID: 11400000, guid: c9bbd233e808a934f9fd8260f5abe3c6, type: 2}
+  template: {fileID: 3808138823535645106, guid: c0d37a8a135aa9a4997ad59a3ccf6df2, type: 3}

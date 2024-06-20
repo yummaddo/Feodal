@@ -210,8 +210,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectorIndexing: {fileID: 3153749207900320884}
-  selectionTime: 1.45
-  clickTime: 0.23
+  selectionTime: 0.877
+  clickTime: 0.1
   cell: {fileID: 0}
   clickCallback: {fileID: 1428846941839810789}
   clickSelectedCallback: {fileID: 4738940154817908015}

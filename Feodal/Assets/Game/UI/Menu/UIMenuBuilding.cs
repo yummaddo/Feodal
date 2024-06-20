@@ -41,7 +41,7 @@ namespace Game.UI.Menu
         private void OpenMenu(ICellContainer obj)
         {
             target.gameObject.SetActive(true);
-            Debug.Log("OpenMenu");
+            Debugger.Logger($"Open Menu Type {MenuTypes.BuildingMenu}", ContextDebug.Menu , Process.Action);
             OpenMenuWithBase(obj.Initial.ExternalName);
         }
         private void OpenMenuWithBase(string nameOfContainer)

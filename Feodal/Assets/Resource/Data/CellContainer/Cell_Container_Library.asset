@@ -17,3 +17,4 @@ MonoBehaviour:
   seedType: 2
   initial: {fileID: 11400000, guid: 50a939f333c831a47becbe282d2531b4, type: 2}
   states: []
+  template: {fileID: 3808138823535645106, guid: 3fd65e09df36b634ea8a9ad07def91d1, type: 3}

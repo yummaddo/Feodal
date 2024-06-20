@@ -1,6 +1,7 @@
 ﻿using Game.Core.Abstraction;
 using Game.Core.Cells;
 using Game.Core.DataStructures;
+using Game.Services.CellControlling;
 using UnityEngine;
 
 namespace Game.Core
@@ -12,25 +13,35 @@ namespace Game.Core
         public CellVisualSelection selection;
         internal bool IsBaseState => container.initial.externalName == State.ExternalName;
         internal ICellState State;
-        
         [SerializeField] internal Transform root;
         [SerializeField] internal CellDirection direction;
         [SerializeField] internal CellContainer container;
-        
         private GameObject _rootedContent;
-        internal void Initialization(int pool, Vector3 position, float distance)
+        private CellService _cellService;
+        internal float Distance { get; private set; }
+        internal void Initialization(CellService service,  int pool, Vector3 position, float distance, bool invocation =true)
         {
+            _cellService = service;
+            Distance = distance;
             Position = new CellPosition(pool, position, root,distance);
             transform.position = position;
             _rootedContent = Instantiate(container.initial.root, root);
             State = container.initial.Data;
+            _cellService.CellCreated(this, invocation);
         }
-        
-        internal void MigrateToNewState(ICellState state)
+        internal void MigrateToNewState(ICellState state, bool invocation = true)
         {
+            var lastState = State;
             State = state;
             Destroy(_rootedContent);
             _rootedContent = Instantiate(state.Root, root);
+            _cellService.CellChange(lastState,State,this,invocation);
+        }
+
+        
+        internal void DestroyCell()
+        {
+            _cellService.CellDestroy(this);
         }
     }
 }

@@ -8,10 +8,10 @@ namespace Game.Services.Storage.MapCellsRepository
     {
         public string encryptedContainerName;
         public string encryptedContainerStateName;
-        public string encryptedCellPosition;
-        public string encryptedCellCord;
+        public string[] encryptedCellPosition;
+        public string[] encryptedCellCord;
         public string encryptedCellScale;
-        public MapCellCoded(string name, string state, string position,string cord, string scale)
+        public MapCellCoded(string name, string state, string[] position,string[] cord, string scale)
         {
             encryptedContainerName = name;
             encryptedContainerStateName = state;

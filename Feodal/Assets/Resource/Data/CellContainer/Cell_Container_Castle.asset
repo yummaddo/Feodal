@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: Cell_Container_Castle
   m_EditorClassIdentifier: 
   containerName: Castle
+  price: 0
+  seedType: 0
   initial: {fileID: 11400000, guid: 959018ad7ecd4f6418b16d17ca01f6fd, type: 2}
   states: []
+  template: {fileID: 3808138823535645106, guid: f9739b2ee111c9c46b826b91407da4ec, type: 3}

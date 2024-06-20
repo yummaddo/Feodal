@@ -9,12 +9,12 @@ namespace Game.Core.Cells
         private Vector3 _baseScale = Vector3.one;
         public void Select()
         {
-            _baseScale = target.localScale;
-            target.localScale = targetcale;
+            // _baseScale = target.localScale;
+            // target.localScale = targetcale;
         }
         public void UnSelect()
         {
-            target.localScale = _baseScale;
+            // target.localScale = _baseScale;
         }
     }
 }

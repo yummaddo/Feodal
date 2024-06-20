@@ -21,8 +21,8 @@ namespace Game.Core.Cells
         private float clickTime = 0.5f;
         private SessionStateManager _manager;
         public Cell cell;
-        public  SimpleClickCallback<Cell> clickCallback;
-        public  SimpleClickCallback<Cell> clickSelectedCallback;
+        public SimpleClickCallback<Cell> clickCallback;
+        public SimpleClickCallback<Cell> clickSelectedCallback;
         void Update()
         {
             if (Input.GetButton("Fire1"))
@@ -35,7 +35,7 @@ namespace Game.Core.Cells
                 if (_isClick)
                 {
                     _time += Time.deltaTime;
-                        if (_time >= selectionTime)
+                        if (_time <= clickTime)
                             clickCallback.OnClick?.Invoke(cell);
                         if (_time >= selectionTime)
                             clickSelectedCallback.OnClick?.Invoke(cell);

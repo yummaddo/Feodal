@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Services
 {
-    public class DiContainer
+    public class DiContainer : IDisposable
     {
         private readonly Dictionary<Type, Func<object>> _registeredServices = new Dictionary<Type, Func<object>>();
         private readonly Dictionary<Type, object> _singletonInstances = new Dictionary<Type, object>();
@@ -49,6 +49,16 @@ namespace Game.Services
         public bool IsRegistered<TService>() where TService : class
         {
             return _singletonInstances.ContainsKey(typeof(TService)) || _registeredServices.ContainsKey(typeof(TService));
+        }
+
+        public void Dispose()
+        {
+            _singletonInstances.Clear();
+            _registeredServices.Clear();
+        }
+        ~DiContainer()
+        {
+            Dispose();
         }
     }
 }

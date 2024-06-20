@@ -1,84 +1,106 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Game.Core.Abstraction;
+using Game.Meta;
+using Game.Services.CellControlling;
+using Game.Services.Storage.Abstraction;
 using UnityEngine;
 
 namespace Game.Services.Storage
 {
     [System.Serializable]
-    public abstract class Temp<TEncoded,TEncodedIdentifier,TData>
+    public class Temp<TEncoded, TEncodedIdentifier, TData> : ITemp<TEncoded, TEncodedIdentifier, TData>
     {
-        internal Temp()
+        protected List<TempedView<TEncodedIdentifier, TData>> TempedViews;
+        protected CellService CellService;
+        
+        internal Dictionary<TEncoded, TData> GetAllResourceData => Data;
+        
+        public Dictionary<TEncoded, TData> Data { get; set; }
+        public Dictionary<TEncodedIdentifier, TEncoded> EncodeByIdentifier { get; set; }
+        public Dictionary<TEncodedIdentifier, TData> DataByIdentifier { get; set; }
+        
+        
+        public Dictionary<TEncodedIdentifier, int> ViewIndex { get; set; }
+        internal IIdentifier<TEncodedIdentifier, TEncoded> Identifier;
+        
+        protected internal Temp(IIdentifier<TEncodedIdentifier, TEncoded> identifier)
         {
-            ResourceData = new Dictionary<TEncoded, TData>();
-            ResourceDataByIdentifier = new Dictionary<TEncodedIdentifier, TEncoded>();
-            ResourceDataAmountByIdentifier = new Dictionary<TEncodedIdentifier, TData>();
-            ResourceViewIndex = new Dictionary<TEncodedIdentifier, int>();
-            ResourceViews = new List<View>();
+            Identifier = identifier;
+            Data = new Dictionary<TEncoded, TData>();
+            EncodeByIdentifier = new Dictionary<TEncodedIdentifier, TEncoded>();
+            DataByIdentifier = new Dictionary<TEncodedIdentifier, TData>();
+            ViewIndex = new Dictionary<TEncodedIdentifier, int>();
+            TempedViews = new List<TempedView<TEncodedIdentifier,TData>>();
         }
-        protected Dictionary<TEncoded, TData> ResourceData { get; set; }
-        protected Dictionary<TEncodedIdentifier, TEncoded> ResourceDataByIdentifier { get; set; } 
-        protected Dictionary<TEncodedIdentifier, TData> ResourceDataAmountByIdentifier { get; set; }
-        protected Dictionary<TEncodedIdentifier, int> ResourceViewIndex { get; set; }
-        [field:SerializeField] protected List<View> ResourceViews { get; set; }
-        protected abstract TData SumAmounts(TData a, TData b);
-        protected abstract TEncodedIdentifier GetIdentifierByEncoded(TEncoded encoded);
-        internal Dictionary<TEncoded, TData> GetAllResourceData => ResourceData;
+        
+        protected virtual TEncodedIdentifier GetIdentifierByEncoded(TEncoded encoded)
+        {
+            return Identifier.GetEncodedIdentifier(encoded);
+        }
+        protected virtual TData SumAmounts(TData a, TData b)
+        {
+            return a;
+        }
+        /// <summary>
+        /// Injection dependency
+        /// </summary>
+        internal virtual void Injection()
+        {
+            CellService = SessionStateManager.Instance.Container.Resolve<CellService>();
+        }
         internal TData GetAmount(TEncodedIdentifier identifier)
         {
-            return ResourceDataAmountByIdentifier[identifier];
+            return DataByIdentifier[identifier];
         }
         internal bool Contains(TEncodedIdentifier identifier)
         {
-            if (ResourceDataByIdentifier.ContainsKey(identifier))
-            {
-                return true;
-            }
-
+            if (EncodeByIdentifier.ContainsKey(identifier)) return true;
             return false;
         }
         internal bool Contains(TEncoded encoded)
         {
-            if (ResourceDataByIdentifier.ContainsKey(GetIdentifierByEncoded(encoded)))
-            {
-                return true;
-            }
-
+            if (EncodeByIdentifier.ContainsKey(GetIdentifierByEncoded(encoded))) return true;
             return false;
         }
         public void AddAmount(TEncodedIdentifier identifier, TData amount)
         {
-            if (ResourceDataByIdentifier.ContainsKey(identifier))
+            if (EncodeByIdentifier.ContainsKey(identifier))
             {
-                ResourceDataAmountByIdentifier[identifier] = SumAmounts(ResourceDataAmountByIdentifier[identifier], amount);
-                ResourceViews[ResourceViewIndex[identifier]].value = ResourceDataAmountByIdentifier[identifier] ;
+                DataByIdentifier[identifier] = SumAmounts(DataByIdentifier[identifier], amount);
+                TempedViews[ViewIndex[identifier]].value = DataByIdentifier[identifier] ;
+            }
+            else Initialization(EncodeByIdentifier[identifier], amount);
+        }
+        public void Temped(TEncoded encode, TData amount)
+        {
+            var identifier = GetIdentifierByEncoded(encode);
+            if (EncodeByIdentifier.ContainsKey(identifier))
+            {
+                EncodeByIdentifier[identifier] = encode;
+                DataByIdentifier[identifier] = amount;
+                Data[encode] = amount;
+
+#if UNITY_EDITOR
+                ViewIndex[identifier] = TempedViews.Count;
+                TempedViews[ViewIndex[identifier]-1].value = amount;
+                TempedViews[ViewIndex[identifier]-1].title = identifier;
+#endif
             }
             else
             {
-                Initialization(ResourceDataByIdentifier[identifier], amount);
+                Initialization(encode, amount);
             }
         }
         public void Initialization(TEncoded encoded, TData amount)
         {
-            Debugger.Logger($"{encoded.ToString()} with amount {amount.ToString()} add to temp");
+            Debugger.Logger($"{encoded.ToString()} with amount {amount.ToString()} add to temp", Process.Info);
             var identifier = GetIdentifierByEncoded(encoded);
-            ResourceData.Add(encoded, amount);
-            ResourceDataByIdentifier.Add(identifier,encoded);
-            ResourceDataAmountByIdentifier.Add(identifier,amount);
-            ResourceViewIndex.Add(identifier,ResourceViews.Count);
-            ResourceViews.Add(new View(identifier, amount));
-        }
-
-        [System.Serializable]
-        protected class View
-        {
-            public TEncodedIdentifier title;
-            public TData value;
-
-            public View(TEncodedIdentifier title, TData value)
-            {
-                this.title = title;
-                this.value = value;
-            }
+            Data.Add(encoded, amount);
+            EncodeByIdentifier.Add(identifier,encoded);
+            DataByIdentifier.Add(identifier,amount);
+            ViewIndex.Add(identifier,TempedViews.Count);
+            TempedViews.Add(new TempedView<TEncodedIdentifier,TData>(identifier, amount));
         }
     }
 }

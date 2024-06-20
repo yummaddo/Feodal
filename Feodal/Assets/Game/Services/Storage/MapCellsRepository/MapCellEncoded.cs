@@ -17,6 +17,7 @@ namespace Game.Services.Storage.MapCellsRepository
             containerStateName = state;
             cellPosition = position;
             cellScale = scale;
+            cellCoord = coords;
         }
     }
 }
