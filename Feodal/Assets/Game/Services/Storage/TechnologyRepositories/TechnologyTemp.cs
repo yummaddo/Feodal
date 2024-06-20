@@ -19,7 +19,7 @@ namespace Game.Services.Storage.TechnologyRepositories
                 var temped = rTechnology.Data; 
                 temped.Temp = this;
                 temped.Repository = repository;
-                TechnologyStores.Add(rTechnology.Data.Title, temped);
+                TechnologyStores.Add(temped.Title, temped);
             }
         }
         internal void InjectTechnologies(List<TradeBuildTechnology> technologies, TechnologyRepository repository, ResourceTemp resourcesRepository)
@@ -31,7 +31,7 @@ namespace Game.Services.Storage.TechnologyRepositories
                 temped.Temp = this;
                 temped.ResourceTemp = resourcesRepository;
                 temped.Repository = repository;
-                TechnologyBuild.Add(rTechnology.Data.Title, temped);
+                TechnologyBuild.Add(temped.Title, temped);
             }
         }
         internal override void Injection()

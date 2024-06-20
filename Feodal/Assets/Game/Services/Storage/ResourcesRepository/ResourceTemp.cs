@@ -1,88 +1,163 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Game.Core;
 using Game.Core.Abstraction;
+using Game.Core.Cells;
 using Game.Core.DataStructures;
-using Game.Core.DataStructures.Conditions.Abstraction.Trades;
-using Game.Core.DataStructures.Conditions.TradesConditions;
+using Game.Core.DataStructures.Trades;
+using Game.Services.Proxies;
+using Game.Services.Proxies.ClickCallback.Abstraction;
+using Game.Services.Proxies.Providers;
 using Game.Services.Storage.Abstraction;
-using Game.Services.Storage.TechnologyRepositories;
+using Game.Services.Storage.Microservice;
 
 namespace Game.Services.Storage.ResourcesRepository
 {
     [System.Serializable]
-    public class ResourceTemp : Temp<ResourceEncoded,string, long>
+    public class ResourceTemp : Temp<ResourceEncoded, string, long>
     {
-        internal Dictionary<string, IResource> Technologies;
-        internal Dictionary<string, ITradeSeedCondition> SeedTrades;
-        internal Dictionary<string, ITradeResourceTechnologyCondition> ResourceTechnologyTrade;
-        internal Dictionary<string, ITradeResourceCondition> ResourceTrade;
+        internal Dictionary<string, IResource> Resources;
+        private HashSet<ResourceTrade> _resourceTrades = new HashSet<ResourceTrade>();
+        private HashSet<BuildingTrade> _buildingTrade = new HashSet<BuildingTrade>();
+        private HashSet<TechnologyTrade> _technologyTrade = new HashSet<TechnologyTrade>();
+        private HashSet<SeedTrade> _seedTrade = new HashSet<SeedTrade>();
+
+        #region Internal Actions
+
+        private event Action<ResourceTrade, int, bool> OnFailedResourceTrade;
+        private event Action<BuildingTrade, int, bool> OnFailedBuildingTrade;
+        private event Action<SeedTrade, int, bool> OnFailedSeedTrade;
+        private event Action<TechnologyTrade, int, bool> OnFailedTechnologyTrade;
+        private event Action<ResourceTrade, int, bool> OnSuccessfullyResourceTrade;
+        private event Action<BuildingTrade, int, bool> OnSuccessfullyBuildingTrade;
+        private event Action<SeedTrade, int, bool> OnSuccessfullySeedTrade;
+        private event Action<TechnologyTrade, int, bool> OnSuccessfullyTechnologyTrade;
+
+        #endregion
+        private void FarmResource(CellResourcePackaging farmer) => ProvideAddAmounts(farmer.Resource, farmer.Value);
         
-        internal void InjectResource(List<Resource> technologies, ResourceRepository repository)
+        internal void InjectionTrade(List<ResourceTrade> trades) { foreach (var trade in trades) _resourceTrades.Add(trade); }
+        internal void InjectionTrade(List<BuildingTrade> trades) { foreach (var trade in trades) _buildingTrade.Add(trade); }
+        internal void InjectionTrade(List<TechnologyTrade> trades) { foreach (var trade in trades) _technologyTrade.Add(trade); }
+        internal void InjectionTrade(List<SeedTrade> trades) { foreach (var trade in trades) _seedTrade.Add(trade); }
+
+        internal void InjectionInMicroservice(TradeMicroservice tradeMicroservice)
         {
-            Technologies = new Dictionary<string, IResource>();
-            foreach (var rTechnology in technologies)
+            Proxy.Connect<ResourceFarmProvider, CellResourcePackaging>(FarmResource);
+            
+            tradeMicroservice.InjectTrade(ResourceTradeByTradeMap);
+            tradeMicroservice.InjectTrade(BuildingTradeByTradeMap);
+            tradeMicroservice.InjectTrade(TechnologyTradeByTradeMap);
+            tradeMicroservice.InjectTrade(SeedTradeByTradeMap);
+
+            tradeMicroservice.InjectSuccessfully(OnSuccessfullyResourceTrade);
+            tradeMicroservice.InjectSuccessfully(OnSuccessfullyBuildingTrade);
+            tradeMicroservice.InjectSuccessfully(OnSuccessfullySeedTrade);
+            tradeMicroservice.InjectSuccessfully(OnSuccessfullyTechnologyTrade);
+            tradeMicroservice.InjectFailed(OnFailedResourceTrade);
+
+            tradeMicroservice.InjectFailed(OnFailedBuildingTrade);
+            tradeMicroservice.InjectFailed(OnFailedSeedTrade);
+            tradeMicroservice.InjectFailed(OnFailedTechnologyTrade);
+            foreach (var trade in _resourceTrades) trade.Initialization(tradeMicroservice);
+            foreach (var trade in _buildingTrade) trade.Initialization(tradeMicroservice);
+            foreach (var trade in _technologyTrade) trade.Initialization(tradeMicroservice);
+            foreach (var trade in _seedTrade) trade.Initialization(tradeMicroservice);
+        }
+
+        internal void InjectResource(List<Resource> resources, ResourceRepository repository)
+        {
+            Resources = new Dictionary<string, IResource>();
+            foreach (var rTechnology in resources)
             {
-                var temped = rTechnology.Data; 
+                var temped = rTechnology.Data;
                 temped.Temp = this;
                 temped.Repository = repository;
-                Technologies.Add(temped.Title, temped);
+                Resources.Add(temped.Title, temped);
             }
         }
-        internal void InjectTrade(List<ConditionTradeSeed> trade, TechnologyRepository repository)
+
+        #region ResourceTradeByTradeMap
+        public void ResourceTradeByTradeMap(ResourceTrade trade, Dictionary<IResource, int> tradeMap,int amount, bool all = false)
         {
-            SeedTrades = new Dictionary<string, ITradeSeedCondition>();
-            foreach (var rTechnology in trade)
+            int amountResource = TradeResource(tradeMap, amount, all);
+            if (amountResource != 0) OnSuccessfullyResourceTrade?.Invoke(trade, amount, all);
+            else OnFailedResourceTrade?.Invoke(trade, amount, all);
+        }
+        public void BuildingTradeByTradeMap(BuildingTrade trade, Dictionary<IResource, int> tradeMap, int amount, bool all = false)
+        {
+            var amountResource = TradeResource(tradeMap, amount, all);
+            if (amountResource != 0) OnSuccessfullyBuildingTrade?.Invoke(trade, amount, all);
+            else OnFailedBuildingTrade?.Invoke(trade, amount, all);
+        }
+        public void TechnologyTradeByTradeMap(TechnologyTrade trade, Dictionary<IResource, int> tradeMap,int amount, bool all = false)
+        {
+            int amountResource = TradeResource(tradeMap, amount, all);
+            if (amountResource != 0) OnSuccessfullyTechnologyTrade?.Invoke(trade, amount, all);
+            else OnFailedTechnologyTrade?.Invoke(trade, amount, all);
+        }
+        public void SeedTradeByTradeMap(SeedTrade trade, Dictionary<IResource, int> tradeMap,int amount, bool all = false)
+        {
+            int amountResource = TradeResource(tradeMap, amount, all);
+            if (amountResource != 0) OnSuccessfullySeedTrade?.Invoke(trade, amount, all);
+            else OnFailedSeedTrade?.Invoke(trade, amount, all);
+        }
+        #endregion
+        private int TradeResource(Dictionary<IResource, int> tradeMap, int amount, bool all = false)
+        {
+            if (!CanTradeResource(tradeMap)) return 0;
+            if (all) return TradeAll(tradeMap);
+            foreach (var tradeMapElement in tradeMap)
             {
-                var temped = rTechnology.Data; 
-                temped.ResourceTemp = this;
-                temped.TechnologyTemp = repository.temp;
-                SeedTrades.Add(rTechnology.Data.ConditionName, temped);
             }
+            return 0;
         }
-        internal void InjectTrade(List<ConditionTradeResourceTechnology> trade, TechnologyRepository repository)
+        private bool CanTradeResource(Dictionary<IResource, int> tradeMap)
         {
+            foreach (var tradeComponent in tradeMap)
+                if (!CanPayAmounts(tradeComponent.Key, tradeComponent.Value))
+                    return false;
+            return true;
         }
-        internal void InjectTrade(List<ConditionTradeResourceResourceAmount> trade, TechnologyRepository repository)
+        private bool CanTradeAmountResource(Dictionary<IResource, int> tradeMap, int amount)
         {
+            foreach (var tradeComponent in tradeMap)
+                if (!CanPayAmounts(tradeComponent.Key, tradeComponent.Value * amount))
+                    return false;
+            return true;
         }
-        internal override void Injection()
+        private int TradeAll(Dictionary<IResource, int> tradeMap)
         {
-            base.Injection();
+            int max = MaxTradeAmount(tradeMap);
+            foreach (var tradeMapElement in tradeMap) ProvidePayAmounts(tradeMapElement.Key, tradeMapElement.Value * max);
+            return max;
         }
-        protected override long SumAmounts(long a, long b)
+        internal int MaxTradeAmount(Dictionary<IResource, int> trade)
         {
-            return a + b;
+            long maxAmount = 0;
+            int iteration = 0;
+            foreach (var tradeEntry in trade)
+            {
+                var value = GetAmount(tradeEntry.Key.Title);
+                var startPrice = tradeEntry.Value;
+                var resource = value / startPrice;
+                maxAmount = iteration == 0 ? resource : Math.Min(maxAmount, resource);
+                iteration++;
+            }
+            return (int)maxAmount;
         }
-        protected override string GetIdentifierByEncoded(ResourceEncoded encoded)
-        {
-            return encoded.Title;
-        }
-        internal void ProvideAddAmounts(IResource resource, int amount)
-        {
-            DataByIdentifier[resource.Title] += amount;
-        }
-        internal void ProvideGetAmounts(IResource resource, int amount)
-        {
-            DataByIdentifier[resource.Title] -= amount;
-        }
-        internal void ProvideTrade(IResource resource, int amount)
-        {
-        }
-        internal void CanTrade(IResource resource, int amount)
-        {
-        }
-        internal void CanGetAmounts(IResource resource, int amount)
-        {
-        }
-        internal void  CanAddAmounts(IResource resource, int amount)
-        {
-        }
-        // internal void GetAmounts(IResource resource, int amount)
-        // {
-        //     DataByIdentifier[resource.Title] -= amount;
-        // }
-        internal ResourceTemp(IIdentifier<string, ResourceEncoded> identifier) : base(identifier)
-        {
-            
-        }
+        internal bool IsTradAble(Dictionary<IResource, int> tradeMap) => CanTradeResource(tradeMap);
+        #region Temp Signature
+
+        protected override long SummedAmounts(long a, long b) { return a + b; }
+        protected override long SubtractionAmounts(long a, long b) { return a - b; }
+        protected override string GetIdentifierByEncoded(ResourceEncoded encoded) { return encoded.Title; }
+        protected void ProvideAddAmounts(IResource resource, int amount) { SummedAmountData(resource.Title, amount); }
+        protected void ProvidePayAmounts(IResource resource, int amount) { SubtractionAmountData(resource.Title, amount); }
+        protected bool CanPayAmounts(IResource resource, int amount) { return CanAddAmounts(resource) && DataByIdentifier[resource.Title] >= amount; }
+        protected bool CanAddAmounts(IResource resource) { return DataByIdentifier.ContainsKey(resource.Title); }
+        internal ResourceTemp(IIdentifier<string, ResourceEncoded> identifier) : base(identifier) { }
+        
+        #endregion
     }
 }

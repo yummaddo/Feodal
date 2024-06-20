@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f45abcab1bb94e9ab1ed8bdc7d6cb2aa, type: 3}
   m_Name: TradeBuild_VegetablesSpot
   m_EditorClassIdentifier: 
+  title: TradeBuild_VegetablesSpot
   <IntoBuild>k__BackingField:
     resourceAmountCondition:
     - resource: {fileID: 11400000, guid: 87de4bc291145cd4e953222dd83e202b, type: 2}
@@ -19,4 +20,3 @@ MonoBehaviour:
     technologyCondition: []
     Into: {fileID: 11400000, guid: 19d3f63c6f2d49242bd35859210071d2, type: 2}
     Value: 1
-  <Title>k__BackingField: 

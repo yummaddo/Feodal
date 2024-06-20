@@ -46,7 +46,7 @@ namespace Game.Services.Storage.MapCellsRepository
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        protected override string SumAmounts(string a, string b)
+        protected override string SummedAmounts(string a, string b)
         {
             return b;
         }

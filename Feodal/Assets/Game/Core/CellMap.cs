@@ -100,8 +100,17 @@ namespace Game.Core
             TryAddCell(component, position, false);
             component.MigrateToNewState(state,false);
         }
-        public int GetCountOfCellState(ICellState state) { return 0; }
-        public int GetCellCount(IResource intoData) { return 0; }
+
+        public int GetCountOfCellState(ICellState state)
+        {
+            return 0;
+            
+        }
+
+        public int GetCellCount(IResource intoData)
+        {
+            return 0;
+        }
         private void UpdateMap(Cell newCell)
         {
             _hexCellsIdentifier.Add(newCell.Position.CellHexCoord,newCell);

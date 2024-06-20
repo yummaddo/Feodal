@@ -17,7 +17,6 @@ namespace Game.Core.DataStructures.Conditions.TradesConditions
         public void Initialization()
         {
         }
-
         protected override ITradeSeedCondition CompareTemplate()
         {
             return this;

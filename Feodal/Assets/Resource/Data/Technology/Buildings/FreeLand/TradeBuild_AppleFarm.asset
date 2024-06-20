@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f45abcab1bb94e9ab1ed8bdc7d6cb2aa, type: 3}
   m_Name: TradeBuild_AppleFarm
   m_EditorClassIdentifier: 
+  title: TradeBuild_AppleFarm
   <IntoBuild>k__BackingField:
     resourceAmountCondition: []
     technologyCondition: []
     Into: {fileID: 11400000, guid: abfb1f07265baa349ae09ec6f768737f, type: 2}
     Value: 1
-  <Title>k__BackingField: 

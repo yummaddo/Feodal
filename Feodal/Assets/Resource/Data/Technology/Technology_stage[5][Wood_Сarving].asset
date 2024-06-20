@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: "Technology_stage[5][Wood_\u0421arving]"
   m_EditorClassIdentifier: 
   stage: 5
-  technologyConditions: []
-  resourceAmountConditions: []
+  <CurrentStatus>k__BackingField: 0
   <Title>k__BackingField: "Wood_\u0421arving"
-  tradeBuildTechnologies: []
-  tradeResourceTechnologies: []
-  cellTechnologies: []
+  <Trade>k__BackingField:
+    resourceAmountCondition:
+    - resource: {fileID: 11400000, guid: aa99815f5c9c66648963985002e32edb, type: 2}
+      value: 300000
+    into: {fileID: 11400000}

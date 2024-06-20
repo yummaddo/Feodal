@@ -10,15 +10,16 @@ namespace Game.Core.DataStructures
     {
         protected override IResource CompareTemplate()
         {
-            if (Temp == null)
+            Title = title;
+            Type = type;
+            Rare = rare;
+            Quantity = quantity;
+            if (Temp.Resources != null)
             {
-                Title = title;
-                Type = type;
-                Rare = rare;
-                Quantity = quantity;
-                return this;
+                if (Temp.Resources.ContainsKey(title))
+                    return Temp.Resources[title];
             }
-            return Temp.Technologies[title];
+            return this;
         }
         internal override string DataNamePattern => $"Resource_{type}_{Rare}_{title}";
         public string title;

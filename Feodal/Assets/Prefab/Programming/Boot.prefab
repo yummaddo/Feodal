@@ -291,6 +291,7 @@ Transform:
   - {fileID: 7074992072420223378}
   - {fileID: 5616677731074657333}
   - {fileID: 3680734500885560522}
+  - {fileID: 2484574025788476718}
   - {fileID: 3796073820548466768}
   - {fileID: 4045955734778076130}
   m_Father: {fileID: 8283269351876942017}
@@ -366,7 +367,7 @@ GameObject:
   - component: {fileID: 3680734500885560522}
   - component: {fileID: 4123378839880694919}
   m_Layer: 0
-  m_Name: Provider Resource Base
+  m_Name: Provider Resource FarmProvider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -677,6 +678,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   expected: 02000000
   status: 1
+--- !u!1 &3388409936579084785
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4817894293086502132}
+  - component: {fileID: 5706917329760872397}
+  m_Layer: 0
+  m_Name: 'Microservice Trade '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4817894293086502132
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3388409936579084785}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 536553913854408357}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5706917329760872397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3388409936579084785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0071c0c1ba0414eb6c0936f728ba78c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status: 1
 --- !u!1 &3754277334222210391
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,7 +798,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4817894293086502132}
   m_Father: {fileID: 8283269351876942017}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &706357027187313241
@@ -812,6 +859,36 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e25294d94c48f514ba827b042ab84326, type: 2}
   - {fileID: 11400000, guid: bd2406ff96a2b3949aeeb456d4047066, type: 2}
   - {fileID: 11400000, guid: e1b821f194974844a8d9a8d8b4867604, type: 2}
+  technologyBuildList:
+  - {fileID: 11400000, guid: ce3d80e8fb3c52144832ce926ff81744, type: 2}
+  - {fileID: 11400000, guid: b93f30acd175d7840bda0322e9a5c56f, type: 2}
+  - {fileID: 11400000, guid: 57cc3198d0e517f46a10b16fb57ef990, type: 2}
+  - {fileID: 11400000, guid: 73f6e6b1c54b9064da11511edb53604a, type: 2}
+  - {fileID: 11400000, guid: 66c1aa40369886440966acbedc9176b2, type: 2}
+  - {fileID: 11400000, guid: 5ecb1d3a224c7f740981942c040fb006, type: 2}
+  - {fileID: 11400000, guid: ba383610cc72d044db93cc394cf5a2a1, type: 2}
+  - {fileID: 11400000, guid: fab5696053a8093448ee6ecfef355610, type: 2}
+  - {fileID: 11400000, guid: 7b2cf31636100ba469909185cd903738, type: 2}
+  tradeResourceAmounts:
+  - {fileID: 11400000, guid: 7232cfef6df40934bbf308ced029975d, type: 2}
+  - {fileID: 11400000, guid: d9b09da58612e1444a1d9021c7e7d2eb, type: 2}
+  - {fileID: 11400000, guid: 141ed829327e15b4b90ea50b84a5ec14, type: 2}
+  - {fileID: 11400000, guid: 8809b9acbccd0154b9e9f8bec4a4bd4d, type: 2}
+  - {fileID: 11400000, guid: a84f980a6bb353a4d9c5f7dc8bb9e0dd, type: 2}
+  - {fileID: 11400000, guid: 1989142950001e649a2214b766776799, type: 2}
+  - {fileID: 11400000, guid: 67131db5f4ea20f40b551cbf2e2816cd, type: 2}
+  - {fileID: 11400000, guid: 55e48f9488a85b94fadeab99151cbceb, type: 2}
+  - {fileID: 11400000, guid: 23ebc99ce1ccfb449b9e091c10a3604f, type: 2}
+  - {fileID: 11400000, guid: ea0b6788e76cc9449b123b200ba2a6ce, type: 2}
+  - {fileID: 11400000, guid: eedd01b640de67e42a2b4dd4e8f616eb, type: 2}
+  - {fileID: 11400000, guid: 7e57a3f193ac1bf4ba036fdd60c477dd, type: 2}
+  tradeSeeds:
+  - {fileID: 11400000, guid: 4b94ef5da0d01d2479c1940ce3a0ba79, type: 2}
+  - {fileID: 11400000, guid: 217f5657752163140af3be1532e1da9c, type: 2}
+  - {fileID: 11400000, guid: c12dc4f4dbfc44943b81de8b7f720aa4, type: 2}
+  - {fileID: 11400000, guid: 70adcfbd9044e4747b3c0e712e74561d, type: 2}
+  - {fileID: 11400000, guid: 5a521453c1115f54a9c3b9cbea5fc36e, type: 2}
+  - {fileID: 11400000, guid: 9daf7ad9a2f72d146ad09ffe7af5e27a, type: 2}
   cellsMapRepository:
     resourceListMap: {fileID: 5264099316346769105}
     <SaveFileName>k__BackingField: MapRepository.json
@@ -913,6 +990,52 @@ MonoBehaviour:
   createActive: 0
   cellAddDetector: {fileID: 3209498709064680498, guid: c32a38e6611a7014ea104f95d44be36d, type: 3}
   template: {fileID: 0}
+--- !u!1 &4143898281831337602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2484574025788476718}
+  - component: {fileID: 634905131768783327}
+  m_Layer: 0
+  m_Name: Provider Resource Provider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2484574025788476718
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4143898281831337602}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5121374543865060501}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &634905131768783327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4143898281831337602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e97298cf13b450ab7018a2c0eaff6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expected: 02000000
+  status: 1
 --- !u!1 &5058684255578526247
 GameObject:
   m_ObjectHideFlags: 0

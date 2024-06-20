@@ -1016,46 +1016,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 706357027187313241, guid: 3a006bd914069c442a4f1e02acd2f3f7, type: 3}
-      propertyPath: technologyBuildList.Array.size
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 706357027187313241, guid: 3a006bd914069c442a4f1e02acd2f3f7, type: 3}
-      propertyPath: technologyBuildList.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: ce3d80e8fb3c52144832ce926ff81744, type: 2}
-    - target: {fileID: 706357027187313241, guid: 3a006bd914069c442a4f1e02acd2f3f7, type: 3}
-      propertyPath: technologyBuildList.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: b93f30acd175d7840bda0322e9a5c56f, type: 2}
-    - target: {fileID: 706357027187313241, guid: 3a006bd914069c442a4f1e02acd2f3f7, type: 3}
-      propertyPath: technologyBuildList.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 57cc3198d0e517f46a10b16fb57ef990, type: 2}
-    - target: {fileID: 706357027187313241, guid: 3a006bd914069c442a4f1e02acd2f3f7, type: 3}
-      propertyPath: technologyBuildList.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 73f6e6b1c54b9064da11511edb53604a, type: 2}
-    - target: {fileID: 706357027187313241, guid: 3a006bd914069c442a4f1e02acd2f3f7, type: 3}
-      propertyPath: technologyBuildList.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: 66c1aa40369886440966acbedc9176b2, type: 2}
-    - target: {fileID: 706357027187313241, guid: 3a006bd914069c442a4f1e02acd2f3f7, type: 3}
-      propertyPath: technologyBuildList.Array.data[5]
-      value: 
-      objectReference: {fileID: 11400000, guid: 5ecb1d3a224c7f740981942c040fb006, type: 2}
-    - target: {fileID: 706357027187313241, guid: 3a006bd914069c442a4f1e02acd2f3f7, type: 3}
-      propertyPath: technologyBuildList.Array.data[6]
-      value: 
-      objectReference: {fileID: 11400000, guid: ba383610cc72d044db93cc394cf5a2a1, type: 2}
-    - target: {fileID: 706357027187313241, guid: 3a006bd914069c442a4f1e02acd2f3f7, type: 3}
-      propertyPath: technologyBuildList.Array.data[7]
-      value: 
-      objectReference: {fileID: 11400000, guid: fab5696053a8093448ee6ecfef355610, type: 2}
-    - target: {fileID: 706357027187313241, guid: 3a006bd914069c442a4f1e02acd2f3f7, type: 3}
-      propertyPath: technologyBuildList.Array.data[8]
-      value: 
-      objectReference: {fileID: 11400000, guid: 7b2cf31636100ba469909185cd903738, type: 2}
     - target: {fileID: 4850929985719690952, guid: 3a006bd914069c442a4f1e02acd2f3f7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

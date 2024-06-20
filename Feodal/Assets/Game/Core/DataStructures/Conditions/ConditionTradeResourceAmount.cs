@@ -8,7 +8,7 @@ namespace Game.Core.DataStructures.Conditions.TradesConditions
 {
 
     [CreateAssetMenu(menuName = "Trade/Condition/ConditionTradeResourceResourceAmount")]
-    public class ConditionTradeResourceResourceAmount : AbstractDataStructure<ITradeResourceCondition>, ITradeResourceCondition
+    public class ConditionTradeResourceAmount : AbstractDataStructure<ITradeResourceCondition>, ITradeResourceCondition
     {
         [field:SerializeField]public ResourceCounter Resources { get; set; }
         [field:SerializeField]public ResourceTrade ConnectedToDependency { get; set; }

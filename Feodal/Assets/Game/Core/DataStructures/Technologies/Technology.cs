@@ -12,6 +12,7 @@ namespace Game.Core.DataStructures.Technologies
         [field:SerializeField] public bool CurrentStatus { get; set; }
         [field:SerializeField] public string Title { get; set; }
         [field:SerializeField] public TechnologyTrade Trade { get; set; }
+        
         public TechnologyTemp Temp { get; set; }
         public TechnologyRepository Repository { get; set; }
         protected override ITechnologyStore CompareTemplate()

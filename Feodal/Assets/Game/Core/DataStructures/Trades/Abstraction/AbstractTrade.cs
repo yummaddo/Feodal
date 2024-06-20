@@ -12,23 +12,35 @@ namespace Game.Core.DataStructures.Trades.Abstraction
         public List<ICondition> Conditions { get; set; }
         protected TradeMicroservice TradeMicroservice;
         public abstract string TradeName { get; }
-        public override string ToString() { return TradeName; }
-        internal virtual void Initialization() { }
-        internal  void Initialization(TradeMicroservice microservice)
+        public abstract void TradeAmount(int amount);
+        public abstract void TradeAll();
+        public abstract void Trade();
+
+        public override string ToString()
+        {
+            return TradeName;
+        }
+        public override int GetHashCode()
+        {
+            return ToString().GetHashCode();
+        }
+        protected virtual void Initialization()
+        {
+            
+        }
+        internal void Initialization(TradeMicroservice microservice)
         {
             TradeMicroservice = microservice;
             if (microservice == null) ConnectingToTradeService();
             Initialization();
         }
-        private void ConnectingToTradeService() { TradeMicroservice =  SessionStateManager.Instance.Container.Resolve<TradeMicroservice>(); }
-        public bool IsTradAble()
+        
+        private void ConnectingToTradeService()
         {
-            foreach (var condition in Conditions) { if (condition.Status()) return true; }
-            return false;
+            TradeMicroservice =  SessionStateManager.Instance.Container.Resolve<TradeMicroservice>();
         }
-        public abstract void TradeAmount(int amount);
-        public abstract void TradeAll();
-        public abstract void Trade();
+        public abstract bool IsTradAble();
+        public abstract bool IsTradAble(int amount);
+        public abstract bool IsTradAbleAll();
     }
-    
 }

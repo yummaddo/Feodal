@@ -11,5 +11,9 @@
             this.resource = resource;
             this.value = value;
         }
+        public override string ToString()
+        {
+            return $"{resource.title}{value}";
+        }
     }
 }

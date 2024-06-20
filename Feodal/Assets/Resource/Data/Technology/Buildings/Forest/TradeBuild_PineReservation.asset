@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f45abcab1bb94e9ab1ed8bdc7d6cb2aa, type: 3}
   m_Name: TradeBuild_PineReservation
   m_EditorClassIdentifier: 
+  title: TradeBuild_PineReservation
   <IntoBuild>k__BackingField:
     resourceAmountCondition:
     - resource: {fileID: 11400000, guid: fe9be7a38b3c1aa4fad2cc624bbbc60a, type: 2}
@@ -24,4 +25,3 @@ MonoBehaviour:
     - {fileID: 11400000, guid: f51617ae027207d4eb74bfb5fbb9a0ef, type: 2}
     Into: {fileID: 11400000, guid: c9bbd233e808a934f9fd8260f5abe3c6, type: 2}
     Value: 1
-  <Title>k__BackingField: 

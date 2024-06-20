@@ -5,5 +5,6 @@ namespace Game.Services.Proxies.Providers
 {
     public class ResourceProvider : AbstractProvider<IResource>
     {
+        
     }
 }

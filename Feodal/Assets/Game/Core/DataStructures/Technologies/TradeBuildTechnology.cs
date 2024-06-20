@@ -9,12 +9,15 @@ namespace Game.Core.DataStructures.Technologies.Base
     [CreateAssetMenu(menuName = "Technology/TradeBuild")]
     public class TradeBuildTechnology : AbstractDataStructure<ITradeBuildTechnology>, ITradeBuildTechnology
     {
+        public string title;
+
         public ResourceTemp ResourceTemp { get; set; }
         public TechnologyTemp Temp { get; set; }
         public TechnologyRepository Repository { get; set; }
         public bool CurrentStatus { get; set; }
-        [field: SerializeField] public string Title { get; set; }
+        public string Title { get; set; }
         [field: SerializeField] public BuildingTrade IntoBuild { get; set; }
+        
         internal override string DataNamePattern => $"TradeBuild_{IntoBuild.ToString()}";
         public bool TechnologyStatusTrade()
         {
@@ -32,10 +35,8 @@ namespace Game.Core.DataStructures.Technologies.Base
         }
         protected override ITradeBuildTechnology CompareTemplate()
         {
-            if (Temp == null)
-            {
-                return this;
-            }
+            Title = title;
+            if (Temp == null) { return this; }
             return Temp.TechnologyBuild[Title];
         }
     }

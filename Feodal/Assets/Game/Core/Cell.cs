@@ -1,4 +1,5 @@
-﻿using Game.Core.Abstraction;
+﻿using System;
+using Game.Core.Abstraction;
 using Game.Core.Cells;
 using Game.Core.DataStructures;
 using Game.Services.CellControlling;
@@ -19,6 +20,7 @@ namespace Game.Core
         private GameObject _rootedContent;
         private CellService _cellService;
         internal float Distance { get; private set; }
+
         internal void Initialization(CellService service,  int pool, Vector3 position, float distance, bool invocation =true)
         {
             _cellService = service;
@@ -27,21 +29,34 @@ namespace Game.Core
             transform.position = position;
             _rootedContent = Instantiate(container.initial.root, root);
             State = container.initial.Data;
+            
+            FindFarmer();
             _cellService.CellCreated(this, invocation);
         }
+
         internal void MigrateToNewState(ICellState state, bool invocation = true)
         {
             var lastState = State;
             State = state;
             Destroy(_rootedContent);
             _rootedContent = Instantiate(state.Root, root);
+            
+            FindFarmer();
             _cellService.CellChange(lastState,State,this,invocation);
         }
-
         
         internal void DestroyCell()
         {
+            Destroy(this.gameObject);
             _cellService.CellDestroy(this);
+        }
+        private void FindFarmer()
+        {
+            if (!IsBaseState)
+            {
+                var farmer = _rootedContent.GetComponent<CellResourceFarmer>();
+                if (farmer) farmer.Initialization(this);
+            }
         }
     }
 }

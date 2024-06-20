@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Game.Core.DataStructures.Technologies;
 using Game.Services.CellControlling;
 using Game.Services.Storage.Abstraction;
@@ -30,7 +31,15 @@ namespace Game.Services.Storage.TechnologyRepositories
         
         public override bool ParseDecryptedValue(string[] decryptString)
         {
-           return bool.Parse(DecryptString(decryptString[0]));
+            try
+            {   
+                return bool.Parse(DecryptString(decryptString[0]));
+            }
+            catch (Exception e)
+            {
+                Debugger.Logger( $"decryptString[0]={DecryptString(decryptString[0])} "+e.Message);
+            }
+            return false;
         }
         
         public override string[] CreateEncryptValue(bool encryptData)

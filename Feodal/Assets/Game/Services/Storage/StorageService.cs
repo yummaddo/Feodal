@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Core.DataStructures;
+using Game.Core.DataStructures.Conditions.TradesConditions;
 using Game.Core.DataStructures.Technologies;
 using Game.Core.DataStructures.Technologies.Base;
+using Game.Core.DataStructures.Trades;
 using Game.Meta;
 using Game.Services.Abstraction.Service;
 using Game.Services.Storage.Abstraction;
 using Game.Services.Storage.MapCellsRepository;
+using Game.Services.Storage.Microservice;
 using Game.Services.Storage.ResourcesRepository;
 using Game.Services.Storage.TechnologyRepositories;
 using UnityEngine;
@@ -18,17 +21,24 @@ namespace Game.Services.Storage
         [SerializeField] private List<Resource> resourceList = new List<Resource>();
         [SerializeField] private List<Technology> technologyList = new List<Technology>();
         [SerializeField] private List<TradeBuildTechnology> technologyBuildList = new List<TradeBuildTechnology>();
-            
+        [SerializeField] private List<ConditionTradeResourceAmount> tradeResourceAmounts = new List<ConditionTradeResourceAmount>();
+        [SerializeField] private List<ConditionTradeSeed> tradeSeeds = new List<ConditionTradeSeed>();
+
+        private TradeMicroservice _tradeMicroservice;
+        
         public event Action OnResourceRepositoryInit;
         public event Action OnCellsMapRepositoryInit;
         public event Action OnTechnologyRepositoryInit;
+        
         [Header("Repositories")]
         [SerializeField] private MapCellRepository cellsMapRepository;
         [SerializeField] private ResourceRepository resourceRepository;
         [SerializeField] private TechnologyRepository technologyRepository;
+        
         internal MapCellTemp GetCellMapTemp() => cellsMapRepository.temp;
         internal ResourceTemp GetResourceTemp() => resourceRepository.temp;
         internal TechnologyTemp GetTechnologyTemp() => technologyRepository.temp;
+        
         protected override void OnAwake()
         {
             SessionStateManager.Instance.OnSceneAwakeMicroServiceSession += Injection;
@@ -36,13 +46,18 @@ namespace Game.Services.Storage
         protected override void OnStart()
         {
             InjectRepository();
-
         }
         private void InjectRepository()
         {
-
             resourceRepository.temp.Injection();
             resourceRepository.temp.InjectResource(resourceList, resourceRepository);
+            resourceRepository.temp.InjectionInMicroservice(_tradeMicroservice);
+            
+            resourceRepository.temp.InjectionTrade(this.GetTradeSetTemplate(tradeResourceAmounts));
+            resourceRepository.temp.InjectionTrade(this.GetTradeSetTemplate(technologyBuildList));
+            resourceRepository.temp.InjectionTrade(this.GetTradeSetTemplate(tradeSeeds));
+            resourceRepository.temp.InjectionTrade(this.GetTradeSetTemplate(technologyList));
+            
             OnResourceRepositoryInit?.Invoke();
             technologyRepository.temp.Injection();
             technologyRepository.temp.InjectTechnologies(technologyList, technologyRepository);
@@ -54,14 +69,15 @@ namespace Game.Services.Storage
         private void Injection()
         {
             SessionStateManager.Instance.OnSceneAwakeMicroServiceSession -= Injection;
+            _tradeMicroservice = SessionStateManager.Instance.Container.Resolve<TradeMicroservice>();
             InitializationRepository();
             LoadRepositoriesData();
         }
         private void InitializationRepository()
         {
-            resourceRepository.Initialization(new ResourceIdentifierConvert(),GetEncodedResourcesTemplate());
+            resourceRepository.Initialization(new ResourceIdentifierConvert(),this.GetEncodedResourcesTemplate(resourceList));
             cellsMapRepository.Initialization(new MapIdentifierConvert());
-            technologyRepository.Initialization(new TechnologyIdentifierConvert(), GetEncodedTechnologyTemplate());
+            technologyRepository.Initialization(new TechnologyIdentifierConvert(), this.GetEncodedTechnologyTemplate(technologyList));
         }
         private void LoadRepositoriesData()
         {
@@ -77,18 +93,6 @@ namespace Game.Services.Storage
             resourceRepository.SaveResourceData();
             Debugger.Logger("OnApplicationQuit: Save Cells Repositories", ContextDebug.Session, Process.Load);
             cellsMapRepository.SaveResourceData();
-        }
-        private List<ResourceEncoded> GetEncodedResourcesTemplate()
-        {
-            var resourceEncoded = new List<ResourceEncoded>();
-            foreach (var resource in resourceList) resourceEncoded.Add(new ResourceEncoded(resource.Data));
-            return resourceEncoded;
-        }
-        private List<TechnologyEncoded> GetEncodedTechnologyTemplate()
-        {
-            var techEncoded = new List<TechnologyEncoded>();
-            foreach (var tech in technologyList) techEncoded.Add(new TechnologyEncoded(tech));
-            return techEncoded;
         }
         private void OnDestroy()
         {

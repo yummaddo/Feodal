@@ -93,7 +93,6 @@ namespace Game.Services.Storage.Abstraction
                 temp.Initialization(encoded, GetNewRepositoryAmount());
             }
         }
-        
         #endregion
         #region Internal Methods
                 internal void SaveResourceData()
@@ -121,8 +120,8 @@ namespace Game.Services.Storage.Abstraction
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debugger.Logger(e.Message, Process.TrashHold);
+
             }
 
         }

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Technology_stage[5][Culinary_Breakthrough]
   m_EditorClassIdentifier: 
   stage: 5
-  technologyConditions: []
-  resourceAmountConditions: []
+  <CurrentStatus>k__BackingField: 0
   <Title>k__BackingField: Culinary_Breakthrough
-  tradeBuildTechnologies: []
-  tradeResourceTechnologies: []
-  cellTechnologies: []
+  <Trade>k__BackingField:
+    resourceAmountCondition:
+    - resource: {fileID: 11400000, guid: fe9be7a38b3c1aa4fad2cc624bbbc60a, type: 2}
+      value: 15000
+    into: {fileID: 11400000}

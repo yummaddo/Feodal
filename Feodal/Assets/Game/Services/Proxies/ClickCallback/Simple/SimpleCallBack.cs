@@ -4,7 +4,7 @@ using Game.Services.Proxies.Providers;
 
 namespace Game.Services.Proxies.ClickCallback.Simple
 {
-    public class SimpleCellCallBack : SimpleClickCallback<Cell>
+    public class SimpleCallBack : SimpleClickCallback<Cell>
     {
         public override void Initialization()
         {

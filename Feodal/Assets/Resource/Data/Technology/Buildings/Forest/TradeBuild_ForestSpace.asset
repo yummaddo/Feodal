@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f45abcab1bb94e9ab1ed8bdc7d6cb2aa, type: 3}
   m_Name: TradeBuild_ForestSpace
   m_EditorClassIdentifier: 
+  title: TradeBuild_ForestSpace
   <IntoBuild>k__BackingField:
     resourceAmountCondition:
     - resource: {fileID: 11400000, guid: e016025b89b63eb4595c63124f32cd06, type: 2}
@@ -20,4 +21,3 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 10eaf7a78508ae245b0e84e43ce6ac1d, type: 2}
     Into: {fileID: 11400000, guid: 6683a5bf539880b4585e07351a0de678, type: 2}
     Value: 1
-  <Title>k__BackingField: 

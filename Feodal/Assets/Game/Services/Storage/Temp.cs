@@ -33,7 +33,31 @@ namespace Game.Services.Storage
         {
             return Identifier.GetEncodedIdentifier(encoded);
         }
-        protected virtual TData SumAmounts(TData a, TData b) { return a; }
+
+        protected virtual TData SummedAmounts(TData a, TData b)
+        {
+            return a;
+        }
+        protected virtual TData SubtractionAmounts(TData a, TData b)
+        {
+            return a;
+        }
+        internal void SubtractionAmountData(TEncodedIdentifier identifier, TData value)
+        {
+            Data[EncodeByIdentifier[identifier]] = SubtractionAmounts(Data[EncodeByIdentifier[identifier]], value);
+        }
+        internal void SummedAmountData(TEncodedIdentifier identifier, TData value)
+        {
+            Data[EncodeByIdentifier[identifier]] = SummedAmounts(Data[EncodeByIdentifier[identifier]], value);
+        }
+        internal TData GetAmount(TEncodedIdentifier identifier)
+        {
+            return DataByIdentifier[identifier];
+        }
+        internal void SetAmount(TEncodedIdentifier identifier, TData value)
+        {
+            Data[EncodeByIdentifier[identifier]] = value;
+        }
         /// <summary>
         /// Injection dependency
         /// </summary>
@@ -41,10 +65,7 @@ namespace Game.Services.Storage
         {
             CellService = SessionStateManager.Instance.Container.Resolve<CellService>();
         }
-        internal TData GetAmount(TEncodedIdentifier identifier)
-        {
-            return DataByIdentifier[identifier];
-        }
+
         internal bool Contains(TEncodedIdentifier identifier)
         {
             if (EncodeByIdentifier.ContainsKey(identifier)) return true;
@@ -77,7 +98,7 @@ namespace Game.Services.Storage
         }
         public void Initialization(TEncoded encoded, TData amount)
         {
-            Debugger.Logger($"{encoded.ToString()} with amount {amount.ToString()} add to temp", Process.Info);
+            Debugger.Logger($"{encoded.ToString()} with amount {amount.ToString()} add to temp", ContextDebug.Application,Process.Load);
             var identifier = GetIdentifierByEncoded(encoded);
             Data.Add(encoded, amount);
             EncodeByIdentifier.Add(identifier,encoded);

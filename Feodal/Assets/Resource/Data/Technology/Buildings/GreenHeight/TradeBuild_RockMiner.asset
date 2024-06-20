@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f45abcab1bb94e9ab1ed8bdc7d6cb2aa, type: 3}
   m_Name: TradeBuild_RockMiner
   m_EditorClassIdentifier: 
+  title: TradeBuild_RockMiner
   <IntoBuild>k__BackingField:
     resourceAmountCondition:
     - resource: {fileID: 11400000, guid: aa99815f5c9c66648963985002e32edb, type: 2}
@@ -22,4 +23,3 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 074760439ee98a443b84921637c13f8b, type: 2}
     Into: {fileID: 11400000, guid: 4d85ad081ad931549a256045fcf259f2, type: 2}
     Value: 1
-  <Title>k__BackingField: 

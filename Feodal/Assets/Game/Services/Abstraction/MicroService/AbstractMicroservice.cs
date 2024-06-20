@@ -14,7 +14,7 @@ namespace Game.Services.Abstraction.MicroService
         internal event Action OnMicroServiceReStart;
         protected TService Service;
         protected SessionStateManager StateManager => Service.StateManager;
-        private void Awake()
+        protected virtual void Awake()
         {
             var stateManager = SessionStateManager.Instance;
             Debugger.Logger($"Registering type {this.GetType()}",  ContextDebug.Session,Process.Action);

@@ -63,8 +63,8 @@ namespace Game.Core.DataStructures.Editor
         // [CustomEditor(typeof(ConditionTechnologyOtherTechnology))]
         // public class ConditionTradeResourceResourceAmountEditor : AbstractDataStructureEditor<ConditionTechnologyOtherTechnology,   ITechnologyOtherTechnologyCondition> { }
         [CanEditMultipleObjects]
-        [CustomEditor(typeof(ConditionTradeResourceResourceAmount))]
-        public class ConditionTechnologyResourceAmountEditor : AbstractDataStructureEditor<ConditionTradeResourceResourceAmount,  ITradeResourceCondition> { }
+        [CustomEditor(typeof(ConditionTradeResourceAmount))]
+        public class ConditionTechnologyResourceAmountEditor : AbstractDataStructureEditor<ConditionTradeResourceAmount,  ITradeResourceCondition> { }
         #endregion
 
         

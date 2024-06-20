@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f45abcab1bb94e9ab1ed8bdc7d6cb2aa, type: 3}
   m_Name: TradeBuild_PigPen
   m_EditorClassIdentifier: 
+  title: TradeBuild_PigPen
   <IntoBuild>k__BackingField:
     resourceAmountCondition:
     - resource: {fileID: 11400000, guid: db64404f0b537524c85e1c7800e85631, type: 2}
@@ -22,4 +23,3 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 57c87b7204aa8bf40b9f1b71757d6461, type: 2}
     Into: {fileID: 11400000, guid: a1bf0e830fe1b884b8e4fa283e452230, type: 2}
     Value: 1
-  <Title>k__BackingField: 

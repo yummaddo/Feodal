@@ -11,31 +11,37 @@ namespace Game.Core.DataStructures.Trades
     [System.Serializable]
     public class SeedTrade : AbstractTrade<Resource,ResourceTrade>
     {
-        [SerializeField] public Resource into;
+        public int id = 0;
         public int scaleResourceValue = 2;
+        [SerializeField] public Resource into;
+        
         [SerializeField] internal List<ResourceCounter> resourceAmountCondition;
         [SerializeField] internal List<Technology> technologyCondition;
+        
         private CellService _cellService;
         private ResourceTradeMap _map;
+        
+        public override string TradeName => ToString();
+        
+        internal int CellQuantity() => _cellService.cellMap.GetCellCount(into.Data);
         internal void Inject(CellService service) => _cellService = service;
-        public override string TradeName => into.title;
-        public int CellQuantity() => _cellService.cellMap.GetCellCount(into.Data);
-        internal override void Initialization()
+
+        public override string ToString()
+        {
+            return $"Seed_{into.title}_{id}";
+        }
+
+        protected override void Initialization()
         {
             base.Initialization();
             _map = new ResourceTradeMap(this);
         }
-        public override void TradeAmount(int amount)
-        {
-            _map.GetSeedAmount();
-        }
-        public override void TradeAll()
-        {
-            _map.GetSeedAmount();
-        }
-        public override void Trade()
-        {
-            _map.GetSeedAmount();
-        }
+
+        public override bool IsTradAble() => TradeMicroservice.CanTrade(_map.GetAmount(1));
+        public override bool IsTradAble(int amount) => TradeMicroservice.CanTrade(_map.GetAmount(amount));
+        public override bool IsTradAbleAll() => TradeMicroservice.CanTrade(_map.GetAmount(1));
+        public override void TradeAmount(int amount) { TradeMicroservice.Trade(this, _map.GetAmount(amount), amount); }
+        public override void TradeAll() { TradeMicroservice.Trade(this,_map.GetAmount(1),1, true); }
+        public override void Trade() { TradeMicroservice.Trade(this,_map.GetAmount(1),1); }
     }
 }
