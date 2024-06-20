@@ -799,11 +799,26 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e016025b89b63eb4595c63124f32cd06, type: 2}
   - {fileID: 11400000, guid: db64404f0b537524c85e1c7800e85631, type: 2}
   - {fileID: 11400000, guid: 40920cd3ba1e6b6439e4fc02c9ac0163, type: 2}
-  resourceRepository:
-    <SaveFileName>k__BackingField: ResourceRepository.json
+  technologyList:
+  - {fileID: 11400000, guid: 10eaf7a78508ae245b0e84e43ce6ac1d, type: 2}
+  - {fileID: 11400000, guid: 292216e199eb69b44adc7c1e4acb1c36, type: 2}
+  - {fileID: 11400000, guid: 9b55b152b4f91dd479fc0e2a86630b41, type: 2}
+  - {fileID: 11400000, guid: 7274d84e3339d4742873d4e19714bab1, type: 2}
+  - {fileID: 11400000, guid: 57c87b7204aa8bf40b9f1b71757d6461, type: 2}
+  - {fileID: 11400000, guid: 074760439ee98a443b84921637c13f8b, type: 2}
+  - {fileID: 11400000, guid: e436f2c07408bc745862e827c10975fd, type: 2}
+  - {fileID: 11400000, guid: 79420ee682337644cb9418066cb5857b, type: 2}
+  - {fileID: 11400000, guid: f51617ae027207d4eb74bfb5fbb9a0ef, type: 2}
+  - {fileID: 11400000, guid: e25294d94c48f514ba827b042ab84326, type: 2}
+  - {fileID: 11400000, guid: bd2406ff96a2b3949aeeb456d4047066, type: 2}
+  - {fileID: 11400000, guid: e1b821f194974844a8d9a8d8b4867604, type: 2}
   cellsMapRepository:
     resourceListMap: {fileID: 5264099316346769105}
     <SaveFileName>k__BackingField: MapRepository.json
+  resourceRepository:
+    <SaveFileName>k__BackingField: ResourceRepository.json
+  technologyRepository:
+    <SaveFileName>k__BackingField: TechnologyRepository.json
 --- !u!1 &3988753792820339550
 GameObject:
   m_ObjectHideFlags: 0
@@ -1408,7 +1423,7 @@ PrefabInstance:
       objectReference: {fileID: 706357027187313241}
     - target: {fileID: 4183875344526325633, guid: 9760eb2a68cef9a41bd47f7e74ce82e7, type: 3}
       propertyPath: containers.Array.size
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4183875344526325633, guid: 9760eb2a68cef9a41bd47f7e74ce82e7, type: 3}
       propertyPath: containers.Array.data[0]

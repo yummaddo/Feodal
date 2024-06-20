@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Game.Core;
 using Game.Core.Abstraction;
 using Game.Meta;
@@ -11,7 +12,7 @@ using UnityEngine;
 namespace Game.Services.Storage.MapCellsRepository
 {
     [System.Serializable]
-    public class MapCellRepository : Repository<MapCellCoded, MapCellEncoded, string, HexCoords>
+    public class MapCellRepository : Repository<MapCellCoded, MapCellEncoded, string, HexCoords, MapCellTemp>
     {
         // MapCellRepository Custom Data Spase
         [SerializeField] private CellMap resourceListMap;
@@ -19,7 +20,6 @@ namespace Game.Services.Storage.MapCellsRepository
         [field: SerializeField] protected override string SaveFileName { get; set; } = "MapRepository.json";
         protected override object PublicAesLock { get; set; } = new object();
         protected override object PrivateAesLock { get; set; } = new object();
-        
         
         public override string ParseDecryptedValue(string[] decryptString)
         {
@@ -61,12 +61,22 @@ namespace Game.Services.Storage.MapCellsRepository
         {
             var name = DecryptString(codedResource.encryptedContainerName);
             var state = DecryptString(codedResource.encryptedCellScale);
-            var x = float.Parse(DecryptString(codedResource.encryptedCellPosition[0]));
-            var y = float.Parse(DecryptString(codedResource.encryptedCellPosition[1]));
-            var z = float.Parse(DecryptString(codedResource.encryptedCellPosition[2]));
+            var vectorPosition = new Vector3(0, 0, 0);
+            try
+            {
+                var x = float.Parse(DecryptString(codedResource.encryptedCellPosition[0]));
+                vectorPosition.x = x;
+                var y = float.Parse(DecryptString(codedResource.encryptedCellPosition[1]));
+                vectorPosition.y= y;
+                var z = float.Parse(DecryptString(codedResource.encryptedCellPosition[2]));
+                vectorPosition.z = z;
+            }
+            catch (Exception e)
+            {
+                Debugger.Logger(e.Message, Process.TrashHold);
+            }
             var cordX = int.Parse(DecryptString(codedResource.encryptedCellCord[0]));
             var cordY = int.Parse(DecryptString(codedResource.encryptedCellCord[1]));
-            var vectorPosition = new Vector3(x, y, z);
             var vectorCord = new HexCoords(cordX, cordY);
             var scale = float.Parse(DecryptString(codedResource.encryptedCellPosition[2]));
             return new MapCellEncoded(name, state, vectorPosition, vectorCord, scale);

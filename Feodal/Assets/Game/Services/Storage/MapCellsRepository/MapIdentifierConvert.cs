@@ -3,9 +3,9 @@ using HexEngine;
 
 namespace Game.Services.Storage.Abstraction
 {
-    public class CellIdentifierConvert : IIdentifier<HexCoords,MapCellEncoded>
+    public class MapIdentifierConvert : IIdentifier<HexCoords,MapCellEncoded>
     {
-        public CellIdentifierConvert() { }
+        public MapIdentifierConvert() { }
         public HexCoords GetEncodedIdentifier(MapCellEncoded amount)
         {
             return amount.cellCoord;

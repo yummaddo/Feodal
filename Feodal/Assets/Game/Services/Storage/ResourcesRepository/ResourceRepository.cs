@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using Codice.CM.Common;
 using Game.Core.DataStructures;
+using Game.Core.DataStructures.Conditions.TradesConditions;
+using Game.Core.DataStructures.Technologies.Abstraction;
 using Game.Core.Typing;
 using Game.Services.CellControlling;
 using Game.Services.Storage.Abstraction;
+using Game.Services.Storage.TechnologyRepositories;
 using UnityEngine;
 
 namespace Game.Services.Storage.ResourcesRepository
 {
     [System.Serializable]
-    public class ResourceRepository : Repository<ResourceCoded, ResourceEncoded, long, string>
+    public class ResourceRepository : Repository<ResourceCoded, ResourceEncoded, long, string, ResourceTemp>
     {
         // ResourceRepository Custom Data Spase
         private CellService _cellService;
@@ -22,22 +26,37 @@ namespace Game.Services.Storage.ResourcesRepository
         {
             _cellService = service;
             List<ResourceEncoded> data = new List<ResourceEncoded>();
-            foreach (var resource in resources) { data.Add(new ResourceEncoded(resource.Data)); }
+            foreach (var resource in resources)
+            {
+                data.Add(new ResourceEncoded(resource.Data));
+            }
             Encodes = data;
         }
-
+        
         public override long ParseDecryptedValue(string[] decryptString)
         {
-            return long.Parse( DecryptString(decryptString[0]));
+            try
+            {
+                return long.Parse( DecryptString(decryptString[0]));
+            }
+            catch (Exception e)
+            {
+                Debugger.Logger(DecryptString(decryptString[0]));
+                Debugger.Logger(e.Message, Process.TrashHold);
+                return GetNewRepositoryAmount();
+            }
         }
+        
         public override string[] CreateEncryptValue(long encryptData)
         {
             return new string[] { EncryptString(encryptData.ToString()) };
         }
+        
         protected override long GetNewRepositoryAmount()
         {
             return 0;
         }
+        
         protected override ResourceCoded Encrypt(ResourceEncoded resource)
         {
             return new ResourceCoded(EncryptString(resource.Title));

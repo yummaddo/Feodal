@@ -1,5 +1,7 @@
 ﻿using Game.Core.DataStructures.Conditions.Abstraction.Trades;
 using Game.Core.DataStructures.Trades;
+using Game.Services.Storage.ResourcesRepository;
+using Game.Services.Storage.TechnologyRepositories;
 using UnityEngine;
 
 namespace Game.Core.DataStructures.Conditions.TradesConditions
@@ -9,9 +11,12 @@ namespace Game.Core.DataStructures.Conditions.TradesConditions
     public class ConditionTradeResourceResourceAmount : AbstractDataStructure<ITradeResourceCondition>, ITradeResourceCondition
     {
         [field:SerializeField]public ResourceCounter Resources { get; set; }
-        [field:SerializeField]public string ConditionName { get; set; }
         [field:SerializeField]public ResourceTrade ConnectedToDependency { get; set; }
-        internal override string DataNamePattern => $"ConditionTrade_{ConnectedToDependency.TradeName}_{ConnectedToDependency.Value}_{Resources.resource.title}_{Resources.value}";
+        public ResourceTemp ResourceTemp { get; set; }
+        public TechnologyTemp TechnologyTemp { get; set; }
+        
+        public string ConditionName => ConnectedToDependency.TradeName;
+
         protected override ITradeResourceCondition CompareTemplate()
         {
             return this;
@@ -20,13 +25,15 @@ namespace Game.Core.DataStructures.Conditions.TradesConditions
         {
             return true;
         }
+        
         public void Initialization()
         {
         }
+        internal override string DataNamePattern => $"ConditionTrade_{ConnectedToDependency.TradeName}_{ConnectedToDependency.Value}_{Resources.resource.title}_{Resources.value}";
+
         [ContextMenu("RenameAsset")]
         public override void RenameAsset()
         {
-            ConditionName = DataNamePattern;
             string assetPath = UnityEditor.AssetDatabase.GetAssetPath(this);
             UnityEditor.AssetDatabase.RenameAsset(assetPath, DataNamePattern);
             UnityEditor.AssetDatabase.SaveAssets();

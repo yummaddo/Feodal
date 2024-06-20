@@ -9,9 +9,11 @@ using UnityEngine.Serialization;
 namespace Game.Services.Storage.Abstraction
 {
     [System.Serializable]
-    public abstract class Repository<TCoded,TEncoded,TData,TEncodedIdentifier> : IDisposable
+    public abstract class Repository<TCoded,TEncoded,TData,TEncodedIdentifier,TTemp> : IDisposable
+    
+        where TTemp : Temp<TEncoded, TEncodedIdentifier, TData>
     {
-        [SerializeField] internal Temp<TEncoded, TEncodedIdentifier, TData> temp;
+        [SerializeField] internal TTemp temp;
         /// <summary>
         /// Repository File Name
         /// </summary>
@@ -38,7 +40,6 @@ namespace Game.Services.Storage.Abstraction
         {
             Dispose();
         }
-        
         internal virtual void Initialization( IIdentifier<TEncodedIdentifier,TEncoded> convert, List<TEncoded> encodes = null )
         {
             Debugger.Logger($"Repository {this.GetType()} Init Temp", Process.Action);
@@ -47,8 +48,55 @@ namespace Game.Services.Storage.Abstraction
             else Encodes = new List<TEncoded>();
             SaveFileResourcePath = InitHimselfDataFilePath();
         }
+        #region Abstraction
+        /// <summary>
+        /// Create  Decrypted TData D from encrypted Data
+        /// </summary>
+        /// <param name="decryptString"></param>
+        /// <returns></returns>
+        public abstract TData ParseDecryptedValue(string[] decryptString);
+        /// <summary>
+        /// Create Encrypted Data string[]  from free TData
+        /// </summary>
+        /// <param name="encryptData"></param>
+        /// <returns></returns>
+        public abstract string[] CreateEncryptValue(TData encryptData);
+        /// <summary>
+        /// Memory allocation for data value in free Repository element 
+        /// </summary>
+        /// <returns></returns>
+        protected abstract TData GetNewRepositoryAmount();
+        /// <summary>
+        /// Coding the [resource] with RSA code invariants
+        /// </summary>
+        /// <param name="resource"></param>
+        /// <returns></returns>
+        protected abstract TCoded Encrypt(TEncoded resource);
+        /// <summary>
+        /// De-Coding the [codedResource] with RSA code in TEncoded repository data container type
+        /// </summary>
+        /// <param name="codedResource"></param>
+        /// <returns></returns>
+        protected abstract TEncoded Decrypt(TCoded codedResource);
+        protected abstract void InitTemp(
+            IIdentifier<TEncodedIdentifier,TEncoded> converter
+            );
+        /// <summary>
+        /// Initialization Spase fore temp than would be contain the Repository load data 
+        /// </summary>
+        /// <param name="resourceEncode"></param>
+        protected void InitHimselfEncodes(List<TEncoded> resourceEncode)
+        {
+            Encodes = resourceEncode;
+            foreach (var encoded in resourceEncode)
+            {
+                temp.Initialization(encoded, GetNewRepositoryAmount());
+            }
+        }
         
-        internal void SaveResourceData()
+        #endregion
+        #region Internal Methods
+                internal void SaveResourceData()
         {
             try
             {
@@ -111,53 +159,6 @@ namespace Game.Services.Storage.Abstraction
                 }
             }
         }
-
-
-        #region Abstraction
-        /// <summary>
-        /// Create  Decrypted TData D from encrypted Data
-        /// </summary>
-        /// <param name="decryptString"></param>
-        /// <returns></returns>
-        public abstract TData ParseDecryptedValue(string[] decryptString);
-        /// <summary>
-        /// Create Encrypted Data string[]  from free TData
-        /// </summary>
-        /// <param name="encryptData"></param>
-        /// <returns></returns>
-        public abstract string[] CreateEncryptValue(TData encryptData);
-        /// <summary>
-        /// Memory allocation for data value in free Repository element 
-        /// </summary>
-        /// <returns></returns>
-        protected abstract TData GetNewRepositoryAmount();
-        /// <summary>
-        /// Coding the [resource] with RSA code invariants
-        /// </summary>
-        /// <param name="resource"></param>
-        /// <returns></returns>
-        protected abstract TCoded Encrypt(TEncoded resource);
-        /// <summary>
-        /// De-Coding the [codedResource] with RSA code in TEncoded repository data container type
-        /// </summary>
-        /// <param name="codedResource"></param>
-        /// <returns></returns>
-        protected abstract TEncoded Decrypt(TCoded codedResource);
-        protected abstract void InitTemp(IIdentifier<TEncodedIdentifier,TEncoded> converter);
-        /// <summary>
-        /// Initialization Spase fore temp than would be contain the Repository load data 
-        /// </summary>
-        /// <param name="resourceEncode"></param>
-        protected void InitHimselfEncodes(List<TEncoded> resourceEncode)
-        {
-            Encodes = resourceEncode;
-            foreach (var encoded in resourceEncode)
-            {
-                temp.Initialization(encoded, GetNewRepositoryAmount());
-            }
-        }
-        
-        #endregion
         /// <summary>
         /// Get Path to repository 
         /// </summary>
@@ -166,7 +167,6 @@ namespace Game.Services.Storage.Abstraction
         {
             return Application.dataPath + $"{ApplicationSetting.RepositoryLocalPath}{SaveFileName}";
         }
-        #region Internal Methods
         /// <summary>
         ///  get data form temp object
         /// </summary>
@@ -264,7 +264,6 @@ namespace Game.Services.Storage.Abstraction
                 }
             }
         }
-        
         private void UpdateFromRepository()
         {
             try
@@ -276,8 +275,8 @@ namespace Game.Services.Storage.Abstraction
                 Debugger.Logger(e.Message, Process.TrashHold);
             }
         }
-        
-
+        #endregion
+        #region Encrypt
         // XOR  Cn = Mn xor Kn
         protected string EncryptString(string input) => Cipher(input);
         protected string DecryptString(string encryptedInput) => Cipher(encryptedInput);

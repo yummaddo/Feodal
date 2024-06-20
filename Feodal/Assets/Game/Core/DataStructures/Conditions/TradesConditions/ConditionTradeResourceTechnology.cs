@@ -2,6 +2,8 @@
 using Game.Core.DataStructures.Technologies;
 using Game.Core.DataStructures.Technologies.Abstraction;
 using Game.Core.DataStructures.Trades;
+using Game.Services.Storage.ResourcesRepository;
+using Game.Services.Storage.TechnologyRepositories;
 using UnityEngine;
 
 namespace Game.Core.DataStructures.Conditions.TradesConditions
@@ -11,9 +13,13 @@ namespace Game.Core.DataStructures.Conditions.TradesConditions
     {
         public Technology technology;
         [field:SerializeField]public ResourceTrade ResourceTrade { get; set; }
-        [field:SerializeField]public string ConditionName { get; set; }
+        
+        public ResourceTemp ResourceTemp { get; set; }
+        public TechnologyTemp TechnologyTemp { get; set; }
         public ITechnology ConnectedToDependency { get; set; }
-        internal override string DataNamePattern => $"ConditionTrade_{ResourceTrade.TradeName}_{technology.Title}";
+        
+        public string ConditionName => ResourceTrade.TradeName;
+        
         protected override ITradeResourceTechnologyCondition CompareTemplate()
         {
             ConnectedToDependency = technology.Data;
@@ -26,10 +32,11 @@ namespace Game.Core.DataStructures.Conditions.TradesConditions
         public void Initialization()
         {
         }
+        internal override string DataNamePattern => $"ConditionTrade_{ResourceTrade.TradeName}_{technology.Title}";
+
         [ContextMenu("RenameAsset")]
         public override void RenameAsset()
         {
-            ConditionName = DataNamePattern;
             string assetPath = UnityEditor.AssetDatabase.GetAssetPath(this);
             UnityEditor.AssetDatabase.RenameAsset(assetPath, DataNamePattern);
             UnityEditor.AssetDatabase.SaveAssets();

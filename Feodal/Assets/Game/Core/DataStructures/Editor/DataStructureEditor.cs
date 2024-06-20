@@ -70,14 +70,8 @@ namespace Game.Core.DataStructures.Editor
         
         #region Technology
         [CanEditMultipleObjects]
-        [CustomEditor(typeof(CellTechnology))]
-        public class CellTechnologyEditor : AbstractDataStructureEditor<CellTechnology, ICellTechnology> { }
-        [CanEditMultipleObjects]
         [CustomEditor(typeof(TradeBuildTechnology))]
         public class TradeBuildTechnologyEditor : AbstractDataStructureEditor<TradeBuildTechnology, ITradeBuildTechnology> { }
-        [CanEditMultipleObjects]
-        [CustomEditor(typeof(TradeResourceTechnology))]
-        public class TradeResourceTechnologyEditor : AbstractDataStructureEditor<TradeResourceTechnology, ITradeResourceTechnology> { }
         #endregion
         #region Trade
         #endregion

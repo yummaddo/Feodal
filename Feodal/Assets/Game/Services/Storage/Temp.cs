@@ -13,14 +13,10 @@ namespace Game.Services.Storage
     {
         protected List<TempedView<TEncodedIdentifier, TData>> TempedViews;
         protected CellService CellService;
-        
         internal Dictionary<TEncoded, TData> GetAllResourceData => Data;
-        
         public Dictionary<TEncoded, TData> Data { get; set; }
         public Dictionary<TEncodedIdentifier, TEncoded> EncodeByIdentifier { get; set; }
         public Dictionary<TEncodedIdentifier, TData> DataByIdentifier { get; set; }
-        
-        
         public Dictionary<TEncodedIdentifier, int> ViewIndex { get; set; }
         internal IIdentifier<TEncodedIdentifier, TEncoded> Identifier;
         
@@ -33,15 +29,11 @@ namespace Game.Services.Storage
             ViewIndex = new Dictionary<TEncodedIdentifier, int>();
             TempedViews = new List<TempedView<TEncodedIdentifier,TData>>();
         }
-        
         protected virtual TEncodedIdentifier GetIdentifierByEncoded(TEncoded encoded)
         {
             return Identifier.GetEncodedIdentifier(encoded);
         }
-        protected virtual TData SumAmounts(TData a, TData b)
-        {
-            return a;
-        }
+        protected virtual TData SumAmounts(TData a, TData b) { return a; }
         /// <summary>
         /// Injection dependency
         /// </summary>
@@ -62,15 +54,6 @@ namespace Game.Services.Storage
         {
             if (EncodeByIdentifier.ContainsKey(GetIdentifierByEncoded(encoded))) return true;
             return false;
-        }
-        public void AddAmount(TEncodedIdentifier identifier, TData amount)
-        {
-            if (EncodeByIdentifier.ContainsKey(identifier))
-            {
-                DataByIdentifier[identifier] = SumAmounts(DataByIdentifier[identifier], amount);
-                TempedViews[ViewIndex[identifier]].value = DataByIdentifier[identifier] ;
-            }
-            else Initialization(EncodeByIdentifier[identifier], amount);
         }
         public void Temped(TEncoded encode, TData amount)
         {

@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using Game.Core.Abstraction;
-using Game.Core.DataStructures.Conditions.Abstraction;
-using Game.Core.DataStructures.Conditions.TechnologyConditions;
-using Game.Core.DataStructures.Technologies.Abstraction;
-using Game.Core.DataStructures.Technologies.Base;
+﻿using Game.Core.DataStructures.Technologies.Abstraction;
 using Game.Core.DataStructures.Trades;
+using Game.Services.Storage.TechnologyRepositories;
 using UnityEngine;
 
 namespace Game.Core.DataStructures.Technologies
@@ -13,15 +9,25 @@ namespace Game.Core.DataStructures.Technologies
     public class Technology : AbstractDataStructure<ITechnologyStore>, ITechnologyStore
     {
         public int stage;
-        public bool CurrentStatus { get; set; }
-        public bool Status() { return false; }
-        [field:SerializeField]public string Title { get; set; }
-        [field:SerializeField]public TechnologyTrade Trade { get; set; }
+        [field:SerializeField] public bool CurrentStatus { get; set; }
+        [field:SerializeField] public string Title { get; set; }
+        [field:SerializeField] public TechnologyTrade Trade { get; set; }
+        public TechnologyTemp Temp { get; set; }
+        public TechnologyRepository Repository { get; set; }
         protected override ITechnologyStore CompareTemplate()
         {
-            return this;
+            if (Temp == null)
+            {
+                return this;
+            }
+            return Temp.TechnologyStores[Title];
         }
-        
+        public bool Status()
+        {
+            if (Temp != null)
+                return Temp.TechnologyStores[this.Title].CurrentStatus;
+            return false;
+        }
         internal override string DataNamePattern => $"Technology_stage[{stage}][{Title}]";
     }
 }

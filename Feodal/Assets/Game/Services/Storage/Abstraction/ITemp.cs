@@ -9,6 +9,5 @@ namespace Game.Services.Storage.Abstraction
         public Dictionary<TEncodedIdentifier, TData> DataByIdentifier { get; set; }
         public Dictionary<TEncodedIdentifier, int> ViewIndex { get; set; }
         public void Initialization(TEncoded encoded, TData amount);
-        public void AddAmount(TEncodedIdentifier identifier, TData amount);
     }
 }
