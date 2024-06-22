@@ -1,9 +1,10 @@
-﻿using Game.Core.Abstraction.UI;
+﻿using Game.Core.Abstraction;
 using Game.Services.Proxies.Abstraction;
 
 namespace Game.Services.Proxies.Providers
 {
-    public class CellContainerProvider : AbstractProvider<IUICellContainer>
+    public class CellContainerProvider : AbstractProvider<ICellContainer>
     {
+        
     }
 }

@@ -44,7 +44,7 @@ namespace Game.Core
             FindFarmer();
             _cellService.CellChange(lastState,State,this,invocation);
         }
-        
+        internal Seed GetSeed() => container.seed;
         internal void DestroyCell()
         {
             Destroy(this.gameObject);

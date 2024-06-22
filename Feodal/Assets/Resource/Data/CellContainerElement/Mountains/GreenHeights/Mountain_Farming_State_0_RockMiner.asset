@@ -16,7 +16,7 @@ MonoBehaviour:
   externalName: RockMiner
   type: 2
   activeType: 1
-  root: {fileID: 0}
+  root: {fileID: 3473345505448450543, guid: ecc6c1bfb01226949b03e0547fc7096e, type: 3}
   switchList: []
   resource: {fileID: 11400000, guid: c18536515e38a664e9014e794f89a855, type: 2}
   baseState: {fileID: 11400000, guid: 2546dd9ba933af049a6a0f877c9611bf, type: 2}

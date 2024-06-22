@@ -64,7 +64,6 @@ GameObject:
   - component: {fileID: 7855845596435264932}
   - component: {fileID: 3209498709064680498}
   - component: {fileID: 7045452667616438073}
-  - component: {fileID: 5826786298454824771}
   m_Layer: 0
   m_Name: AddCellMarker
   m_TagString: AddCell
@@ -103,8 +102,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62f46b061a0c43f88cc11f93d662a6cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectorIndexing: {fileID: 5826786298454824771}
   clickCallback: {fileID: 7045452667616438073}
+  objectsWithCollider:
+  - {fileID: 3259722295162927941}
+  - {fileID: 1243716804057604553}
+  - {fileID: 3495599441754236947}
 --- !u!114 &7045452667616438073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,20 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55cbe4419d1946028a6fa4b1cf9665cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5826786298454824771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1246978928737235929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40ae2efc72d54d02b2d36519fc55ada0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detectorsSphere: []
-  detectorsCapsule: []
 --- !u!1 &3259722295162927941
 GameObject:
   m_ObjectHideFlags: 0

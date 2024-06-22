@@ -26,7 +26,7 @@ namespace Game.Services.Storage
         internal static List<ResourceTrade> GetTradeSetTemplate(this StorageService service,List<ConditionTradeResourceAmount> resourceAmounts)
         {
             var list = new List<ResourceTrade>();
-            foreach (var amount in resourceAmounts) { list.Add(amount.ConnectedToDependency); }
+            foreach (var amount in resourceAmounts) { list.Add(amount.connectedToDependency); }
             return list;
         }
         internal static List<BuildingTrade> GetTradeSetTemplate(this StorageService service,List<TradeBuildTechnology> buildTechnologies)
@@ -38,7 +38,7 @@ namespace Game.Services.Storage
         internal static List<SeedTrade> GetTradeSetTemplate(this StorageService service,List<ConditionTradeSeed> tradesSeed)
         {
             var list = new List<SeedTrade>();
-            foreach (var trade in tradesSeed) { list.Add(trade.ConnectedToDependency); }
+            foreach (var trade in tradesSeed) { list.Add(trade.connectedToDependency); }
             return list;
         }
         internal static List<TechnologyTrade> GetTradeSetTemplate(this StorageService service, List<Technology> technologies)

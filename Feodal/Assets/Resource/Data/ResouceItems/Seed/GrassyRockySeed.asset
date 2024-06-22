@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58b11286cf44d7aba4b19f32452ee33, type: 3}
+  m_Name: GrassyRockySeed
+  m_EditorClassIdentifier: 
+  title: GrassyRockySeed
+  type: 7
+  rare: 0
+  quantity: 1
+  dependentStates:
+  - {fileID: 11400000, guid: 95235e4d992667b489ee0269f6a2aa10, type: 2}
+  - {fileID: 11400000, guid: 1d1721e4c8e7df446aebdbc8ee84b31e, type: 2}
+  - {fileID: 11400000, guid: 12fd5537fb2b75443b3949d5e64051c0, type: 2}
+  - {fileID: 11400000, guid: 4d85ad081ad931549a256045fcf259f2, type: 2}
+  - {fileID: 11400000, guid: 352f6ff46ae46d5489d76569cff10c4c, type: 2}
+  - {fileID: 11400000, guid: 2546dd9ba933af049a6a0f877c9611bf, type: 2}

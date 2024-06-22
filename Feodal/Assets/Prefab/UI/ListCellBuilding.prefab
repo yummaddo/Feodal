@@ -166,6 +166,7 @@ GameObject:
   - component: {fileID: 6060987426051115482}
   - component: {fileID: -1293954491591914379}
   - component: {fileID: 3631198961840877588}
+  - component: {fileID: 3556884922739672303}
   m_Layer: 5
   m_Name: ListCellBuilding
   m_TagString: Untagged
@@ -340,6 +341,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: -1293954491591914379}
+  callBack: {fileID: 3556884922739672303}
+  menuTypesToClose: 0
+--- !u!114 &3556884922739672303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4031970821207215495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b8a2a345f8f4cfe8308cb08bb36d2bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4232140457757132380
 GameObject:
   m_ObjectHideFlags: 0

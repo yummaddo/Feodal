@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: Technology_stage[4][Cladding_Stone]
   m_EditorClassIdentifier: 
   stage: 4
+  <CurrentStatus>k__BackingField: 0
   <Title>k__BackingField: Cladding_Stone
   <Trade>k__BackingField:
-    resourceAmountCondition: []
+    resourceAmountCondition:
+    - resource: {fileID: 11400000, guid: c18536515e38a664e9014e794f89a855, type: 2}
+      value: 200
+    - resource: {fileID: 11400000, guid: b447c95f3a6ba1d49a30ba5276396205, type: 2}
+      value: 500
     into: {fileID: 11400000}

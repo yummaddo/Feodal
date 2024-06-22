@@ -47,7 +47,7 @@ namespace Game.Services.CellControlling
         /// </summary>
         internal void CellChange(ICellState from, ICellState to, Cell cell, bool invocation = true)
         {
-            Debugger.Logger($"[CellService]CellChange:{cell.name} PoolID:{cell.poolId} position:{cell.Position.CellHexCoord.ToString()}", Process.Action);
+            Debugger.Logger($"[CellService]CellChange:{cell.name} PoolID:{cell.poolId} position:{cell.Position.CellHexCoord.ToString()}", Process.Update);
             if (invocation)OnCellChange?.Invoke(from,to, cell);
         }
         /// <summary>
@@ -55,7 +55,7 @@ namespace Game.Services.CellControlling
         /// </summary>
         internal void CellCreated(Cell cell, bool invocation = true)
         {
-            Debugger.Logger($"[CellService]CellCreated:{cell.name} PoolID:{cell.poolId} position:{cell.Position.CellHexCoord.ToString()}", Process.Action);
+            Debugger.Logger($"[CellService]CellCreated:{cell.name} PoolID:{cell.poolId} position:{cell.Position.CellHexCoord.ToString()}", Process.Create);
             if (invocation)OnCellCreate?.Invoke(cell);
         }
         /// <summary>
@@ -63,7 +63,7 @@ namespace Game.Services.CellControlling
         /// </summary>
         internal void CellDestroy(Cell cell, bool invocation = true)
         {
-            Debugger.Logger($"[CellService]CellDestroy:{cell.name}  PoolID:{cell.poolId} on position:{cell.Position.CellHexCoord.ToString()}", Process.Action);
+            Debugger.Logger($"[CellService]CellDestroy:{cell.name}  PoolID:{cell.poolId} on position:{cell.Position.CellHexCoord.ToString()}", Process.Destroy);
             if (invocation)OnCellDestroy?.Invoke(cell);
         }
         /// <summary>
@@ -73,7 +73,7 @@ namespace Game.Services.CellControlling
         {
             ClearLastFreeCellTransform(arg2);
             FindNewFreeCellTransform();
-            Debugger.Logger($"[CellService]CellAdded:{cell.name}  PoolID:{cell.poolId} on position:{cell.Position.CellHexCoord.ToString()}", Process.Action);
+            Debugger.Logger($"[CellService]CellAdded:{cell.name}  PoolID:{cell.poolId} on position:{cell.Position.CellHexCoord.ToString()}", Process.Create);
             if (invocation)OnCellAdded?.Invoke(cell, arg2);
         }
         

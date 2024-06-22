@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: Technology_stage[3][Construction_Yard]
   m_EditorClassIdentifier: 
   stage: 3
+  <CurrentStatus>k__BackingField: 0
   <Title>k__BackingField: Construction_Yard
   <Trade>k__BackingField:
-    resourceAmountCondition: []
+    resourceAmountCondition:
+    - resource: {fileID: 11400000, guid: aa99815f5c9c66648963985002e32edb, type: 2}
+      value: 1
+    - resource: {fileID: 11400000, guid: fe9be7a38b3c1aa4fad2cc624bbbc60a, type: 2}
+      value: 1
     into: {fileID: 11400000}

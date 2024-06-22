@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Technology_stage[3][Agroplant_Veggie]
   m_EditorClassIdentifier: 
   stage: 3
+  <CurrentStatus>k__BackingField: 0
   <Title>k__BackingField: Agroplant_Veggie
   <Trade>k__BackingField:
-    resourceAmountCondition: []
+    resourceAmountCondition:
+    - resource: {fileID: 11400000, guid: 87de4bc291145cd4e953222dd83e202b, type: 2}
+      value: 60
     into: {fileID: 11400000, guid: 57c87b7204aa8bf40b9f1b71757d6461, type: 2}

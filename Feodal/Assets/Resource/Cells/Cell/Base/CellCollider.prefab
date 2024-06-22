@@ -170,8 +170,6 @@ GameObject:
   - component: {fileID: 5488303916062172312}
   - component: {fileID: 4636820097554085034}
   - component: {fileID: 1428846941839810789}
-  - component: {fileID: 4738940154817908015}
-  - component: {fileID: 3153749207900320884}
   m_Layer: 0
   m_Name: CellCollider
   m_TagString: Cell
@@ -209,12 +207,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9482fd11cb2d40a387393be6c164dcdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectorIndexing: {fileID: 3153749207900320884}
-  selectionTime: 0.877
-  clickTime: 0.1
+  objectsWithCollider:
+  - {fileID: 6828963639683209781}
+  - {fileID: 7840917905011221290}
+  - {fileID: 4921658204359583898}
   cell: {fileID: 0}
   clickCallback: {fileID: 1428846941839810789}
-  clickSelectedCallback: {fileID: 4738940154817908015}
 --- !u!114 &1428846941839810789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,29 +225,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f466309b28524245ac1b58f958e63406, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4738940154817908015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8771191772229788799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfa233cab7544dd28687b388fe28e5bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3153749207900320884
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8771191772229788799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40ae2efc72d54d02b2d36519fc55ada0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detectorsSphere: []
-  detectorsCapsule: []

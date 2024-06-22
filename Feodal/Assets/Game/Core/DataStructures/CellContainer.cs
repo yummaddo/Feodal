@@ -14,6 +14,8 @@ namespace Game.Core.DataStructures
         public CellState initial;
         public List<CellState> states;
         public GameObject template;
+        public Seed seed;
+        
         protected override ICellContainer CompareTemplate()
         {
             Initial = initial;
@@ -22,8 +24,10 @@ namespace Game.Core.DataStructures
             Price = price;
             SeedType = seedType;
             CellTemplate = template;
+            Seed = seed;
             return this;
         }
+        
         internal override string DataNamePattern => $"Cell_Container_{containerName}";
 
         #region ICellContainer
@@ -32,6 +36,9 @@ namespace Game.Core.DataStructures
             public CellSeedType SeedType { get; set; }
             public ICellState Initial { get; set; }
             public List<ICellState> States { get; set; }
+            public Seed Seed { get; set; }
+
         #endregion
+
     }
 }

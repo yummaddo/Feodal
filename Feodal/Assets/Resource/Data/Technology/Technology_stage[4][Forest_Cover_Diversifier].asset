@@ -13,7 +13,14 @@ MonoBehaviour:
   m_Name: Technology_stage[4][Forest_Cover_Diversifier]
   m_EditorClassIdentifier: 
   stage: 4
+  <CurrentStatus>k__BackingField: 0
   <Title>k__BackingField: Forest_Cover_Diversifier
   <Trade>k__BackingField:
-    resourceAmountCondition: []
+    resourceAmountCondition:
+    - resource: {fileID: 11400000, guid: 40920cd3ba1e6b6439e4fc02c9ac0163, type: 2}
+      value: 3000
+    - resource: {fileID: 11400000, guid: db64404f0b537524c85e1c7800e85631, type: 2}
+      value: 4000
+    - resource: {fileID: 11400000, guid: e016025b89b63eb4595c63124f32cd06, type: 2}
+      value: 5000
     into: {fileID: 11400000}

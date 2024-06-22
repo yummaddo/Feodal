@@ -633,6 +633,7 @@ GameObject:
   - component: {fileID: 846283576092753610}
   - component: {fileID: 2180826483872522992}
   - component: {fileID: 3603852445471156662}
+  - component: {fileID: 6538002232546297642}
   m_Layer: 5
   m_Name: UIResourceStone
   m_TagString: Untagged
@@ -775,8 +776,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 2180826483872522992}
+  callBack: {fileID: 6538002232546297642}
+  menuTypesToClose: 1
   isUniversal: 1
   resource: {fileID: 11400000, guid: 278774648635c5b4f987e3a4c6a95b54, type: 2}
+--- !u!114 &6538002232546297642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3828092365793504899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b8a2a345f8f4cfe8308cb08bb36d2bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4018647742560247700
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,6 +806,7 @@ GameObject:
   - component: {fileID: 2727200502763082320}
   - component: {fileID: 445886632008597227}
   - component: {fileID: 2856369960238535312}
+  - component: {fileID: 6524865998412011173}
   m_Layer: 5
   m_Name: UIResourceMeat
   m_TagString: Untagged
@@ -933,8 +949,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 445886632008597227}
+  callBack: {fileID: 6524865998412011173}
+  menuTypesToClose: 1
   isUniversal: 1
   resource: {fileID: 11400000, guid: 9d8e7417e57ec1d4eabbcd4e86c1462f, type: 2}
+--- !u!114 &6524865998412011173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4018647742560247700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b8a2a345f8f4cfe8308cb08bb36d2bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4211231867063889749
 GameObject:
   m_ObjectHideFlags: 0
@@ -1491,6 +1521,7 @@ GameObject:
   - component: {fileID: 8863458772116592577}
   - component: {fileID: 6792367116926756601}
   - component: {fileID: 2076568620689994127}
+  - component: {fileID: 1177050876915220421}
   m_Layer: 5
   m_Name: UIResourceWood
   m_TagString: Untagged
@@ -1633,8 +1664,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 6792367116926756601}
+  callBack: {fileID: 1177050876915220421}
+  menuTypesToClose: 1
   isUniversal: 1
   resource: {fileID: 11400000, guid: aa99815f5c9c66648963985002e32edb, type: 2}
+--- !u!114 &1177050876915220421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7277381501650066038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b8a2a345f8f4cfe8308cb08bb36d2bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7554538080755804410
 GameObject:
   m_ObjectHideFlags: 0
@@ -1649,6 +1694,7 @@ GameObject:
   - component: {fileID: 2271243380488140791}
   - component: {fileID: 4467243798672016024}
   - component: {fileID: 430180066608776142}
+  - component: {fileID: 2687992165079342282}
   m_Layer: 5
   m_Name: UIResourceFood
   m_TagString: Untagged
@@ -1791,8 +1837,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 4467243798672016024}
+  callBack: {fileID: 2687992165079342282}
+  menuTypesToClose: 1
   isUniversal: 1
   resource: {fileID: 11400000, guid: fe9be7a38b3c1aa4fad2cc624bbbc60a, type: 2}
+--- !u!114 &2687992165079342282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554538080755804410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b8a2a345f8f4cfe8308cb08bb36d2bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7651771302975274547
 GameObject:
   m_ObjectHideFlags: 0

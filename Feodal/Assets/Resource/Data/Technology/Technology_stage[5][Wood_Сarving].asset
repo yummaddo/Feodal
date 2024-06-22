@@ -18,5 +18,5 @@ MonoBehaviour:
   <Trade>k__BackingField:
     resourceAmountCondition:
     - resource: {fileID: 11400000, guid: aa99815f5c9c66648963985002e32edb, type: 2}
-      value: 300000
+      value: 40
     into: {fileID: 11400000}

@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: Technology_stage[2][Terraformer_Alpia]
   m_EditorClassIdentifier: 
   stage: 2
+  <CurrentStatus>k__BackingField: 0
   <Title>k__BackingField: Terraformer_Alpia
   <Trade>k__BackingField:
-    resourceAmountCondition: []
+    resourceAmountCondition:
+    - resource: {fileID: 11400000, guid: db64404f0b537524c85e1c7800e85631, type: 2}
+      value: 500
+    - resource: {fileID: 11400000, guid: e016025b89b63eb4595c63124f32cd06, type: 2}
+      value: 500
     into: {fileID: 11400000}

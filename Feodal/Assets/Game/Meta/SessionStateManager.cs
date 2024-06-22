@@ -10,6 +10,7 @@ namespace Game.Meta
         [SerializeField] private SessionActivityStates currentActivityStateStatus = SessionActivityStates.Boot;
         internal DiContainer Container;
         internal SessionActivityStates CurrentActivityState => currentActivityStateStatus;
+        internal bool IsMicroServiceSessionInit = false;
         public async void Awake()
         {
             Container = new DiContainer();
@@ -18,15 +19,20 @@ namespace Game.Meta
             SceneAwakeServiceSession();
             await Task.Delay(100);
             SceneAwakeMicroServiceSession();
+            IsMicroServiceSessionInit = true;
             await StartAfterAwake();
         }
         public event Action OnSceneAwakeSession;
         public event Action OnSceneAwakeServiceSession;
         public event Action OnSceneAwakeMicroServiceSession;
+        
         private void SceneAwakeSession() => OnSceneAwakeSession?.Invoke();
         private void SceneAwakeServiceSession() => OnSceneAwakeServiceSession?.Invoke();
-        private void SceneAwakeMicroServiceSession() => OnSceneAwakeMicroServiceSession?.Invoke();
 
+        private void SceneAwakeMicroServiceSession()
+        { 
+            OnSceneAwakeMicroServiceSession?.Invoke();
+        }
         private async Task StartAfterAwake()
         {
             await Task.Delay(200);

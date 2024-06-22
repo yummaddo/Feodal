@@ -16,9 +16,9 @@ MonoBehaviour:
   <IntoBuild>k__BackingField:
     resourceAmountCondition:
     - resource: {fileID: 11400000, guid: db64404f0b537524c85e1c7800e85631, type: 2}
-      value: 5000
+      value: 500
     - resource: {fileID: 11400000, guid: aa99815f5c9c66648963985002e32edb, type: 2}
-      value: 10000
+      value: 4
     technologyCondition:
     - {fileID: 11400000, guid: 57c87b7204aa8bf40b9f1b71757d6461, type: 2}
     Into: {fileID: 11400000, guid: a1bf0e830fe1b884b8e4fa283e452230, type: 2}

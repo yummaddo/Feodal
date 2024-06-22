@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Game.Services.Abstraction.Service;
 using UnityEngine;
 
@@ -7,45 +8,57 @@ namespace Game.Services.Proxies.Abstraction
 {
     public abstract class AbstractProvider<TData> : AbstractService
     {
-        private static readonly List<IClickCallback<TData>> Callbacks = new List<IClickCallback<TData>>();
-        private static event Action<IClickCallback<TData>> OnAddNewCallBack;
-        private static event Action<IClickCallback<TData>> OnDeleteCallBack;
-        private event Action<TData> OnClick;
+        private static readonly Dictionary<Port, List<IClickCallback<TData>>> Callbacks =
+            new Dictionary<Port, List<IClickCallback<TData>>>();
+        private static readonly Dictionary<Port, Action<Port,TData>> OnClickTyping = new Dictionary<Port, Action<Port,TData>>();
+        protected override void Awake() { base.Awake(); }
+        protected override void OnAwake() { }
+        protected override void OnStart() { }
         
-        protected override void Awake()
+        internal static void CallBackTunneling<TType>(IClickCallback<TData> callback)
         {
-            OnAddNewCallBack = TunnelingWithProvider;
-            OnDeleteCallBack = DeleteTunnelFormProvider;
-            base.Awake();
-        }
-        protected override void OnAwake() // before OnServiceAwake invocation
-        {
+            var port = Porting.Type<TType>();
+            if (Callbacks.ContainsKey(port))
+            {
+                callback.OnClick = OnClick;
+                Callbacks[port].Add(callback);
+            }
+            else
+            {
+                callback.OnClick = OnClick;
+                Callbacks.Add(port,new List<IClickCallback<TData>>());
+                Callbacks[port].Add(callback);
+            }
 
         }
-        protected override void OnStart() // before OnServiceAwake invocation
+        internal static void CallBackDeleteTunnel<TType>(IClickCallback<TData> callback)
         {
-            foreach (var preInitCallback in Callbacks)
+            var port = Porting.Type<TType>();
+            if (Callbacks.ContainsKey(port)) 
+                Callbacks.Remove(port);
+        }
+        private static void OnClick(Port ip, TData obj)
+        {
+            if (OnClickTyping.TryGetValue(ip, out var data))
             {
-                preInitCallback.OnClick += OnClickCall;
+                data.Invoke(ip, obj);
             }
         }
-        internal static void CallBackTunneling(IClickCallback<TData> callback)
+        internal void RecipientProxyConnect<TType>(Action<Port,TData> connection)
         {
-            Callbacks.Add(callback);
-            OnAddNewCallBack?.Invoke(callback);
+            var port = Porting.Type<TType>();
+            if (OnClickTyping.ContainsKey(port))
+            {
+                OnClickTyping[port] += connection; 
+            }
+            else OnClickTyping.Add(port,connection);
         }
-        internal static void CallBackDeleteTunnel(IClickCallback<TData> callback)
+
+        internal void RecipientProxyDisconnect<TType>(Action<Port,TData> connection)
         {
-            Callbacks.Remove(callback);
-            OnDeleteCallBack?.Invoke(callback);
-        }
-        private void TunnelingWithProvider(IClickCallback<TData> newTunnel) => newTunnel.OnClick = OnClickCall;
-        private void DeleteTunnelFormProvider(IClickCallback<TData> newTunnel) => newTunnel.OnClick -= OnClickCall;
-        internal void RecipientProxyConnect(Action<TData> connection) => OnClick += connection;
-        internal void RecipientProxyDisconnect(Action<TData> connection) => OnClick -= connection;
-        private  void OnClickCall(TData obj)
-        {
-            if (OnClick != null) OnClick?.Invoke(obj);
+            var port = Porting.Type<TType>();
+            if (OnClickTyping.ContainsKey(port)) 
+                OnClickTyping[port] -= connection;
         }
     }
 }

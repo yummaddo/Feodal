@@ -29,7 +29,6 @@ namespace Game.Services.Storage.Microservice
         internal event Action<SeedTrade, int, bool>       OnFailedSeedTrade;
         internal event Action<TechnologyTrade, int, bool> OnFailedTechnologyTrade;
 
-        
         internal void InjectTrade(Action<ResourceTrade, Dictionary<IResource, int>,int, bool> trade)   => OnTryResourceTrade += trade;
         internal void InjectTrade(Action<BuildingTrade, Dictionary<IResource, int>,int, bool> trade)   => OnTryBuildingTrade += trade;
         internal void InjectTrade(Action<SeedTrade, Dictionary<IResource, int>,int, bool> trade)       => OnTrySeedTrade += trade;
@@ -63,6 +62,7 @@ namespace Game.Services.Storage.Microservice
         protected override void Stop()
         {
         }
+        internal int GetMaxTrade(Dictionary<IResource, int> data) => _resourceTemp.MaxTradeAmount(data);
         internal bool CanTrade(Dictionary<IResource, int> data) => _resourceTemp.IsTradAble(data);
         internal void Trade(ResourceTrade trade,   Dictionary<IResource, int> data,int amount,  bool all = false) => OnTryResourceTrade?.Invoke(trade,data,amount, all);
         internal void Trade(BuildingTrade trade,   Dictionary<IResource, int> data,int amount,  bool all = false) => OnTryBuildingTrade?.Invoke(trade,data,amount, all);

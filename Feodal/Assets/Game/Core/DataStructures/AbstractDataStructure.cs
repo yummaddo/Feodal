@@ -24,10 +24,8 @@ namespace Game.Core.DataStructures
         }
 
         internal abstract string DataNamePattern { get; }
-        internal void ChangeStorageNaming(TTemplate type)
-        {
-            RenameAsset();
-        }
+        internal void ChangeStorageNaming(TTemplate type) { RenameAsset(); }
+        
         [ContextMenu("RenameAsset")]
         public virtual void RenameAsset()
         {

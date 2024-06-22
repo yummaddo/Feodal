@@ -15,12 +15,8 @@ MonoBehaviour:
   title: TradeBuild_PineReservation
   <IntoBuild>k__BackingField:
     resourceAmountCondition:
-    - resource: {fileID: 11400000, guid: fe9be7a38b3c1aa4fad2cc624bbbc60a, type: 2}
-      value: 15000
-    - resource: {fileID: 11400000, guid: d3f28d3b2034a04429f5f84a0e8a6e66, type: 2}
-      value: 400
-    - resource: {fileID: 11400000, guid: ca987885152007c4f9f94fc40cde4d2a, type: 2}
-      value: 80
+    - resource: {fileID: 11400000, guid: db64404f0b537524c85e1c7800e85631, type: 2}
+      value: 50
     technologyCondition:
     - {fileID: 11400000, guid: f51617ae027207d4eb74bfb5fbb9a0ef, type: 2}
     Into: {fileID: 11400000, guid: c9bbd233e808a934f9fd8260f5abe3c6, type: 2}

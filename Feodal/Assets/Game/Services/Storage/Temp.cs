@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Game.Core.Abstraction;
 using Game.Meta;
@@ -13,13 +14,17 @@ namespace Game.Services.Storage
     {
         protected List<TempedView<TEncodedIdentifier, TData>> TempedViews;
         protected CellService CellService;
+
         internal Dictionary<TEncoded, TData> GetAllResourceData => Data;
+        internal IIdentifier<TEncodedIdentifier, TEncoded> Identifier;
+
         public Dictionary<TEncoded, TData> Data { get; set; }
         public Dictionary<TEncodedIdentifier, TEncoded> EncodeByIdentifier { get; set; }
         public Dictionary<TEncodedIdentifier, TData> DataByIdentifier { get; set; }
         public Dictionary<TEncodedIdentifier, int> ViewIndex { get; set; }
-        internal IIdentifier<TEncodedIdentifier, TEncoded> Identifier;
         
+        protected Action<TEncodedIdentifier, TData> OnEncodeChangeData;
+        protected Action<TEncodedIdentifier, TEncoded> OnEncodeChangeElement;
         protected internal Temp(IIdentifier<TEncodedIdentifier, TEncoded> identifier)
         {
             Identifier = identifier;
@@ -45,18 +50,24 @@ namespace Game.Services.Storage
         internal void SubtractionAmountData(TEncodedIdentifier identifier, TData value)
         {
             Data[EncodeByIdentifier[identifier]] = SubtractionAmounts(Data[EncodeByIdentifier[identifier]], value);
+            OnEncodeChangeData?.Invoke(identifier,Data[EncodeByIdentifier[identifier]]);
+            OnEncodeChangeElement?.Invoke(identifier,EncodeByIdentifier[identifier]);
         }
         internal void SummedAmountData(TEncodedIdentifier identifier, TData value)
         {
             Data[EncodeByIdentifier[identifier]] = SummedAmounts(Data[EncodeByIdentifier[identifier]], value);
+            OnEncodeChangeData?.Invoke(identifier,Data[EncodeByIdentifier[identifier]]);
+            OnEncodeChangeElement?.Invoke(identifier,EncodeByIdentifier[identifier]);
         }
         internal TData GetAmount(TEncodedIdentifier identifier)
         {
-            return DataByIdentifier[identifier];
+            return Data[EncodeByIdentifier[identifier]];
         }
         internal void SetAmount(TEncodedIdentifier identifier, TData value)
         {
             Data[EncodeByIdentifier[identifier]] = value;
+            OnEncodeChangeData?.Invoke(identifier,Data[EncodeByIdentifier[identifier]]);
+            OnEncodeChangeElement?.Invoke(identifier,EncodeByIdentifier[identifier]);
         }
         /// <summary>
         /// Injection dependency

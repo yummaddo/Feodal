@@ -5,6 +5,7 @@ using Game.Core.DataStructures.Conditions.TradesConditions;
 using Game.Core.DataStructures.Technologies;
 using Game.Core.DataStructures.Technologies.Base;
 using Game.Core.DataStructures.Trades;
+using Game.Core.DataStructures.UI.Data;
 using Game.Meta;
 using Game.Services.Abstraction.Service;
 using Game.Services.Storage.Abstraction;
@@ -18,11 +19,15 @@ namespace Game.Services.Storage
 {
     public class StorageService : AbstractService
     {
+        [SerializeField] private bool save = true;
+        [SerializeField] private bool load = true;
+
         [SerializeField] private List<Resource> resourceList = new List<Resource>();
         [SerializeField] private List<Technology> technologyList = new List<Technology>();
         [SerializeField] private List<TradeBuildTechnology> technologyBuildList = new List<TradeBuildTechnology>();
         [SerializeField] private List<ConditionTradeResourceAmount> tradeResourceAmounts = new List<ConditionTradeResourceAmount>();
         [SerializeField] private List<ConditionTradeSeed> tradeSeeds = new List<ConditionTradeSeed>();
+        [SerializeField] private List<UIResource> resourcesUI = new List<UIResource>();
 
         private TradeMicroservice _tradeMicroservice;
         
@@ -51,7 +56,8 @@ namespace Game.Services.Storage
         {
             resourceRepository.temp.Injection();
             resourceRepository.temp.InjectResource(resourceList, resourceRepository);
-            resourceRepository.temp.InjectionInMicroservice(_tradeMicroservice);
+            resourceRepository.temp.InjectionResource(resourcesUI);
+            resourceRepository.temp.InjectionInMicroservice(_tradeMicroservice, gameObject);
             
             resourceRepository.temp.InjectionTrade(this.GetTradeSetTemplate(tradeResourceAmounts));
             resourceRepository.temp.InjectionTrade(this.GetTradeSetTemplate(technologyBuildList));
@@ -81,18 +87,24 @@ namespace Game.Services.Storage
         }
         private void LoadRepositoriesData()
         {
-            resourceRepository.LoadResourceData();
-            cellsMapRepository.LoadResourceData();
-            technologyRepository.LoadResourceData();
+            if (load)
+            {
+                resourceRepository.LoadResourceData();
+                cellsMapRepository.LoadResourceData();
+                technologyRepository.LoadResourceData();
+            }
         }
         private void SaveRepositories()
         {
-            Debugger.Logger("OnApplicationQuit: Save Technology Repositories", ContextDebug.Session, Process.Load);
-            technologyRepository.SaveResourceData();
-            Debugger.Logger("OnApplicationQuit: Save Resource Repositories", ContextDebug.Session, Process.Load);
-            resourceRepository.SaveResourceData();
-            Debugger.Logger("OnApplicationQuit: Save Cells Repositories", ContextDebug.Session, Process.Load);
-            cellsMapRepository.SaveResourceData();
+            if (save)
+            {
+                Debugger.Logger("OnApplicationQuit: Save Technology Repositories", ContextDebug.Session, Process.Load);
+                technologyRepository.SaveResourceData();
+                Debugger.Logger("OnApplicationQuit: Save Resource Repositories", ContextDebug.Session, Process.Load);
+                resourceRepository.SaveResourceData();
+                Debugger.Logger("OnApplicationQuit: Save Cells Repositories", ContextDebug.Session, Process.Load);
+                cellsMapRepository.SaveResourceData();
+            }
         }
         private void OnDestroy()
         {

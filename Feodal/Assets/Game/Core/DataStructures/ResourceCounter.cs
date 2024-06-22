@@ -1,4 +1,7 @@
-﻿namespace Game.Core.DataStructures
+﻿using System.Collections.Generic;
+using Game.Core.DataStructures.Trades;
+
+namespace Game.Core.DataStructures
 {
     [System.Serializable]
     public class ResourceCounter
@@ -14,6 +17,15 @@
         public override string ToString()
         {
             return $"{resource.title}{value}";
+        }
+    }
+    [System.Serializable]
+    public class ResourceCounterStage
+    {
+        public ResourceTrade resource;
+        public ResourceCounterStage(ResourceTrade resourceTrades)
+        {
+            resource = resourceTrades;
         }
     }
 }

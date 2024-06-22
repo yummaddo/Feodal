@@ -6,6 +6,7 @@ using Game.Core.Abstraction;
 using Game.Core.Cells;
 using Game.Core.DataStructures;
 using Game.Services.CellControlling;
+using Game.Services.Proxies;
 using Game.Services.Proxies.ClickCallback;
 using Game.Services.Proxies.ClickCallback.Simple;
 using Game.Services.Storage;
@@ -19,7 +20,7 @@ namespace Game.Core
 {
     public class CellMap : MonoBehaviour
     {
-        public SimpleMenuExitCallBack callBackMenuExit;
+        public SimpleMenuTypesCloseCallBack closeCallBackMenuTypesClose;
         public List<CellContainer> containers;
         public float distance = 1.8f;
         public Cell baseCells;
@@ -100,15 +101,14 @@ namespace Game.Core
             TryAddCell(component, position, false);
             component.MigrateToNewState(state,false);
         }
-
         public int GetCountOfCellState(ICellState state)
         {
             return 0;
             
         }
-
-        public int GetCellCount(IResource intoData)
+        public int GetCellCount(Seed intoData)
         {
+            
             return 0;
         }
         private void UpdateMap(Cell newCell)
@@ -145,8 +145,7 @@ namespace Game.Core
                 UpdateMap(addable);
             
             _service.CellAdded(addable, FindFreeCoordsList(), invocation);
-            
-            callBackMenuExit.OnClick?.Invoke(MenuTypes.ContainerMenu);
+            closeCallBackMenuTypesClose.OnClick?.Invoke(Porting.Type<CellMap>(),MenuTypes.ContainerMenu);
         }
     }
 }

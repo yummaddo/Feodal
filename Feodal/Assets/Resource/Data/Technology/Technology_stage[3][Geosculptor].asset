@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: Technology_stage[3][Geosculptor]
   m_EditorClassIdentifier: 
   stage: 3
+  <CurrentStatus>k__BackingField: 0
   <Title>k__BackingField: Geosculptor
   <Trade>k__BackingField:
-    resourceAmountCondition: []
+    resourceAmountCondition:
+    - resource: {fileID: 11400000, guid: aa99815f5c9c66648963985002e32edb, type: 2}
+      value: 1
+    - resource: {fileID: 11400000, guid: 40920cd3ba1e6b6439e4fc02c9ac0163, type: 2}
+      value: 150
     into: {fileID: 11400000}

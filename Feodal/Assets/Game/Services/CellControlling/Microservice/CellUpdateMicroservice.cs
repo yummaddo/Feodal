@@ -1,4 +1,5 @@
-﻿using Game.Core;
+﻿using System;
+using Game.Core;
 using Game.Core.Abstraction;
 using Game.Core.Abstraction.UI;
 using Game.Core.Cells;
@@ -16,9 +17,8 @@ namespace Game.Services.CellControlling.Microservice
 {
     public class CellUpdateMicroservice : AbstractMicroservice<CellService>
     {
-        public SimpleMenuExitCallBack menuExitCallBack;
-        public SimpleMenuCellDeleteCallBack cellDeleteCallBack;
-        public SimpleMenuCellUpdateCallBack cellCallBack;
+        public SimpleMenuTypesCloseCallBack menuTypesCloseCallBack;
+        public SimpleCellContainerCallBack cellCallBack;
         private CellService _service;
         private ICellContainer _selected;
         private Cell _selectedCell;
@@ -30,29 +30,30 @@ namespace Game.Services.CellControlling.Microservice
         protected override void OnStart()
         {           
             _service = SessionStateManager.Instance.Container.Resolve<CellService>();
-            Proxy.Connect<CellUpdateProvider, Cell>(OnCellTryToUpdate);
-            Proxy.Connect<CellSelectProvider, Cell>(OnCellSelected);
-            Proxy.Connect<CellContainerElementProvider, IUICellContainerElement>(OnBuildSelected);
+            Proxy.Connect<CellProvider, Cell, CellUpdatedDetector>( OnCellTryToUpdate);
+            Proxy.Connect<CellProvider, Cell, CellUpdatedDetector>( OnCellSelected);
+            
+            Proxy.Connect<CellContainerElementProvider, IUICellContainerElement,UIMenuBuilding>( OnBuildSelected);
         }
 
-        private void OnBuildSelected(IUICellContainerElement obj)
+        private void OnBuildSelected(Port type,IUICellContainerElement obj)
         {
             _selectedCell.selection.UnSelect();
-            menuExitCallBack.OnClick?.Invoke(MenuTypes.BuildingMenu);
+            menuTypesCloseCallBack.OnClick?.Invoke(type,MenuTypes.BuildingMenu);
             Debugger.Logger(obj.State.Data.ExternalName, Process.Action);
             _selectedCell.MigrateToNewState(obj.State.Data);
         }
 
-        private void OnCellSelected(Cell cell)
+        private void OnCellSelected(Port type,Cell cell)
         {
             cell.selection.Select();
-            cellDeleteCallBack.OnClick?.Invoke(cell.container.Data);
+            // cellDeleteCallBack.OnClick?.Invoke(type,cell.container.Data);
             _selectedCell = cell;
             _selected = cell.container.Data;
         }
-        private void OnCellTryToUpdate(Cell cell)
+        private void OnCellTryToUpdate(Port type,Cell cell)
         {
-            cellCallBack.OnClick?.Invoke(cell.container.Data);
+            cellCallBack.OnClick?.Invoke(type,cell.container.Data);
             _selectedCell = cell;
             _selected = cell.container.Data;
         }

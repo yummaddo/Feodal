@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Game.Core;
 using Game.Core.Abstraction;
 using Game.Core.Cells;
 using Game.Core.DataStructures.UI.Data;
@@ -25,24 +27,26 @@ namespace Game.UI.Menu
         }
         private void OnSceneAwakeMicroServiceSession()
         {
-            Proxy.Connect<MenuCellUpdateProvider, ICellContainer>(OpenMenu);
-            Proxy.Connect<MenuExitProvider, MenuTypes>(ExitMenu);
-                ;
+            Proxy.Connect<MenuTypesExitProvider, MenuTypes,UIMenuBuilding>(ExitMenu);
+            Proxy.Connect<MenuTypesExitProvider, MenuTypes,CellMap>(ExitMenu);
+            
+            Proxy.Connect<CellProvider, Cell, CellUpdatedDetector>(OpenMenu);
+            Proxy.Connect<MenuTypesExitProvider, MenuTypes, ButtonExitMenuCallBack>(ExitMenu);
         }
 
-        private void ExitMenu(MenuTypes obj)
+        private void ExitMenu(Port type, MenuTypes obj)
         {
             if (obj == MenuTypes.BuildingMenu)
             {
                 target.gameObject.SetActive(false);
             }
         }
-
-        private void OpenMenu(ICellContainer obj)
+        private void OpenMenu(Port type, Cell cell)
         {
             target.gameObject.SetActive(true);
+            var container = cell.container.Data;
             Debugger.Logger($"Open Menu Type {MenuTypes.BuildingMenu}", ContextDebug.Menu , Process.Action);
-            OpenMenuWithBase(obj.Initial.ExternalName);
+            OpenMenuWithBase(container.Initial.ExternalName);
         }
         private void OpenMenuWithBase(string nameOfContainer)
         {

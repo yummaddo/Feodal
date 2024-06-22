@@ -2,6 +2,7 @@
 using Game.Core.DataStructures.Technologies;
 using Game.Core.DataStructures.Trades.Abstraction;
 using Game.Core.DataStructures.Trades.Map;
+using Game.Services.Storage.Microservice;
 using UnityEngine;
 
 namespace Game.Core.DataStructures.Trades
@@ -13,9 +14,9 @@ namespace Game.Core.DataStructures.Trades
         [SerializeField] internal List<ResourceCounter> resourceAmountCondition;
         [SerializeField] public Technology into;
         public override string TradeName => into.Title;
-        protected override void Initialization()
+        internal override void Initialization(TradeMicroservice microservice)
         {
-            base.Initialization();
+            base.Initialization(microservice);
             _map = new TechnologyTradeMap(this);
         }
 

@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: Technology_stage[3][Heat_Treatment]
   m_EditorClassIdentifier: 
   stage: 3
+  <CurrentStatus>k__BackingField: 0
   <Title>k__BackingField: Heat_Treatment
   <Trade>k__BackingField:
-    resourceAmountCondition: []
+    resourceAmountCondition:
+    - resource: {fileID: 11400000, guid: 87de4bc291145cd4e953222dd83e202b, type: 2}
+      value: 2000
+    - resource: {fileID: 11400000, guid: 40920cd3ba1e6b6439e4fc02c9ac0163, type: 2}
+      value: 5000
     into: {fileID: 11400000}

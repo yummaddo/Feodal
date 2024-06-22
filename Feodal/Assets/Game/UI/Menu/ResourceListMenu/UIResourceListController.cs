@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using Game.Core.Abstraction;
 using Game.Core.DataStructures.UI.Data;
 using Game.Core.Typing;
+using Game.Meta;
+using Game.Services.Proxies;
+using Game.Services.Proxies.ClickCallback;
+using Game.Services.Proxies.ClickCallback.Button;
+using Game.Services.Proxies.Providers;
 using UnityEngine;
 
 namespace Game.UI.Menu.ResourceListMenu
@@ -16,16 +21,29 @@ namespace Game.UI.Menu.ResourceListMenu
         public GameObject templateUIResource;
         public List<GameObject> temp = new List<GameObject>();
         public List<GameObject> tempController = new List<GameObject>();
+        public List<UIResourceListElement> tempControllerElements;
 
         private void Awake()
         {
             ResourcesListCompare = new Dictionary<IResource, UIResourcesList>();
             foreach (var list in resourcesLists)
-            {
                 ResourcesListCompare.Add(list.universal, list);
+            SessionStateManager.Instance.OnSceneAwakeMicroServiceSession += OnSceneAwakeMicroServiceSession;
+        }
+        private void OnSceneAwakeMicroServiceSession()
+        {
+            Proxy.Connect<DatabaseResourceProvider,ResourceTempedCallBack,ResourceTempedCallBack>(SomeResourceUpdate);
+        }
+        private void SomeResourceUpdate(Port port,ResourceTempedCallBack callBack)
+        {
+            if (enabled) 
+            {
+                foreach (var element in tempControllerElements)
+                {
+                    element.TryUpdate(callBack.Resource, callBack.Value);
+                }
             }
         }
-
         internal void Clear()
         {
             foreach (var obj in temp)
@@ -36,6 +54,7 @@ namespace Game.UI.Menu.ResourceListMenu
             {
                 list.gameObject.SetActive(false);
             }
+            tempControllerElements.Clear();
         }
         internal void ViewList(UIResourcesList resourcesList)
         {
@@ -47,6 +66,7 @@ namespace Game.UI.Menu.ResourceListMenu
                 var newElementInList = Instantiate( templateUIResource, targetsListRoot[currentElementOfList] );
                 temp.Add(newElementInList);
                 var newElementController = newElementInList.GetComponent<UIResourceListElement>();
+                tempControllerElements.Add(newElementController);
                 newElementController.UpdateData(resourcesList.resources[i-1]);
             }
         }

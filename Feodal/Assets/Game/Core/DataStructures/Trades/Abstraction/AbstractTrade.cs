@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace Game.Core.DataStructures.Trades.Abstraction
 {
+    [System.Serializable]
     public abstract class AbstractTrade<TInto, TBase>:  ITrade<TInto,TBase>
     {
         public List<ICondition> Conditions { get; set; }
@@ -24,15 +25,10 @@ namespace Game.Core.DataStructures.Trades.Abstraction
         {
             return ToString().GetHashCode();
         }
-        protected virtual void Initialization()
-        {
-            
-        }
-        internal void Initialization(TradeMicroservice microservice)
+        internal virtual void Initialization(TradeMicroservice microservice)
         {
             TradeMicroservice = microservice;
             if (microservice == null) ConnectingToTradeService();
-            Initialization();
         }
         
         private void ConnectingToTradeService()

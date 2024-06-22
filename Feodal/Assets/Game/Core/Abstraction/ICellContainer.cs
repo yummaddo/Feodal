@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Core.Abstraction
 {
-    public interface ICellContainer
+    public interface ICellContainer : ISeed
     {
         public GameObject CellTemplate { get; set; }
         public int Price { get; set; }

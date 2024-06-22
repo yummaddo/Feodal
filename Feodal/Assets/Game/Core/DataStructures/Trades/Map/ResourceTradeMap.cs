@@ -13,21 +13,6 @@ namespace Game.Core.DataStructures.Trades.Map
                 From.Add(new MapValue<IResource>(element.resource, element.value ));
             Into = new MapValue<IResource>(trade.Into.Data, trade.Value);
         }
-        public ResourceTradeMap( SeedTrade trade )
-        {
-            var scale = trade.scaleResourceValue;
-            int count = trade.CellQuantity();
-            From = new List<MapValue<IResource>>();
-            foreach (var element in trade.resourceAmountCondition)
-            {
-                From.Add(new MapValue<IResource>(element.resource, element.value * count * scale));
-            }
-            Into = new MapValue<IResource>(trade.@into.Data, 1);
-        }
-        public Dictionary<IResource, int> GetSeedAmount()
-        {
-            return base.GetAmount(1);
-        }
         public sealed override MapValue<IResource> Into { get; protected set; }
         public sealed override List<MapValue<IResource>> From { get; protected set; }
     }

@@ -15,7 +15,7 @@ namespace Game.Core.DataStructures.UI.Data
         {
             ResourceImage = resourceImage;
             ResourceRareImage = resourceRareImage;
-            Resource = resource;
+            Resource = resource.Data;
             return this;
         }
         public IResource Resource { get; set; }

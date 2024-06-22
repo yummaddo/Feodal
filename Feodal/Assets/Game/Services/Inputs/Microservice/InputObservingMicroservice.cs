@@ -5,6 +5,7 @@ using Game.Meta;
 using Game.Services.Abstraction.MicroService;
 using Game.Services.Control;
 using Game.Services.Proxies;
+using Game.Services.Proxies.ClickCallback.Button;
 using Game.Services.Proxies.Providers;
 using Game.UI.Menu;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Game.Services.Inputs.Microservice
         [Range(0.3f, 0.01f)]public float timeForClick = 0.02f;
         [Range(0.31f, 1.5f)]public float timeForSelection = 0.5f;
         [Range(0.01f, 0.1f)]public float speedForCameraMove = 0.02f;
-        [Range(10f, 100f)]public float maximumTouchScreenDistance = 10f;
+        [Range(10f, 200)]public float maximumTouchScreenDistance = 10f;
         [Header("Program speed parameters")] 
         [Range(0.5f, 10f)] public float cameraMovementSpeed = 2f;
         private Vector2 _screenPositionStart;
@@ -35,30 +36,93 @@ namespace Game.Services.Inputs.Microservice
         
         private ControlService _controlService;
         private Dictionary<int, CellAddDetector> _detectors;
-        private Dictionary<int, CellUpdateDetector> _cellsUpdateDetectors;
-        
+        private Dictionary<int, CellUpdatedDetector> _cellsUpdateDetectors;
+
+#if UNITY_EDITOR
+        private List<CellAddDetector> _detectorsList;
+        private List<CellUpdatedDetector> _cellsUpdateDetectorsList;
+        private List<int> _detectorsListID;
+        private List<int> _cellsUpdateDetectorsListID;
+#endif
+
         protected override void Awake()
         {
             base.Awake();
             _detectors = new Dictionary<int, CellAddDetector>();
-            _cellsUpdateDetectors = new Dictionary<int, CellUpdateDetector>();
+            _cellsUpdateDetectors = new Dictionary<int, CellUpdatedDetector>();
+
+#if UNITY_EDITOR
+            
+            _detectorsList = new List<CellAddDetector>();
+            _cellsUpdateDetectorsList = new List<CellUpdatedDetector>();
+            _detectorsListID = new List<int>();
+            _cellsUpdateDetectorsListID = new List<int>();
+#endif
         }
         protected override void OnAwake()
         {
-            Proxy.Connect<MenuExitProvider, MenuTypes>(ExitMenuCall);
+            Proxy.Connect<MenuTypesExitProvider, MenuTypes, ButtonExitMenuCallBack>(ExitMenuCall);
+            Proxy.Connect<CellAddDetectorProvider, CellAddDetector, CellAddDetector>(OpenMenuCall);
             _controlService = SessionStateManager.Instance.Container.Resolve<ControlService>();
         }
-        
-        public void AddDetector(CellAddDetector detector) => _detectors.Add(detector.GetInstanceID(), detector);
-        public void DeleteDetector(CellAddDetector detector)
+        private void OpenMenuCall(Port type, CellAddDetector obj)
         {
-            try { _detectors.Remove(detector.GetInstanceID()); }
+            _active = false;
+        }
+        private void ExitMenuCall(Port type, MenuTypes obj)
+        {
+            _active = true;
+        }
+        public void AddDetector(CellAddDetector detector)
+        {
+#if UNITY_EDITOR
+            _detectorsList.Add(detector);
+            _detectorsListID.Add(detector.GetInstanceID());
+#endif
+            foreach (var objectWithCollider in detector.objectsWithCollider)
+                _detectors.Add(objectWithCollider.GetInstanceID(), detector);
+        }
+
+        public void DeleteDetector( List<GameObject> detector)
+        {
+#if UNITY_EDITOR
+            List<CellAddDetector> forClear = new List<CellAddDetector>();
+            foreach (var cell in _detectorsList) if (cell == null) forClear.Add(cell);
+            foreach (var clear in forClear) _detectorsList.Remove(clear);
+            foreach (var colliderObject in detector) _detectorsListID.Remove(colliderObject.GetInstanceID());
+#endif
+            try
+            {
+                foreach (var objectWithCollider in detector)
+                    _detectors.Remove(objectWithCollider.GetInstanceID());
+            }
             catch (Exception e) { Debugger.Logger(e.Message, Process.TrashHold); }
         }
-        public void AddDetector(CellUpdateDetector detector) => _cellsUpdateDetectors.Add(detector.GetInstanceID(), detector);
-        public void DeleteDetector(CellUpdateDetector detector)
+
+        public void AddDetector(CellUpdatedDetector detector)
         {
-            try { _cellsUpdateDetectors.Remove(detector.GetInstanceID()); }
+#if UNITY_EDITOR
+            _cellsUpdateDetectorsList.Add(detector);
+            _cellsUpdateDetectorsListID.Add(detector.GetInstanceID());
+#endif
+            foreach (var objectWithCollider in detector.objectsWithCollider)
+                _cellsUpdateDetectors.Add(objectWithCollider.GetInstanceID(), detector);
+        }
+        public void DeleteUpdateDetectors(List<GameObject> detectors)
+        {
+#if UNITY_EDITOR
+            List<CellUpdatedDetector> forClear = new List<CellUpdatedDetector>();
+            foreach (var cell in _cellsUpdateDetectorsList) if (cell == null) forClear.Add(cell);
+            foreach (var cell in forClear) _cellsUpdateDetectorsList.Remove(cell);
+            foreach (var colliderObject in detectors) _cellsUpdateDetectorsListID.Remove(colliderObject.GetInstanceID());
+#endif
+            try
+            {
+                foreach (var objectWithCollider in detectors)
+                {
+                    _cellsUpdateDetectors.Remove(objectWithCollider.GetInstanceID());
+                }
+            }
             catch (Exception e) { Debugger.Logger(e.Message, Process.TrashHold); }
         }
         
@@ -74,7 +138,7 @@ namespace Game.Services.Inputs.Microservice
                 _activeTouch = true;
                 if (!_isClick)
                 {
-                    // _screenPositionStart = Input.mousePosition;
+                    _screenPositionStart = Input.mousePosition;
                     _screenPositionProcessed = Input.mousePosition;
                     _screenPositionProcessedLast = _screenPositionProcessed;
                     _isClick = true;
@@ -83,7 +147,7 @@ namespace Game.Services.Inputs.Microservice
                 else
                 {
                     var temp = Input.mousePosition;
-                    _distanceOfStartEndTouch = Vector3.Distance(temp, _screenPositionProcessed);
+                    _distanceOfStartEndTouch = Vector2.Distance(_screenPositionStart, temp);
                     _screenPositionProcessedLast = _screenPositionProcessed;
                     _screenPositionProcessed = temp;
                     _screenSwipeSpeed = _distanceOfStartEndTouch / Time.deltaTime;
@@ -95,7 +159,7 @@ namespace Game.Services.Inputs.Microservice
             {
                 _activeTouch = false;
             }
-            if (_distanceOfStartEndTouch > maximumTouchScreenDistance && _isClick) { _isMoveCamera = true; }
+            if ((_distanceOfStartEndTouch > maximumTouchScreenDistance) && _isClick) { _isMoveCamera = true; }
         }
 
         private void LateUpdate()
@@ -106,11 +170,16 @@ namespace Game.Services.Inputs.Microservice
                     OnSelectDetector();
                 else if (_time < timeForClick && !_isMoveCamera) // click
                     OnClickDetector();
-                Reset(); // reset after run clicked end callback
             } 
             else if (_active && _activeTouch && _isClick && _isMoveCamera) // camera move condition
             {
-                _controlService.MoveCamera(cameraMovementSpeed, _screenPositionProcessedLast, _screenPositionProcessed);
+                var distanceFromStart = _screenPositionProcessed- _screenPositionStart;
+                _controlService.MoveCamera(cameraMovementSpeed, _screenPositionProcessedLast, _screenPositionProcessed, distanceFromStart);
+            }
+
+            if (!_activeTouch && _isClick)
+            {
+                Reset();
             }
         }
 
@@ -123,7 +192,6 @@ namespace Game.Services.Inputs.Microservice
             _time = 0;
             _isClick = false;
             _activeTouch = false;
-            _active = true;
             _screenSwipeSpeed = 0;
             _distanceOfStartEndTouch = 0;
         }
@@ -140,16 +208,6 @@ namespace Game.Services.Inputs.Microservice
             CheckRaycastHitCellDetector((int index) => { _cellsUpdateDetectors[index].OnClick();});
         }
         
-        private bool RayCastToUI()
-        {
-            var myObjectLayer = LayerMask.NameToLayer("UI");
-            int layerMask = 1 << myObjectLayer;
-            Ray ray = Service.mainCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out var hit, 100.0f, layerMask))
-                if (hit.point != Vector3.zero) return true;
-            return false;
-        }
-        
         private void CheckRaycastHitAddCellDetector(Action<int> action)
         {
             Ray ray = Service.mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -157,7 +215,10 @@ namespace Game.Services.Inputs.Microservice
                 if (hit.collider.CompareTag("AddCell"))
                 {
                     var obj = hit.collider.gameObject.GetInstanceID();
-                    if (_detectors.ContainsKey(obj)) action(obj);
+                    if (_detectors.ContainsKey(obj))
+                    {
+                        action(obj);
+                    }
                 }
         }
         
@@ -168,13 +229,12 @@ namespace Game.Services.Inputs.Microservice
                 if (hit.collider.CompareTag("Cell"))
                 {
                     var obj = hit.collider.gameObject.GetInstanceID();
-                    if (_cellsUpdateDetectors.ContainsKey(obj)) action(obj);
+                    if (_cellsUpdateDetectors.ContainsKey(obj))
+                    {
+                        action(obj);
+                    }
                 }
         }
-        
-        private void ExitMenuCall(MenuTypes obj)
-        {
-            _active = true;
-        }
+
     }
 }

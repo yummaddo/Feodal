@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 3436576248948745577}
   - component: {fileID: 1782307485763197795}
   - component: {fileID: 6958491682475515292}
+  - component: {fileID: 5332382598399102295}
   m_Layer: 5
   m_Name: CreateCellMenu
   m_TagString: Untagged
@@ -138,6 +139,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 4439407247021248780}
+  menuTypesOpenedCallBack: {fileID: 5332382598399102295}
+--- !u!114 &5332382598399102295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357919145629881874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1447a0a1b214362bfcd85dc3b6ebbdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2380949925264443494
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,8 +11,8 @@
             EditorGUI.BeginProperty(position, label, property);
 
             // Calculate rects
-            Rect resourceRect = new Rect(position.x, position.y, position.width * 0.6f, position.height);
-            Rect valueRect = new Rect(position.x + position.width * 0.65f, position.y, position.width * 0.35f, position.height);
+            Rect resourceRect = new Rect(position.x, position.y, position.width * 0.8f, position.height);
+            Rect valueRect = new Rect(position.x + position.width * 0.82f, position.y, position.width * 0.17f, position.height);
 
             // Get properties
             SerializedProperty resourceProperty = property.FindPropertyRelative("resource");

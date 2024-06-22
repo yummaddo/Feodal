@@ -619,6 +619,7 @@ GameObject:
   - component: {fileID: 6784850954863065696}
   - component: {fileID: 7115297556813432668}
   - component: {fileID: 309057196976848483}
+  - component: {fileID: 4293169773050187382}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -740,3 +741,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 7115297556813432668}
+  callBack: {fileID: 4293169773050187382}
+  menuTypesToClose: 1
+--- !u!114 &4293169773050187382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8942943740431787676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b8a2a345f8f4cfe8308cb08bb36d2bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

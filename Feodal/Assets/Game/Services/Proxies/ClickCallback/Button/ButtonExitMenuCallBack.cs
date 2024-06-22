@@ -8,8 +8,18 @@ namespace Game.Services.Proxies.ClickCallback.Button
     {
         public override void Initialization()
         {
-            MenuExitProvider.CallBackTunneling(this);
             StatusInit = true;
+            MenuTypesExitProvider.CallBackTunneling<ButtonExitMenuCallBack>(this);
+        }
+
+        protected override void OnButtonClick()
+        {
+            
+        }
+
+        public override Port GetPort()
+        {
+            return Porting.Type<ButtonExitMenuCallBack>();
         }
     }
 }

@@ -1,42 +1,71 @@
-﻿using Game.Core.DataStructures.Conditions.Abstraction.Trades;
+﻿using System.Reflection;
+using Game.Core.DataStructures.Conditions.Abstraction;
+using Game.Core.DataStructures.Conditions.Abstraction.Trades;
+using Game.Core.DataStructures.Editor;
 using Game.Core.DataStructures.Trades;
 using Game.Services.Storage.ResourcesRepository;
 using Game.Services.Storage.TechnologyRepositories;
+using UnityEditor;
 using UnityEngine;
 
 namespace Game.Core.DataStructures.Conditions.TradesConditions
 {
-
     [CreateAssetMenu(menuName = "Trade/Condition/ConditionTradeResourceResourceAmount")]
-    public class ConditionTradeResourceAmount : AbstractDataStructure<ITradeResourceCondition>, ITradeResourceCondition
+    public class ConditionTradeResourceAmount : ScriptableObject, ICondition
     {
-        [field:SerializeField]public ResourceCounter Resources { get; set; }
-        [field:SerializeField]public ResourceTrade ConnectedToDependency { get; set; }
+        [SerializeField] public ResourceTrade connectedToDependency;
         public ResourceTemp ResourceTemp { get; set; }
         public TechnologyTemp TechnologyTemp { get; set; }
-        
-        public string ConditionName => ConnectedToDependency.TradeName;
+        public string ConditionName => connectedToDependency.TradeName;
 
-        protected override ITradeResourceCondition CompareTemplate()
+        private string GetName()
         {
-            return this;
+            return ConditionName +$"{connectedToDependency.Value}_"+ GetDataResource();
         }
         public bool Status()
         {
             return true;
         }
+        private string GetDataResource()
+        {
+            string result = "";
+            foreach (var aResourceCounter in connectedToDependency.resourceAmountCondition) result += aResourceCounter.ToString();
+            return result;
+        }
         
         public void Initialization()
         {
         }
-        internal override string DataNamePattern => $"ConditionTrade_{ConnectedToDependency.TradeName}_{ConnectedToDependency.Value}_{Resources.resource.title}_{Resources.value}";
-
-        [ContextMenu("RenameAsset")]
-        public override void RenameAsset()
+        internal void RenameAsset()
         {
-            string assetPath = UnityEditor.AssetDatabase.GetAssetPath(this);
-            UnityEditor.AssetDatabase.RenameAsset(assetPath, DataNamePattern);
-            UnityEditor.AssetDatabase.SaveAssets();
+            string assetPath = AssetDatabase.GetAssetPath(this);
+            Debug.Log(GetName());
+            AssetDatabase.RenameAsset(assetPath, GetName());
+            AssetDatabase.SaveAssets();
         }
     }
+#if UNITY_EDITOR
+    namespace Game.Core.DataStructures.Editor
+    {
+        [CanEditMultipleObjects]
+        [CustomEditor(typeof(ConditionTradeResourceAmount))]
+        public class ConditionTradeResourceAmountEditor : UnityEditor.Editor 
+        {
+            private void OnEnable()
+            {
+            }
+            public override void OnInspectorGUI()
+            {
+                DrawDefaultInspector();
+                var targetTrade = (ConditionTradeResourceAmount)target;
+                if (GUILayout.Button("Validate"))
+                {
+                    targetTrade.RenameAsset();
+                }
+            }
+
+        }
+
+    }
+#endif
 }

@@ -1,29 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.Core;
 using Game.Core.Abstraction;
 using Game.Core.Cells;
 using Game.Core.DataStructures;
 using Game.Core.DataStructures.Trades;
+using Game.Core.DataStructures.UI.Data;
 using Game.Services.Proxies;
-using Game.Services.Proxies.ClickCallback.Abstraction;
+using Game.Services.Proxies.Abstraction;
+using Game.Services.Proxies.ClickCallback;
 using Game.Services.Proxies.Providers;
 using Game.Services.Storage.Abstraction;
 using Game.Services.Storage.Microservice;
+using UnityEngine;
 
 namespace Game.Services.Storage.ResourcesRepository
 {
     [System.Serializable]
-    public class ResourceTemp : Temp<ResourceEncoded, string, long>
+    public class ResourceTemp : Temp<ResourceEncoded, string, long>, IClickCallback<ResourceTempedCallBack>
     {
-        internal Dictionary<string, IResource> Resources;
+        internal Dictionary<string, IResource> Resources = new Dictionary<string, IResource>();
+        internal Dictionary<string, ResourceTrade> CommonToUniversalDataSet = new Dictionary<string, ResourceTrade>();
+        internal Dictionary<string, UIResource> CommonToUIResources = new Dictionary<string, UIResource>();
         private HashSet<ResourceTrade> _resourceTrades = new HashSet<ResourceTrade>();
         private HashSet<BuildingTrade> _buildingTrade = new HashSet<BuildingTrade>();
         private HashSet<TechnologyTrade> _technologyTrade = new HashSet<TechnologyTrade>();
         private HashSet<SeedTrade> _seedTrade = new HashSet<SeedTrade>();
-
         #region Internal Actions
-
         private event Action<ResourceTrade, int, bool> OnFailedResourceTrade;
         private event Action<BuildingTrade, int, bool> OnFailedBuildingTrade;
         private event Action<SeedTrade, int, bool> OnFailedSeedTrade;
@@ -32,18 +34,63 @@ namespace Game.Services.Storage.ResourcesRepository
         private event Action<BuildingTrade, int, bool> OnSuccessfullyBuildingTrade;
         private event Action<SeedTrade, int, bool> OnSuccessfullySeedTrade;
         private event Action<TechnologyTrade, int, bool> OnSuccessfullyTechnologyTrade;
-
         #endregion
-        private void FarmResource(CellResourcePackaging farmer) => ProvideAddAmounts(farmer.Resource, farmer.Value);
-        
-        internal void InjectionTrade(List<ResourceTrade> trades) { foreach (var trade in trades) _resourceTrades.Add(trade); }
-        internal void InjectionTrade(List<BuildingTrade> trades) { foreach (var trade in trades) _buildingTrade.Add(trade); }
-        internal void InjectionTrade(List<TechnologyTrade> trades) { foreach (var trade in trades) _technologyTrade.Add(trade); }
-        internal void InjectionTrade(List<SeedTrade> trades) { foreach (var trade in trades) _seedTrade.Add(trade); }
 
-        internal void InjectionInMicroservice(TradeMicroservice tradeMicroservice)
+        public Action<Port, ResourceTempedCallBack> OnClick { get; set; } = (port, callback) =>
         {
-            Proxy.Connect<ResourceFarmProvider, CellResourcePackaging>(FarmResource);
+            Debugger.Logger($"[{port}]=>callback:{callback.Resource.Title}=>{callback.Value}", ContextDebug.Session, Process.Update);
+        };
+        public bool IsInit { get; set; }
+        public GameObject TargetObject { get; set; }
+        
+        private void FarmResource(Port type, CellResourcePackaging farmer) => ProvideAddAmounts(farmer.Resource, farmer.Value);
+        internal void InjectionTrade(List<ResourceTrade> trades)
+        {
+            foreach (var trade in trades)
+            {
+                trade.Initialization(_tradeMicroservice);
+                _resourceTrades.Add(trade);
+                foreach (var resourceCounter in trade.resourceAmountCondition) CommonToUniversalDataSet.Add(resourceCounter.resource.Title,trade);
+            }
+        }
+        internal void InjectionTrade(List<BuildingTrade> trades)
+        {
+            foreach (var trade in trades)
+            {
+                trade.Initialization(_tradeMicroservice);
+                _buildingTrade.Add(trade);
+            }
+        }
+        internal void InjectionTrade(List<TechnologyTrade> trades)
+        {
+            foreach (var trade in trades)
+            {
+                trade.Initialization(_tradeMicroservice);
+                _technologyTrade.Add(trade);
+            }
+        }
+        internal void InjectionTrade(List<SeedTrade> trades)
+        {
+            foreach (var trade in trades)
+            {
+                trade.Initialization(_tradeMicroservice);
+                _seedTrade.Add(trade);
+            }
+        }
+        internal void InjectionResource(List<UIResource> resourcesUI)
+        {
+            foreach (var resourceUI in resourcesUI) 
+                CommonToUIResources.Add(resourceUI.resource.title, resourceUI);
+        }
+        private TradeMicroservice _tradeMicroservice;
+        internal void InjectionInMicroservice(TradeMicroservice tradeMicroservice,GameObject target)
+        {
+            DatabaseResourceProvider.CallBackTunneling<ResourceTempedCallBack>(this);
+            
+            _tradeMicroservice = tradeMicroservice;
+            OnEncodeChangeData = EncodeChange;
+            OnEncodeChangeElement = EncodeChangeElement;
+            Proxy.Connect<CellResourcePackagingProvider, CellResourcePackaging, CellResourceFarmer>(FarmResource);
             
             tradeMicroservice.InjectTrade(ResourceTradeByTradeMap);
             tradeMicroservice.InjectTrade(BuildingTradeByTradeMap);
@@ -59,12 +106,17 @@ namespace Game.Services.Storage.ResourcesRepository
             tradeMicroservice.InjectFailed(OnFailedBuildingTrade);
             tradeMicroservice.InjectFailed(OnFailedSeedTrade);
             tradeMicroservice.InjectFailed(OnFailedTechnologyTrade);
-            foreach (var trade in _resourceTrades) trade.Initialization(tradeMicroservice);
-            foreach (var trade in _buildingTrade) trade.Initialization(tradeMicroservice);
-            foreach (var trade in _technologyTrade) trade.Initialization(tradeMicroservice);
-            foreach (var trade in _seedTrade) trade.Initialization(tradeMicroservice);
         }
-
+        private void EncodeChange(string arg1, long arg2)
+        {
+        }
+        private void EncodeChangeElement(string arg1, ResourceEncoded resourceEncoded)
+        {
+            var title = arg1;
+            var resource = Resources[resourceEncoded.Title];
+            var value = Data[resourceEncoded];
+            OnClick?.Invoke(Porting.Type<ResourceTempedCallBack>(),new ResourceTempedCallBack(title, resource, value));
+        }
         internal void InjectResource(List<Resource> resources, ResourceRepository repository)
         {
             Resources = new Dictionary<string, IResource>();
@@ -76,7 +128,6 @@ namespace Game.Services.Storage.ResourcesRepository
                 Resources.Add(temped.Title, temped);
             }
         }
-
         #region ResourceTradeByTradeMap
         public void ResourceTradeByTradeMap(ResourceTrade trade, Dictionary<IResource, int> tradeMap,int amount, bool all = false)
         {
