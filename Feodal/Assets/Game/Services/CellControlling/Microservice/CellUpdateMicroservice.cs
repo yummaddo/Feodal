@@ -33,7 +33,6 @@ namespace Game.Services.CellControlling.Microservice
             Proxy.Connect<CellProvider, Cell, CellUpdatedDetector>( OnCellTryToUpdate);
             Proxy.Connect<CellProvider, Cell, CellUpdatedDetector>( OnCellSelected);
             
-            Proxy.Connect<CellContainerElementProvider, IUICellContainerElement,UIMenuBuilding>( OnBuildSelected);
         }
 
         private void OnBuildSelected(Port type,IUICellContainerElement obj)

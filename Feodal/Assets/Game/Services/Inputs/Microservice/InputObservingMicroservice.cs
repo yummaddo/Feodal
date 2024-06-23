@@ -61,7 +61,6 @@ namespace Game.Services.Inputs.Microservice
         }
         protected override void OnAwake()
         {
-            Proxy.Connect<MenuTypesExitProvider, MenuTypes, ButtonExitMenuCallBack>(ExitMenuCall);
             Proxy.Connect<CellAddDetectorProvider, CellAddDetector, CellAddDetector>(OpenMenuCall);
             Proxy.Connect<MenuTypesExitProvider, MenuTypes, ButtonExitMenuCallBack>(ExitMenuCallFormMenu);
             Proxy.Connect<MenuTypesOpenProvider, MenuTypes, ButtonOpenMenuCallBack>(OpenMenuCallFormMenu);
@@ -71,13 +70,11 @@ namespace Game.Services.Inputs.Microservice
         private void OpenMenuCallFormMenu(Port arg1, MenuTypes arg2)
         {
             if (arg2 == MenuTypes.Technology || arg2 == MenuTypes.TradeMenu)
-            {
                 _active = false;
-            }
         }
         private void ExitMenuCallFormMenu(Port arg1, MenuTypes arg2)
         {
-            if (arg2 == MenuTypes.Technology)
+            if (arg2 == MenuTypes.Technology || arg2 == MenuTypes.ContainerMenu)
             {
                 _active = true;
             }
@@ -85,11 +82,6 @@ namespace Game.Services.Inputs.Microservice
         private void OpenMenuCall(Port type, CellAddDetector obj)
         {
             _active = false;
-        }
-        
-        private void ExitMenuCall(Port type, MenuTypes obj)
-        {
-            _active = true;
         }
         public void AddDetector(CellAddDetector detector)
         {

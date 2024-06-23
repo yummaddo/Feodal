@@ -19,4 +19,3 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ec0988fe96e87a84c86390897db1d501, type: 2}
   - {fileID: 11400000, guid: b2f9c998787f74c4fb1851c122bd8738, type: 2}
   - {fileID: 11400000, guid: b0c096ac5fda54942a13f4893680cca0, type: 2}
-  spiteAtlas: {fileID: 11400000, guid: a37977486e50b404e91ecd5a0f0de91d, type: 2}

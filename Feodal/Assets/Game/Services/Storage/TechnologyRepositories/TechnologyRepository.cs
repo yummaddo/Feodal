@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using Game.Core.DataStructures.Technologies;
 using Game.Services.CellControlling;
+using Game.Services.Proxies;
+using Game.Services.Proxies.CallBackTrade;
+using Game.Services.Proxies.Providers.TradeProviders;
 using Game.Services.Storage.Abstraction;
 using Game.Services.Storage.ResourcesRepository;
 using UnityEngine;
@@ -21,6 +24,7 @@ namespace Game.Services.Storage.TechnologyRepositories
         internal void Injection(CellService service, List<Technology> resources)
         {
             _cellService = service;
+            Proxy.Connect<TechnologyTradeProvider, TechnologyTradeCallBack,TechnologyTradeCallBack>(OnTradeTechnology);
             List<TechnologyEncoded> data = new List<TechnologyEncoded>();
             foreach (var resource in resources)
             {
@@ -28,7 +32,14 @@ namespace Game.Services.Storage.TechnologyRepositories
             }
             Encodes = data;
         }
-        
+
+        public void OnTradeTechnology(Port port, TechnologyTradeCallBack callBack)
+        {
+            var newTech = callBack.TechnologyTrade.@into.Data.Title;
+            var encodedTech = temp.EncodeByIdentifier[newTech];
+            temp.SetAmount(encodedTech, newTech, true);
+        }
+
         public override bool ParseDecryptedValue(string[] decryptString)
         {
             try

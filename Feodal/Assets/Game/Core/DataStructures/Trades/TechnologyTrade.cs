@@ -10,7 +10,7 @@ namespace Game.Core.DataStructures.Trades
     [System.Serializable]
     public class TechnologyTrade : AbstractTrade<Technology,ResourceTrade>
     {
-        private TechnologyTradeMap _map;
+        internal TechnologyTradeMap Map;
         [SerializeField] internal Sprite sprite;
         [SerializeField] internal List<ResourceCounter> resourceAmountCondition;
         [SerializeField] public Technology into;
@@ -18,13 +18,13 @@ namespace Game.Core.DataStructures.Trades
         internal override void Initialization(TradeMicroservice microservice)
         {
             base.Initialization(microservice);
-            _map = new TechnologyTradeMap(this);
+            Map = new TechnologyTradeMap(this);
         }
-        public override bool IsTradAble() => TradeMicroservice.CanTrade(_map.GetAmount(1));
-        public override bool IsTradAble(int amount) => TradeMicroservice.CanTrade(_map.GetAmount(amount));
-        public override bool IsTradAbleAll() => TradeMicroservice.CanTrade(_map.GetAmount(1));
-        public override void TradeAmount(int amount) { TradeMicroservice.Trade(this, _map.GetAmount(amount), amount); }
-        public override void TradeAll() { TradeMicroservice.Trade(this,_map.GetAmount(1),1, true); }
-        public override void Trade() { TradeMicroservice.Trade(this,_map.GetAmount(1),1); }
+        public override bool IsTradAble() => TradeMicroservice.CanTrade(Map.GetAmount(1));
+        public override bool IsTradAble(int amount) => TradeMicroservice.CanTrade(Map.GetAmount(amount));
+        public override bool IsTradAbleAll() => TradeMicroservice.CanTrade(Map.GetAmount(1));
+        public override void TradeAmount(int amount) { TradeMicroservice.Trade(this, Map.GetAmount(amount), amount); }
+        public override void TradeAll() { TradeMicroservice.Trade(this,Map.GetAmount(1),1, true); }
+        public override void Trade() { TradeMicroservice.Trade(this,Map.GetAmount(1),1); }
     }
 }

@@ -10,15 +10,18 @@ namespace Game.Core.DataStructures.Trades.Map
         public SeedTradeMap( SeedTrade trade, TradeMicroservice microservice )
         {
             this.trade = trade;
+            int indexation = 1;
             foreach (var counters in trade.resourceAmountCondition)
             {
+                trade.Trades.Add(indexation, counters);
                 counters.Initialization(microservice);
+                indexation++;
             }
         }
 
         public ResourceTrade GetTradeByStage(int index)
         {
-            return trade.resourceAmountCondition[index];
+            return trade.resourceAmountCondition[index-1];
         }
 
         public override MapValue<Resource> Into { get; protected set; }

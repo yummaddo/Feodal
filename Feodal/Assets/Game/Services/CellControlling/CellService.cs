@@ -24,6 +24,7 @@ namespace Game.Services.CellControlling
 
         public event Action<Cell, List<ICellPosition>> OnCellAdded;
         public event Action<ICellState, ICellState, Cell> OnCellChange;
+        public event Action<CellMap> OnCellMapInitial;
         public event Action<Cell> OnCellCreate;
         public event Action<Cell> OnCellDestroy; 
 
@@ -106,6 +107,10 @@ namespace Game.Services.CellControlling
                 _freeCellTransform.Add(position.CellHexCoord, obj);
             }
         }
-        
+
+        internal void CellMapInitial(CellMap obj)
+        {
+            OnCellMapInitial?.Invoke(obj);
+        }
     }
 }

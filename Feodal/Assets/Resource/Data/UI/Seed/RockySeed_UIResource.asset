@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a41808736a149aaa4f6b4b83d63e5ee, type: 3}
+  m_Name: RockySeed_UIResource
+  m_EditorClassIdentifier: 
+  resourceImage: {fileID: 21300000, guid: 3db2f6652ace15f479c1fe7f19c211ae, type: 3}
+  resource: {fileID: 11400000, guid: 8dd0281a03ec5a9409e4bfaaf40f3534, type: 2}
+  resourceRareImage: {fileID: 11400000, guid: cdff0a084f499884f925d22d76aba6c9, type: 2}

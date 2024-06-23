@@ -26,11 +26,16 @@ namespace Game.Services.Proxies.ClickCallback.Button
         
         public override void Initialization()
         {
-            if (isUniversal) { UniversalResourceProvider.CallBackTunneling<IResource>( this); }
-            else { ResourceProvider.CallBackTunneling<IResource>( this); }
+            if (isUniversal)
+            {
+                UniversalResourceProvider.CallBackTunneling<IResource>( this);
+            }
+            else
+            {
+                ResourceProvider.CallBackTunneling<IResource>( this);
+            }
             StatusInit = true;
-            
-            DataInitialization(resource.Data);
+             DataInitialization(resource.Data);
         }
     }
 }

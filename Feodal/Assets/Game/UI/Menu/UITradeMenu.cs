@@ -1,4 +1,6 @@
 ﻿using Game.Core.Abstraction;
+using Game.Core.Abstraction.UI;
+using Game.Core.Typing;
 using Game.Meta;
 using Game.Services.Proxies;
 using Game.Services.Proxies.ClickCallback.Button;
@@ -14,6 +16,7 @@ namespace Game.UI.Menu
     public class UITradeMenu : MonoBehaviour
     {
         [SerializeField] private UITradeListController controller;
+        [SerializeField] private GameObject root;
         private void Awake()
         {
             SessionStateManager.Instance.OnSceneAwakeMicroServiceSession += OnSceneAwakeMicroServiceSession;
@@ -22,18 +25,36 @@ namespace Game.UI.Menu
         {
             Proxy.Connect<UIListResourceElementProvider, UIResourceListElement, UIResourceListElement>(OnClickedBySimpleResource);
             Proxy.Connect<UITechnologyElementProvider, UITechnologyListElement, UITechnologyListElement>(OnClickedByTechnology);
+            Proxy.Connect<CellContainerElementProvider, IUICellContainerElement, UIMenuBuilding>( OnBuildSelected);
 
             
             Proxy.Connect<MenuTypesExitProvider, MenuTypes, ButtonExitMenuCallBack>(OnClickedByMenuExit);
             Proxy.Connect<MenuTypesOpenProvider, MenuTypes, ButtonOpenMenuCallBack>(OnClickedByMenuOpen);
         }
+
+        private void OnBuildSelected(Port port, IUICellContainerElement element)
+        {
+            root.SetActive(true);
+            controller.ViewBuilding(element);
+        }
+
         private void OnClickedBySimpleResource(Port port,UIResourceListElement element)
         {
-            controller.View(element);
+            if (element.type == ResourceType.Seed)
+            {
+                root.SetActive(true);
+                controller.ViewSeed(element);
+            }
+            else
+            {
+                root.SetActive(true);
+                controller.ViewResource(element);
+            }
         }
-        private void OnClickedByTechnology(Port port,UITechnologyListElement listElement)
+        private void OnClickedByTechnology(Port port,UITechnologyListElement element)
         {
-            controller.View(listElement);
+            root.SetActive(true);
+            controller.ViewTechnology(element);
         }
         
         private void OnClickedByMenuExit(Port type, MenuTypes obj)
@@ -53,6 +74,7 @@ namespace Game.UI.Menu
         private void CloseMenu()
         {
             controller.Clear();
+            root.SetActive(false);
         }
     }
 }

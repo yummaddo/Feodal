@@ -8,6 +8,7 @@ using Game.Core.DataStructures;
 using Game.Services.CellControlling;
 using Game.Services.Proxies;
 using Game.Services.Proxies.ClickCallback;
+using Game.Services.Proxies.ClickCallback.Button;
 using Game.Services.Proxies.ClickCallback.Simple;
 using Game.Services.Storage;
 using Game.Services.Storage.MapCellsRepository;
@@ -30,7 +31,6 @@ namespace Game.Core
         private List<Cell> _hexCells;
         private List<HexCoords> _hexIdentifier;
         private CellService _service;
-        
         private Dictionary<string, ICellContainer> _cellContainers;
         private Dictionary<string, ICellState> _cellStates;
         private Dictionary<HexCoords, Cell> _hexCellsIdentifier;
@@ -45,8 +45,11 @@ namespace Game.Core
             foreach (var container in containers)
             {
                 _cellContainers.Add(container.containerName, container.Data);
-                foreach (var state in container.states) _cellStates.Add(state.externalName, state.Data);
+                
+                foreach (var state in container.states) 
+                    _cellStates.Add(state.externalName, state.Data);
             }
+
         }
 
         public void InitCellMap(CellService service)
@@ -82,6 +85,7 @@ namespace Game.Core
                 }
                 else LoadContainerFromMapDatabase(mapKey.Key, container);
             }
+            _service.CellMapInitial(this);
         }
 
         private void LoadContainerFromMapDatabase(MapCellEncoded encoded, ICellContainer container)
@@ -145,7 +149,7 @@ namespace Game.Core
                 UpdateMap(addable);
             
             _service.CellAdded(addable, FindFreeCoordsList(), invocation);
-            closeCallBackMenuTypesClose.OnCallBackInvocation?.Invoke(Porting.Type<CellMap>(),MenuTypes.ContainerMenu);
+            closeCallBackMenuTypesClose.OnCallBackInvocation?.Invoke(Porting.Type<ButtonExitMenuCallBack>(),MenuTypes.ContainerMenu);
         }
     }
 }

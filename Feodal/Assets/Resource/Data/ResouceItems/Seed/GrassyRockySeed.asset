@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: GrassyRockySeed
   type: 7
-  rare: 0
+  rare: 1
   quantity: 1
+  image: {fileID: 21300000, guid: d320925ae3737244cb240de34a816bcf, type: 3}
   dependentStates:
   - {fileID: 11400000, guid: 95235e4d992667b489ee0269f6a2aa10, type: 2}
   - {fileID: 11400000, guid: 1d1721e4c8e7df446aebdbc8ee84b31e, type: 2}

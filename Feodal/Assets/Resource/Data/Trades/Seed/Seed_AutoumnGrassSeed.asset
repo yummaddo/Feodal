@@ -36,4 +36,4 @@ MonoBehaviour:
       Into: {fileID: 11400000, guid: 1f6f8f81dce7e6d48b33a53a41977ab6, type: 2}
       Value: 1
     stages: 3
-    currentStage: 3
+    currentStage: 1

@@ -33,6 +33,7 @@ namespace Game.Services.Storage
         public event Action OnResourceRepositoryInit;
         public event Action OnCellsMapRepositoryInit;
         public event Action OnTechnologyRepositoryInit;
+        public event Action OnInit;
         [Header("Repositories")]
         [SerializeField] private MapCellRepository cellsMapRepository;
         [SerializeField] private ResourceRepository resourceRepository;
@@ -49,6 +50,7 @@ namespace Game.Services.Storage
         protected override void OnStart()
         {
             InjectRepository();
+            OnInit?.Invoke();
         }
         private void InjectRepository()
         {

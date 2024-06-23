@@ -22,17 +22,31 @@ namespace Game.UI.Menu.TechnologyMenu
         {
             _controller = controller;
         }
+
+        public void UpdateValue(Technology newTechnology)
+        {
+            this.technology = newTechnology;
+            image.sprite = newTechnology.Trade.sprite;
+            text.text = newTechnology.Title;
+            status = this.technology.Status();
+        }
         private void OnEnable()
         {
-            click.onClick.AddListener(ButtonCall);
-            OnButtonCallActive += _controller.TechnologyElementActiveCall;
-            OnButtonCallDisable += _controller.TechnologyElementDisabledCall;
+            if (_controller)
+            {
+                click.onClick.AddListener(ButtonCall);
+                OnButtonCallActive += _controller.TechnologyElementActiveCall;
+                OnButtonCallDisable += _controller.TechnologyElementDisabledCall;
+            }
         }
         private void OnDisable()
         {
-            click.onClick.RemoveListener(ButtonCall);
-            OnButtonCallActive -= _controller.TechnologyElementActiveCall;
-            OnButtonCallDisable -= _controller.TechnologyElementDisabledCall;
+            if (_controller)
+            {
+                click.onClick.RemoveListener(ButtonCall);
+                OnButtonCallActive -= _controller.TechnologyElementActiveCall;
+                OnButtonCallDisable -= _controller.TechnologyElementDisabledCall;
+            }
         }
         private void ButtonCall()
         {

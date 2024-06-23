@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Game.Core;
 using Game.Core.Abstraction;
 using Game.Core.Cells;
+using Game.Core.DataStructures.Trades;
 using Game.Services.Proxies.ClickCallback;
 using Game.Services.Proxies.ClickCallback.Button;
 using Game.Services.Storage.ResourcesRepository;
@@ -24,7 +25,7 @@ namespace Game.Services.Proxies
             {typeof(CellAddDetector), Port.Port1},
             {typeof(CellUpdatedDetector), Port.Port2},
             {typeof(CellResourceFarmer), Port.Port3},
-            
+            //
             {typeof(ResourceTempedCallBack), Port.Port3},
             // SimpleCellResourcePackagingCallBack
             // SimpleMenuTypesCloseCallBack
@@ -34,14 +35,18 @@ namespace Game.Services.Proxies
             //
             {typeof(UIResourceListElement), Port.TradeResource},
             {typeof(UITechnologyListElement), Port.TradeResource},
-            
+            //
             {typeof(UIMenuContainer), Port.Port2},
             {typeof(UIMenuResource), Port.Port2},
             {typeof(UIMenuBuilding), Port.Port2},
-            
+            //
             {typeof(ButtonExitMenuCallBack), Port.ButtonExitMenu},
             {typeof(ButtonOpenMenuCallBack), Port.ButtonOpenMenu},
-
+            //
+            {typeof(BuildingTrade), Port.Trade},
+            {typeof(SeedTrade), Port.Trade},
+            {typeof(ResourceTrade), Port.Trade},
+            {typeof(TechnologyTrade), Port.Trade},
         };
         /// <summary>
         /// Retrieves the port associated with the specified type.
@@ -63,7 +68,7 @@ namespace Game.Services.Proxies
     public enum Port
     {
         TradeResource,
-        
+        Trade,
         PortDefault,
         ButtonExitMenu,
         ButtonOpenMenu,

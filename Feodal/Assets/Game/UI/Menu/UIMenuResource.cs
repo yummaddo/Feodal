@@ -1,5 +1,6 @@
 ﻿using System;
 using Game.Core.Abstraction;
+using Game.Core.Typing;
 using Game.Meta;
 using Game.Services.Proxies;
 using Game.Services.Proxies.ClickCallback.Button;
@@ -13,7 +14,6 @@ namespace Game.UI.Menu
     public class UIMenuResource : MonoBehaviour
     {
         [SerializeField] private UIResourceListController controller;
-
         public Transform target;
         private void Awake()
         {
@@ -22,7 +22,7 @@ namespace Game.UI.Menu
         }
         private void OnSceneAwakeMicroServiceSession()
         {
-            Proxy.Connect<UniversalResourceProvider, IResource,UIMenuResource>(OnClickedByUniversalResource);
+            Proxy.Connect<UniversalResourceProvider, IResource, UIMenuResource>(OnClickedByUniversalResource);
             Proxy.Connect<MenuTypesExitProvider, MenuTypes, ButtonExitMenuCallBack>(OnClickedByMenuExit);
         }
         private void CloseMenu()

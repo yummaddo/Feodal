@@ -26,7 +26,6 @@ namespace Game.Meta
         /// Indicates whether the microservice session has been initialized.
         /// </summary>
         internal bool IsMicroServiceSessionInit = false;
-        
         /// <summary>
         /// Initializes the session state manager and triggers the awake lifecycle events.
         /// </summary>

@@ -11,17 +11,21 @@ namespace Game.Core.DataStructures.UI.Data
         public Resource resource;
         public Sprite resourceImage;
         public ItemRareSpiteAtlas resourceRareImage;
+        
+        public IResource Resource { get; set; }
+        public Sprite ResourceImage { get; set; }
+        public ItemRareSpiteAtlas ResourceRareImage { get; set; }
+        public string Title { get; set; }
+
         protected override IUIResource CompareTemplate()
         {
             ResourceImage = resourceImage;
             ResourceRareImage = resourceRareImage;
             Resource = resource.Data;
+            Title = resource.title;
             return this;
         }
-        public IResource Resource { get; set; }
-        public Sprite ResourceImage { get; set; }
-        public ItemRareSpiteAtlas ResourceRareImage { get; set; }
-        public string Title { get; set; }
+
         internal override string DataNamePattern => $"{resource.title}_UIResource";
     }
 }

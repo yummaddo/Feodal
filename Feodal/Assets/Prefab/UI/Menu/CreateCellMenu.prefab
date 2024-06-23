@@ -214,14 +214,14 @@ MonoBehaviour:
   scrollDirection: 1
   movementType: 1
   elasticity: 0.1
-  scrollSensitivity: 7.63
+  scrollSensitivity: 4.23
   inertia: 1
   decelerationRate: 0.03
   snap:
     Enable: 1
     VelocityThreshold: 0.5
     Duration: 0.35
-    Easing: 24
+    Easing: 25
   draggable: 1
   scrollbar: {fileID: 0}
 --- !u!1 &3200104777585211766

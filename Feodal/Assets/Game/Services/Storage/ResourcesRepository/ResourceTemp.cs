@@ -19,8 +19,12 @@ namespace Game.Services.Storage.ResourcesRepository
     public class ResourceTemp : Temp<ResourceEncoded, string, long>, ICallBack<ResourceTempedCallBack>
     {
         internal Dictionary<string, IResource> Resources = new Dictionary<string, IResource>();
-        internal Dictionary<string, ResourceTrade> CommonToUniversalDataSet = new Dictionary<string, ResourceTrade>();
+        internal Dictionary<string, ResourceTrade> GetResourceTrade = new Dictionary<string, ResourceTrade>();
+        internal Dictionary<string, SeedTrade> GetSeedTrade = new Dictionary<string, SeedTrade>();
+        internal Dictionary<string, BuildingTrade> GetBuildingTrade = new Dictionary<string, BuildingTrade>();
+        
         internal Dictionary<string, UIResource> CommonToUIResources = new Dictionary<string, UIResource>();
+        
         private HashSet<ResourceTrade> _resourceTrades = new HashSet<ResourceTrade>();
         private HashSet<BuildingTrade> _buildingTrade = new HashSet<BuildingTrade>();
         private HashSet<TechnologyTrade> _technologyTrade = new HashSet<TechnologyTrade>();
@@ -50,7 +54,7 @@ namespace Game.Services.Storage.ResourcesRepository
             {
                 trade.Initialization(_tradeMicroservice);
                 _resourceTrades.Add(trade);
-                foreach (var resourceCounter in trade.resourceAmountCondition) CommonToUniversalDataSet.Add(resourceCounter.resource.Title,trade);
+                foreach (var resourceCounter in trade.resourceAmountCondition) GetResourceTrade.Add(resourceCounter.resource.Title,trade);
             }
         }
         internal void InjectionTrade(List<BuildingTrade> trades)
@@ -59,6 +63,7 @@ namespace Game.Services.Storage.ResourcesRepository
             {
                 trade.Initialization(_tradeMicroservice);
                 _buildingTrade.Add(trade);
+                GetBuildingTrade.Add(trade.Into.Data.ExternalName, trade);
             }
         }
         internal void InjectionTrade(List<TechnologyTrade> trades)
@@ -75,6 +80,7 @@ namespace Game.Services.Storage.ResourcesRepository
             {
                 trade.Initialization(_tradeMicroservice);
                 _seedTrade.Add(trade);
+                GetSeedTrade.Add(trade.into.title, trade);
             }
         }
         internal void InjectionResource(List<UIResource> resourcesUI)
@@ -91,21 +97,11 @@ namespace Game.Services.Storage.ResourcesRepository
             
             DatabaseResourceProvider.CallBackTunneling<ResourceTempedCallBack>(this);
             Proxy.Connect<CellResourcePackagingProvider, CellResourcePackaging, CellResourceFarmer>(FarmResource);
-            
-            tradeMicroservice.InjectTrade(ResourceTradeByTradeMap);
-            tradeMicroservice.InjectTrade(BuildingTradeByTradeMap);
-            tradeMicroservice.InjectTrade(TechnologyTradeByTradeMap);
-            tradeMicroservice.InjectTrade(SeedTradeByTradeMap);
 
-            tradeMicroservice.InjectSuccessfully(OnSuccessfullyResourceTrade);
-            tradeMicroservice.InjectSuccessfully(OnSuccessfullyBuildingTrade);
-            tradeMicroservice.InjectSuccessfully(OnSuccessfullySeedTrade);
-            tradeMicroservice.InjectSuccessfully(OnSuccessfullyTechnologyTrade);
-            tradeMicroservice.InjectFailed(OnFailedResourceTrade);
-
-            tradeMicroservice.InjectFailed(OnFailedBuildingTrade);
-            tradeMicroservice.InjectFailed(OnFailedSeedTrade);
-            tradeMicroservice.InjectFailed(OnFailedTechnologyTrade);
+            tradeMicroservice.OnTryResourceTrade += ResourceTradeByTradeMap;
+            tradeMicroservice.OnTryBuildingTrade += BuildingTradeByTradeMap;
+            tradeMicroservice.OnTryTechnologyTrade += TechnologyTradeByTradeMap;
+            tradeMicroservice.OnTrySeedTrade += SeedTradeByTradeMap;
         }
         private void EncodeChange(string arg1, long arg2)
         {
@@ -132,36 +128,59 @@ namespace Game.Services.Storage.ResourcesRepository
         public void ResourceTradeByTradeMap(ResourceTrade trade, Dictionary<IResource, int> tradeMap,int amount, bool all = false)
         {
             int amountResource = TradeResource(tradeMap, amount, all);
-            if (amountResource != 0) OnSuccessfullyResourceTrade?.Invoke(trade, amount, all);
-            else OnFailedResourceTrade?.Invoke(trade, amount, all);
+            if (amountResource != 0)
+            {
+                _tradeMicroservice.SuccessfullyInvoke(trade, amount, all);
+                ProvideAddAmounts(trade.Into.Data, amountResource);
+            }
+            else _tradeMicroservice.FailedInvoke(trade, amount, all);
         }
         public void BuildingTradeByTradeMap(BuildingTrade trade, Dictionary<IResource, int> tradeMap, int amount, bool all = false)
         {
             var amountResource = TradeResource(tradeMap, amount, all);
-            if (amountResource != 0) OnSuccessfullyBuildingTrade?.Invoke(trade, amount, all);
-            else OnFailedBuildingTrade?.Invoke(trade, amount, all);
+            if (amountResource != 0)
+            {
+                _tradeMicroservice.SuccessfullyInvoke(trade, amount, all);
+                // ProvideAddAmounts(trade.Into)
+            }
+            else _tradeMicroservice.FailedInvoke(trade, amount, all);
         }
         public void TechnologyTradeByTradeMap(TechnologyTrade trade, Dictionary<IResource, int> tradeMap,int amount, bool all = false)
         {
             int amountResource = TradeResource(tradeMap, amount, all);
-            if (amountResource != 0) OnSuccessfullyTechnologyTrade?.Invoke(trade, amount, all);
-            else OnFailedTechnologyTrade?.Invoke(trade, amount, all);
+            if (amountResource != 0)
+            {
+                _tradeMicroservice.SuccessfullyInvoke(trade, amount, all);
+            }
+            else _tradeMicroservice.FailedInvoke(trade, amount, all);
         }
         public void SeedTradeByTradeMap(SeedTrade trade, Dictionary<IResource, int> tradeMap,int amount, bool all = false)
         {
             int amountResource = TradeResource(tradeMap, amount, all);
-            if (amountResource != 0) OnSuccessfullySeedTrade?.Invoke(trade, amount, all);
-            else OnFailedSeedTrade?.Invoke(trade, amount, all);
+            if (amountResource != 0)
+            {
+                _tradeMicroservice.SuccessfullyInvoke(trade, amount, all);
+                ProvideAddAmounts(trade.@into.Data, 1);
+                trade.stages++;
+            }
+            else _tradeMicroservice.FailedInvoke(trade, amount, all);
         }
         #endregion
         private int TradeResource(Dictionary<IResource, int> tradeMap, int amount, bool all = false)
         {
-            if (!CanTradeResource(tradeMap)) return 0;
-            if (all) return TradeAll(tradeMap);
-            foreach (var tradeMapElement in tradeMap)
+            if (all) 
+                return TradeAll(tradeMap);
+            int resultAmount = 0;
+            for (int iter = 0; iter < amount; iter++)
             {
+                if (!CanTradeResource(tradeMap)) 
+                    return 0;
+                foreach (var tradeMapElement in tradeMap)
+                    ProvidePayAmounts(tradeMapElement.Key, tradeMapElement.Value);
+                resultAmount++;
             }
-            return 0;
+            Debug.Log($"Result TradeResource: {resultAmount}");
+            return resultAmount;
         }
         private bool CanTradeResource(Dictionary<IResource, int> tradeMap)
         {
@@ -183,6 +202,12 @@ namespace Game.Services.Storage.ResourcesRepository
             foreach (var tradeMapElement in tradeMap) ProvidePayAmounts(tradeMapElement.Key, tradeMapElement.Value * max);
             return max;
         }
+
+        internal long GetValueAmount(string resource)
+        {
+            return GetAmount(resource);
+        }
+
         internal int MaxTradeAmount(Dictionary<IResource, int> trade)
         {
             long maxAmount = 0;
@@ -191,7 +216,9 @@ namespace Game.Services.Storage.ResourcesRepository
             {
                 var value = GetAmount(tradeEntry.Key.Title);
                 var startPrice = tradeEntry.Value;
-                var resource = value / startPrice;
+                long resource = 1;
+                if (startPrice != 0)
+                    resource = (long)(value / (long)startPrice);
                 maxAmount = iteration == 0 ? resource : Math.Min(maxAmount, resource);
                 iteration++;
             }

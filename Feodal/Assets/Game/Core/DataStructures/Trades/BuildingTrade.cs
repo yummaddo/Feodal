@@ -17,7 +17,7 @@ namespace Game.Core.DataStructures.Trades
         [SerializeField] public int Value;
         
         private CellService _cellService;
-        private BuildingTradeMap _map;
+        internal BuildingTradeMap Map;
 
         public override string TradeName => Into.externalName;
         
@@ -27,14 +27,14 @@ namespace Game.Core.DataStructures.Trades
         internal override void Initialization(TradeMicroservice microservice)
         {
             base.Initialization(microservice);
-            _map = new BuildingTradeMap(this);
+            Map = new BuildingTradeMap(this);
         }
         public int CellStateQuantity() => _cellService.cellMap.GetCountOfCellState(Into.Data);
-        public override bool IsTradAble() => TradeMicroservice.CanTrade(_map.GetAmount(1));
-        public override bool IsTradAble(int amount) => TradeMicroservice.CanTrade(_map.GetAmount(amount));
-        public override bool IsTradAbleAll() => TradeMicroservice.CanTrade(_map.GetAmount(1));
-        public override void TradeAmount(int amount) { TradeMicroservice.Trade(this, _map.GetAmount(amount), amount); }
-        public override void TradeAll() { TradeMicroservice.Trade(this,_map.GetAmount(1),1, true); }
-        public override void Trade() { TradeMicroservice.Trade(this,_map.GetAmount(1),1); }
+        public override bool IsTradAble() => TradeMicroservice.CanTrade(Map.GetAmount(1));
+        public override bool IsTradAble(int amount) => TradeMicroservice.CanTrade(Map.GetAmount(amount));
+        public override bool IsTradAbleAll() => TradeMicroservice.CanTrade(Map.GetAmount(1));
+        public override void TradeAmount(int amount) { TradeMicroservice.Trade(this, Map.GetAmount(amount), amount); }
+        public override void TradeAll() { TradeMicroservice.Trade(this,Map.GetAmount(1),1, true); }
+        public override void Trade() { TradeMicroservice.Trade(this,Map.GetAmount(1),1); }
     }
 }

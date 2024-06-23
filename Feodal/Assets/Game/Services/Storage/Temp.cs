@@ -69,6 +69,12 @@ namespace Game.Services.Storage
             OnEncodeChangeData?.Invoke(identifier,Data[EncodeByIdentifier[identifier]]);
             OnEncodeChangeElement?.Invoke(identifier,EncodeByIdentifier[identifier]);
         }
+        internal void SetAmount(TEncoded encoded,TEncodedIdentifier identifier, TData value)
+        {
+            Data[encoded] = value;
+            OnEncodeChangeData?.Invoke(identifier,Data[encoded]);
+            OnEncodeChangeElement?.Invoke(identifier,encoded);
+        }
         /// <summary>
         /// Injection dependency
         /// </summary>

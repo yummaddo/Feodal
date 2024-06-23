@@ -17,11 +17,12 @@ namespace Game.Core.DataStructures.Trades
     {
         [SerializeField] public Seed into;
         [SerializeField] internal List<ResourceTrade> resourceAmountCondition = new List<ResourceTrade>();
-            [SerializeField] internal int stages = 0;
+        [SerializeField] internal int stages = 0;
         [SerializeField] internal int currentStage = 0;
-        
+        internal Dictionary<int, ResourceTrade> Trades = new Dictionary<int, ResourceTrade>();
+
         private CellService _cellService;
-        private SeedTradeMap _map;
+        internal SeedTradeMap Map;
         public override string TradeName => ToString();
         internal int CellQuantity()
         {
@@ -38,9 +39,10 @@ namespace Game.Core.DataStructures.Trades
         internal override void Initialization(TradeMicroservice microservice)
         {
             base.Initialization(microservice);
-            _map = new SeedTradeMap(this,TradeMicroservice);
+            Map = new SeedTradeMap(this,TradeMicroservice);
         }
-        protected ResourceTradeMap GetCurrentStageMap() => _map.GetTradeByStage(CellQuantity()).Map;
+
+        protected ResourceTradeMap GetCurrentStageMap() => Map.GetTradeByStage(CellQuantity()).Map;
         public override bool IsTradAble() => TradeMicroservice.CanTrade(GetCurrentStageMap().GetAmount(1));
         public override bool IsTradAble(int amount) => TradeMicroservice.CanTrade(GetCurrentStageMap().GetAmount(amount));
         public override bool IsTradAbleAll() => TradeMicroservice.CanTrade(GetCurrentStageMap().GetAmount(1));

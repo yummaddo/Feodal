@@ -15,13 +15,16 @@ namespace Game.UI.Menu.ResourceListMenu
     public class UIResourceListController : MonoBehaviour
     {
         [SerializeField] private List<UIResourcesList> resourcesLists;
+        [SerializeField] private UISeedList seedListsSeed;
+        [SerializeField] private GameObject seedListsTarget;
+        [SerializeField] private GameObject target;
+        [SerializeField] private GameObject templateUIResource;
         internal Dictionary<IResource,UIResourcesList> ResourcesListCompare;
-        public int itemInListRoot = 4;
+        [Range(1,10)]public int itemInListRoot = 4;
         public List<Transform> targetsListRoot;
-        public GameObject templateUIResource;
-        public List<GameObject> temp = new List<GameObject>();
-        public List<GameObject> tempController = new List<GameObject>();
-        public List<UIResourceListElement> tempControllerElements;
+        internal List<GameObject> temp = new List<GameObject>();
+        internal List<GameObject> tempController = new List<GameObject>();
+        internal List<UIResourceListElement> tempControllerElements;
         internal event Action OnTradeFindAndProcessed;
         private void Awake()
         {
@@ -32,6 +35,7 @@ namespace Game.UI.Menu.ResourceListMenu
         }
         private void OnSceneAwakeMicroServiceSession()
         {
+            tempControllerElements = new List<UIResourceListElement>();
             Proxy.Connect<DatabaseResourceProvider,ResourceTempedCallBack,ResourceTempedCallBack>(SomeResourceUpdate);
         }
         private void SomeResourceUpdate(Port port,ResourceTempedCallBack callBack)
@@ -40,37 +44,51 @@ namespace Game.UI.Menu.ResourceListMenu
             {
                 foreach (var element in tempControllerElements)
                     if (element.TryUpdate(callBack.Resource, callBack.Value))
-                    {
-                        OnTradeFindAndProcessed?.Invoke();
-                        break;
-                    }
+                    { OnTradeFindAndProcessed?.Invoke(); break; }
             }
         }
         internal void Clear()
         {
             foreach (var obj in temp)
-            {
                 Destroy(obj);
-            }
             foreach (var list in targetsListRoot)
-            {
                 list.gameObject.SetActive(false);
-            }
             tempControllerElements.Clear();
         }
+        
+        public void ViewSeedList()
+        {            
+            target.SetActive(true);
+            Clear();
+            int countOfResource = seedListsSeed.seeds.Count;
+            for (int i = 1; i <= countOfResource; i++)
+                CreateNewListElements(i,seedListsSeed);
+        }
+        
         internal void ViewList(UIResourcesList resourcesList)
         {
+            target.SetActive(true);
             int countOfResource = resourcesList.resources.Count;
             for (int i = 1; i <= countOfResource; i++)
-            {
-                int currentElementOfList = i / itemInListRoot;
-                targetsListRoot[currentElementOfList].gameObject.SetActive(true);
-                var newElementInList = Instantiate( templateUIResource, targetsListRoot[currentElementOfList] );
-                temp.Add(newElementInList);
-                var newElementController = newElementInList.GetComponent<UIResourceListElement>();
-                tempControllerElements.Add(newElementController);
-                newElementController.UpdateData(resourcesList.resources[i-1]);
-            }
+                CreateNewListElements(i,resourcesList);
+        }
+        private void CreateNewListElements(int i, UISeedList list)
+        {
+            var newElementInList = Instantiate(templateUIResource, seedListsTarget.transform);
+            temp.Add(newElementInList);
+            var newElementController = newElementInList.GetComponent<UIResourceListElement>();
+            tempControllerElements.Add(newElementController);
+            newElementController.UpdateData(list.seeds[i-1]);
+        }
+        private void CreateNewListElements(int i, UIResourcesList list)
+        {
+            int currentElementOfList = i / itemInListRoot;
+            targetsListRoot[currentElementOfList].gameObject.SetActive(true);
+            var newElementInList = Instantiate(templateUIResource, targetsListRoot[currentElementOfList]);
+            temp.Add(newElementInList);
+            var newElementController = newElementInList.GetComponent<UIResourceListElement>();
+            tempControllerElements.Add(newElementController);
+            newElementController.UpdateData(list.resources[i - 1]);
         }
     }
 }

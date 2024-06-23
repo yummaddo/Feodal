@@ -35,6 +35,13 @@ namespace Game.Core.DataStructures.Editor
         [CanEditMultipleObjects]
         [CustomEditor(typeof(UIResourcesList))]
         public class UIResourcesListEditor : AbstractDataStructureEditor<UIResourcesList, IUIResourceList> { }
+        
+        [CanEditMultipleObjects]
+        [CustomEditor(typeof(UISeedList))]
+        public class UISeedListEditor : AbstractDataStructureEditor<UISeedList, IUIResourceList> { }
+        [CanEditMultipleObjects]
+        [CustomEditor(typeof(UISeed))]
+        public class UISeedEditor : AbstractDataStructureEditor<UISeed, UISeed> { }
         #endregion
     }
 #endif
