@@ -74,7 +74,7 @@ namespace Game.Services.Storage
         /// </summary>
         internal virtual void Injection()
         {
-            CellService = SessionStateManager.Instance.Container.Resolve<CellService>();
+            CellService = SessionStateManager.Instance.ServiceLocator.Resolve<CellService>();
         }
 
         internal bool Contains(TEncodedIdentifier identifier)

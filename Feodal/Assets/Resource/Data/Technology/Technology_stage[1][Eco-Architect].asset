@@ -16,6 +16,7 @@ MonoBehaviour:
   <CurrentStatus>k__BackingField: 0
   <Title>k__BackingField: Eco-Architect
   <Trade>k__BackingField:
+    sprite: {fileID: 21300000, guid: c7c37848356fa1f449befa931af162cc, type: 3}
     resourceAmountCondition:
     - resource: {fileID: 11400000, guid: db64404f0b537524c85e1c7800e85631, type: 2}
       value: 200

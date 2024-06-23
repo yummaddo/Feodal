@@ -63,12 +63,30 @@ namespace Game.Services.Inputs.Microservice
         {
             Proxy.Connect<MenuTypesExitProvider, MenuTypes, ButtonExitMenuCallBack>(ExitMenuCall);
             Proxy.Connect<CellAddDetectorProvider, CellAddDetector, CellAddDetector>(OpenMenuCall);
-            _controlService = SessionStateManager.Instance.Container.Resolve<ControlService>();
+            Proxy.Connect<MenuTypesExitProvider, MenuTypes, ButtonExitMenuCallBack>(ExitMenuCallFormMenu);
+            Proxy.Connect<MenuTypesOpenProvider, MenuTypes, ButtonOpenMenuCallBack>(OpenMenuCallFormMenu);
+            _controlService = SessionStateManager.Instance.ServiceLocator.Resolve<ControlService>();
+        }
+
+        private void OpenMenuCallFormMenu(Port arg1, MenuTypes arg2)
+        {
+            if (arg2 == MenuTypes.Technology || arg2 == MenuTypes.TradeMenu)
+            {
+                _active = false;
+            }
+        }
+        private void ExitMenuCallFormMenu(Port arg1, MenuTypes arg2)
+        {
+            if (arg2 == MenuTypes.Technology)
+            {
+                _active = true;
+            }
         }
         private void OpenMenuCall(Port type, CellAddDetector obj)
         {
             _active = false;
         }
+        
         private void ExitMenuCall(Port type, MenuTypes obj)
         {
             _active = true;

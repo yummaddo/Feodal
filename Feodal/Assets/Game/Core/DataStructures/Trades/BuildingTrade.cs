@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Game.Core.DataStructures.Conditions.TradesConditions;
 using Game.Core.DataStructures.Technologies;
 using Game.Core.DataStructures.Trades.Abstraction;
 using Game.Core.DataStructures.Trades.Map;

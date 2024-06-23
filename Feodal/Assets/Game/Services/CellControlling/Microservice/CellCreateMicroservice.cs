@@ -19,7 +19,7 @@ namespace Game.Services.CellControlling.Microservice
         public GameObject template;
         protected override void OnAwake()
         {
-            _service = SessionStateManager.Instance.Container.Resolve<CellService>();
+            _service = SessionStateManager.Instance.ServiceLocator.Resolve<CellService>();
         }
         private void ClickedByAddCellObject(Port type,CellAddDetector detector)
         {

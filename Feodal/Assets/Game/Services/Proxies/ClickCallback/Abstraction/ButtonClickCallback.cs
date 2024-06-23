@@ -14,7 +14,8 @@ namespace Game.Services.Proxies.ClickCallback.Abstraction
         {
             Initialization();
             TargetObject = this.gameObject;
-            if (!button) button = transform.GetComponent<UnityEngine.UI.Button>();
+            if (!button) 
+                button = transform.GetComponent<UnityEngine.UI.Button>();
             if (button != null)
             {
                 button.onClick.AddListener(ButtonClick);
@@ -35,7 +36,7 @@ namespace Game.Services.Proxies.ClickCallback.Abstraction
         private void ButtonClick()
         {
             OnButtonClick();
-            OnClick?.Invoke(GetPort(),Data);
+            OnCallBackInvocation?.Invoke(GetPort(),Data);
         }
         public void DataInitialization(TData data) => Data = data;
         public abstract Port GetPort();
@@ -43,7 +44,7 @@ namespace Game.Services.Proxies.ClickCallback.Abstraction
         {
             StatusInit = true;
         }
-        public Action<Port, TData> OnClick { get; set; } =
+        public Action<Port, TData> OnCallBackInvocation { get; set; } =
             (type,data) => Debugger.Logger($"Button {type} {typeof(TData)}, {data.ToString()}",  ContextDebug.Session,Process.Action);
         public bool IsInit { get; set; } = false;
         public GameObject TargetObject { get; set; }

@@ -17,7 +17,7 @@ namespace Game.Services.Proxies.ClickCallback.Button
         
         protected override void OnButtonClick()
         {
-            callBack.OnClick?.Invoke(Porting.Type<ButtonExitMenuCallBack>(), menuTypesToClose);
+            callBack.OnCallBackInvocation?.Invoke(Porting.Type<ButtonExitMenuCallBack>(), menuTypesToClose);
         }
         public override Port GetPort()
         {

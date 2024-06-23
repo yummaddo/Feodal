@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Codice.CM.Common;
 using Game.Core.DataStructures;
-using Game.Core.DataStructures.Conditions.TradesConditions;
 using Game.Core.DataStructures.Technologies.Abstraction;
 using Game.Core.Typing;
 using Game.Services.CellControlling;

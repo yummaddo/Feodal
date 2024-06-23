@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Game.Core.DataStructures.Technologies;
 using Game.Core.DataStructures.Technologies.Abstraction;
-using Game.Core.DataStructures.Technologies.Base;
 using Game.Services.Storage.Abstraction;
 using Game.Services.Storage.ResourcesRepository;
 
@@ -11,6 +10,7 @@ namespace Game.Services.Storage.TechnologyRepositories
     {
         internal Dictionary<string, ITechnologyStore> TechnologyStores;
         internal Dictionary<string, ITradeBuildTechnology> TechnologyBuild;
+        
         internal void InjectTechnologies(List<Technology> technologies, TechnologyRepository repository)
         {
             TechnologyStores = new Dictionary<string, ITechnologyStore>();

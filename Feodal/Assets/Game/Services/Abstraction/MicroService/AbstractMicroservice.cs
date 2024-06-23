@@ -18,7 +18,7 @@ namespace Game.Services.Abstraction.MicroService
         {
             var stateManager = SessionStateManager.Instance;
             Debugger.Logger($"Registering type {this.GetType()}",  ContextDebug.Session,Process.Action);
-            stateManager.Container.RegisterInstance(this.GetType(), this);
+            stateManager.ServiceLocator.RegisterInstance(this.GetType(), this);
             stateManager.OnSceneAwakeMicroServiceSession += SceneAwakeMicroServiceSession;
             stateManager.OnSceneStartMicroServiceSession += OnStart;
         }
@@ -39,7 +39,7 @@ namespace Game.Services.Abstraction.MicroService
         private void GetParentService()
         {
             var stateManager = SessionStateManager.Instance;
-            Service = stateManager.Container.Resolve<TService>();
+            Service = stateManager.ServiceLocator.Resolve<TService>();
         }
 
         private void MicroServiceStop()

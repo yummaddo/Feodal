@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using Game.Core.DataStructures;
-using Game.Core.DataStructures.Conditions.TradesConditions;
+using Game.Core.DataStructures.Conditions;
 using Game.Core.DataStructures.Technologies;
-using Game.Core.DataStructures.Technologies.Base;
 using Game.Core.DataStructures.Trades;
 using Game.Services.Storage.ResourcesRepository;
 using Game.Services.Storage.TechnologyRepositories;

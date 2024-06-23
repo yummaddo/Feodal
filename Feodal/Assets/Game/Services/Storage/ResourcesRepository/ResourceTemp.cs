@@ -16,7 +16,7 @@ using UnityEngine;
 namespace Game.Services.Storage.ResourcesRepository
 {
     [System.Serializable]
-    public class ResourceTemp : Temp<ResourceEncoded, string, long>, IClickCallback<ResourceTempedCallBack>
+    public class ResourceTemp : Temp<ResourceEncoded, string, long>, ICallBack<ResourceTempedCallBack>
     {
         internal Dictionary<string, IResource> Resources = new Dictionary<string, IResource>();
         internal Dictionary<string, ResourceTrade> CommonToUniversalDataSet = new Dictionary<string, ResourceTrade>();
@@ -36,7 +36,7 @@ namespace Game.Services.Storage.ResourcesRepository
         private event Action<TechnologyTrade, int, bool> OnSuccessfullyTechnologyTrade;
         #endregion
 
-        public Action<Port, ResourceTempedCallBack> OnClick { get; set; } = (port, callback) =>
+        public Action<Port, ResourceTempedCallBack> OnCallBackInvocation { get; set; } = (port, callback) =>
         {
             Debugger.Logger($"[{port}]=>callback:{callback.Resource.Title}=>{callback.Value}", ContextDebug.Session, Process.Update);
         };
@@ -85,11 +85,11 @@ namespace Game.Services.Storage.ResourcesRepository
         private TradeMicroservice _tradeMicroservice;
         internal void InjectionInMicroservice(TradeMicroservice tradeMicroservice,GameObject target)
         {
-            DatabaseResourceProvider.CallBackTunneling<ResourceTempedCallBack>(this);
-            
             _tradeMicroservice = tradeMicroservice;
             OnEncodeChangeData = EncodeChange;
             OnEncodeChangeElement = EncodeChangeElement;
+            
+            DatabaseResourceProvider.CallBackTunneling<ResourceTempedCallBack>(this);
             Proxy.Connect<CellResourcePackagingProvider, CellResourcePackaging, CellResourceFarmer>(FarmResource);
             
             tradeMicroservice.InjectTrade(ResourceTradeByTradeMap);
@@ -115,7 +115,7 @@ namespace Game.Services.Storage.ResourcesRepository
             var title = arg1;
             var resource = Resources[resourceEncoded.Title];
             var value = Data[resourceEncoded];
-            OnClick?.Invoke(Porting.Type<ResourceTempedCallBack>(),new ResourceTempedCallBack(title, resource, value));
+            OnCallBackInvocation?.Invoke(Porting.Type<ResourceTempedCallBack>(),new ResourceTempedCallBack(title, resource, value));
         }
         internal void InjectResource(List<Resource> resources, ResourceRepository repository)
         {

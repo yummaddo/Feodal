@@ -16,6 +16,7 @@ MonoBehaviour:
   <CurrentStatus>k__BackingField: 0
   <Title>k__BackingField: "Wood_\u0421arving"
   <Trade>k__BackingField:
+    sprite: {fileID: 21300000, guid: c608853798012cd4a965a612cfe3ed25, type: 3}
     resourceAmountCondition:
     - resource: {fileID: 11400000, guid: aa99815f5c9c66648963985002e32edb, type: 2}
       value: 40

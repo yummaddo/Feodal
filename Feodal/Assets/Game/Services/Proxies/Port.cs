@@ -8,11 +8,15 @@ using Game.Services.Proxies.ClickCallback.Button;
 using Game.Services.Storage.ResourcesRepository;
 using Game.UI.Menu;
 using Game.UI.Menu.ResourceListMenu;
+using Game.UI.Menu.TechnologyMenu;
 
 namespace Game.Services.Proxies
 {
     public static class Porting
     {
+        /// <summary>
+        /// Provides a mapping between types and ports. This utility class facilitates the retrieval of specific ports based on the provided type.
+        /// </summary>
         private static Dictionary<Type, Port> _ports = new Dictionary<Type, Port>()
         {
             // SimpleClickCallback<Cell>
@@ -29,7 +33,8 @@ namespace Game.Services.Proxies
             {typeof(IResource), Port.Port2},
             //
             {typeof(UIResourceListElement), Port.TradeResource},
-
+            {typeof(UITechnologyListElement), Port.TradeResource},
+            
             {typeof(UIMenuContainer), Port.Port2},
             {typeof(UIMenuResource), Port.Port2},
             {typeof(UIMenuBuilding), Port.Port2},
@@ -38,6 +43,11 @@ namespace Game.Services.Proxies
             {typeof(ButtonOpenMenuCallBack), Port.ButtonOpenMenu},
 
         };
+        /// <summary>
+        /// Retrieves the port associated with the specified type.
+        /// </summary>
+        /// <typeparam name="TValue">The type for which to retrieve the port.</typeparam>
+        /// <returns>The port associated with the specified type, or <see cref="Port.PortDefault"/> if no specific port is found.</returns>
         public static Port Type<TValue>()
         {
             if (_ports.TryGetValue(typeof(TValue), out var port))
@@ -47,6 +57,9 @@ namespace Game.Services.Proxies
             return Port.PortDefault;
         }
     }
+    /// <summary>
+    /// Enumerates the different ports that can be associated with various types.
+    /// </summary>
     public enum Port
     {
         TradeResource,

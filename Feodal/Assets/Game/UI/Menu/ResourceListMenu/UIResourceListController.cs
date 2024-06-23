@@ -22,7 +22,7 @@ namespace Game.UI.Menu.ResourceListMenu
         public List<GameObject> temp = new List<GameObject>();
         public List<GameObject> tempController = new List<GameObject>();
         public List<UIResourceListElement> tempControllerElements;
-
+        internal event Action OnTradeFindAndProcessed;
         private void Awake()
         {
             ResourcesListCompare = new Dictionary<IResource, UIResourcesList>();
@@ -36,12 +36,14 @@ namespace Game.UI.Menu.ResourceListMenu
         }
         private void SomeResourceUpdate(Port port,ResourceTempedCallBack callBack)
         {
-            if (enabled) 
+            if (enabled)
             {
                 foreach (var element in tempControllerElements)
-                {
-                    element.TryUpdate(callBack.Resource, callBack.Value);
-                }
+                    if (element.TryUpdate(callBack.Resource, callBack.Value))
+                    {
+                        OnTradeFindAndProcessed?.Invoke();
+                        break;
+                    }
             }
         }
         internal void Clear()

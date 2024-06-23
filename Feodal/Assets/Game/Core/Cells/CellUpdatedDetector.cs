@@ -33,7 +33,7 @@ namespace Game.Core.Cells
         
         private void ManagerSceneAwakeMicroServiceSession()
         {
-            _inputObservingMicroservice = SessionStateManager.Instance.Container.Resolve<InputObservingMicroservice>();
+            _inputObservingMicroservice = SessionStateManager.Instance.ServiceLocator.Resolve<InputObservingMicroservice>();
             _inputObservingMicroservice.AddDetector(this);
         }
         public void OnSelect()
@@ -51,11 +51,11 @@ namespace Game.Core.Cells
         {
             if (cell.IsBaseState)
             {
-                clickCallback.OnClick?.Invoke(Porting.Type<CellUpdatedDetector>(),cell);
+                clickCallback.OnCallBackInvocation?.Invoke(Porting.Type<CellUpdatedDetector>(),cell);
             }
             else
             {
-                clickCallback.OnClick?.Invoke(Porting.Type<CellResourceFarmer>(),cell);
+                clickCallback.OnCallBackInvocation?.Invoke(Porting.Type<CellResourceFarmer>(),cell);
             }
         }
     }

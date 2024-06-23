@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Core.DataStructures;
-using Game.Core.DataStructures.Conditions.TradesConditions;
+using Game.Core.DataStructures.Conditions;
 using Game.Core.DataStructures.Technologies;
-using Game.Core.DataStructures.Technologies.Base;
 using Game.Core.DataStructures.Trades;
 using Game.Core.DataStructures.UI.Data;
 using Game.Meta;
@@ -34,7 +33,6 @@ namespace Game.Services.Storage
         public event Action OnResourceRepositoryInit;
         public event Action OnCellsMapRepositoryInit;
         public event Action OnTechnologyRepositoryInit;
-        
         [Header("Repositories")]
         [SerializeField] private MapCellRepository cellsMapRepository;
         [SerializeField] private ResourceRepository resourceRepository;
@@ -75,7 +73,7 @@ namespace Game.Services.Storage
         private void Injection()
         {
             SessionStateManager.Instance.OnSceneAwakeMicroServiceSession -= Injection;
-            _tradeMicroservice = SessionStateManager.Instance.Container.Resolve<TradeMicroservice>();
+            _tradeMicroservice = SessionStateManager.Instance.ServiceLocator.Resolve<TradeMicroservice>();
             InitializationRepository();
             LoadRepositoriesData();
         }

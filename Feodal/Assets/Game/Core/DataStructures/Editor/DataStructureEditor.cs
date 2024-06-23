@@ -1,10 +1,5 @@
 ﻿using Game.Core.Abstraction;
 using Game.Core.Abstraction.UI;
-using Game.Core.DataStructures.Conditions.Abstraction.Trades;
-using Game.Core.DataStructures.Conditions.TradesConditions;
-using Game.Core.DataStructures.Technologies;
-using Game.Core.DataStructures.Technologies.Abstraction;
-using Game.Core.DataStructures.Technologies.Base;
 using Game.Core.DataStructures.UI.Data;
 using UnityEditor;
 

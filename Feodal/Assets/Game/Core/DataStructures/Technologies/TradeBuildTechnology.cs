@@ -4,7 +4,7 @@ using Game.Services.Storage.ResourcesRepository;
 using Game.Services.Storage.TechnologyRepositories;
 using UnityEngine;
 
-namespace Game.Core.DataStructures.Technologies.Base
+namespace Game.Core.DataStructures.Technologies
 {
     [CreateAssetMenu(menuName = "Technology/TradeBuild")]
     public class TradeBuildTechnology : AbstractDataStructure<ITradeBuildTechnology>, ITradeBuildTechnology

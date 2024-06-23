@@ -1,7 +1,7 @@
-﻿using Game.Services.Storage.MapCellsRepository;
+﻿using Game.Services.Storage.Abstraction;
 using HexEngine;
 
-namespace Game.Services.Storage.Abstraction
+namespace Game.Services.Storage.MapCellsRepository
 {
     public class MapIdentifierConvert : IIdentifier<HexCoords,MapCellEncoded>
     {

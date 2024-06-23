@@ -5,6 +5,8 @@
         BuildingMenu,
         ContainerMenu,
         ResourceMenu,
-        StorageMenu
+        StorageMenu,
+        TradeMenu,
+        Technology
     }
 }

@@ -11,6 +11,7 @@ namespace Game.Core.DataStructures.Trades
     public class TechnologyTrade : AbstractTrade<Technology,ResourceTrade>
     {
         private TechnologyTradeMap _map;
+        [SerializeField] internal Sprite sprite;
         [SerializeField] internal List<ResourceCounter> resourceAmountCondition;
         [SerializeField] public Technology into;
         public override string TradeName => into.Title;
@@ -19,7 +20,6 @@ namespace Game.Core.DataStructures.Trades
             base.Initialization(microservice);
             _map = new TechnologyTradeMap(this);
         }
-
         public override bool IsTradAble() => TradeMicroservice.CanTrade(_map.GetAmount(1));
         public override bool IsTradAble(int amount) => TradeMicroservice.CanTrade(_map.GetAmount(amount));
         public override bool IsTradAbleAll() => TradeMicroservice.CanTrade(_map.GetAmount(1));

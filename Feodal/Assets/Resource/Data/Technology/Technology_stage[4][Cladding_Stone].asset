@@ -16,6 +16,7 @@ MonoBehaviour:
   <CurrentStatus>k__BackingField: 0
   <Title>k__BackingField: Cladding_Stone
   <Trade>k__BackingField:
+    sprite: {fileID: 21300000, guid: b5c5beb21c072054da5f76c1aaaf262c, type: 3}
     resourceAmountCondition:
     - resource: {fileID: 11400000, guid: c18536515e38a664e9014e794f89a855, type: 2}
       value: 200

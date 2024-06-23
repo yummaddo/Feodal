@@ -16,7 +16,7 @@ namespace Game.Core.Detector
         private InputService _service;
         private void Awake()
         {
-            _service = SessionStateManager.Instance.Container.Resolve<InputService>();
+            _service = SessionStateManager.Instance.ServiceLocator.Resolve<InputService>();
         }
         public bool CheckRaycastHit(string tagForCast, DetectorIndexing indexing)
         {

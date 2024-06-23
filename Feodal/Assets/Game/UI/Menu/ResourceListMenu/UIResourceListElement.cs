@@ -39,12 +39,14 @@ namespace Game.UI.Menu.ResourceListMenu
         {
             value.text = valueElement.ToString();
         }
-        public void TryUpdate(IResource callBackResource, long callBackValue)
+        public bool TryUpdate(IResource callBackResource, long callBackValue)
         {
             if (resource.resource.Data.Title == callBackResource.Title)
             {
                 value.text = callBackValue.ToString();
+                return true;
             }
+            return false;
         }
     }
 }

@@ -24,12 +24,12 @@ namespace Game.Services.CellControlling.Microservice
         private Cell _selectedCell;
         protected override void OnAwake()
         {
-            _service = SessionStateManager.Instance.Container.Resolve<CellService>();
+            _service = SessionStateManager.Instance.ServiceLocator.Resolve<CellService>();
         }
 
         protected override void OnStart()
         {           
-            _service = SessionStateManager.Instance.Container.Resolve<CellService>();
+            _service = SessionStateManager.Instance.ServiceLocator.Resolve<CellService>();
             Proxy.Connect<CellProvider, Cell, CellUpdatedDetector>( OnCellTryToUpdate);
             Proxy.Connect<CellProvider, Cell, CellUpdatedDetector>( OnCellSelected);
             
@@ -39,7 +39,7 @@ namespace Game.Services.CellControlling.Microservice
         private void OnBuildSelected(Port type,IUICellContainerElement obj)
         {
             _selectedCell.selection.UnSelect();
-            menuTypesCloseCallBack.OnClick?.Invoke(type,MenuTypes.BuildingMenu);
+            menuTypesCloseCallBack.OnCallBackInvocation?.Invoke(type,MenuTypes.BuildingMenu);
             Debugger.Logger(obj.State.Data.ExternalName, Process.Action);
             _selectedCell.MigrateToNewState(obj.State.Data);
         }
@@ -53,7 +53,7 @@ namespace Game.Services.CellControlling.Microservice
         }
         private void OnCellTryToUpdate(Port type,Cell cell)
         {
-            cellCallBack.OnClick?.Invoke(type,cell.container.Data);
+            cellCallBack.OnCallBackInvocation?.Invoke(type,cell.container.Data);
             _selectedCell = cell;
             _selected = cell.container.Data;
         }

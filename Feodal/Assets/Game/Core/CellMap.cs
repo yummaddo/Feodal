@@ -145,7 +145,7 @@ namespace Game.Core
                 UpdateMap(addable);
             
             _service.CellAdded(addable, FindFreeCoordsList(), invocation);
-            closeCallBackMenuTypesClose.OnClick?.Invoke(Porting.Type<CellMap>(),MenuTypes.ContainerMenu);
+            closeCallBackMenuTypesClose.OnCallBackInvocation?.Invoke(Porting.Type<CellMap>(),MenuTypes.ContainerMenu);
         }
     }
 }

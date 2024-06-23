@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stage: 4
   <CurrentStatus>k__BackingField: 0
-  <Title>k__BackingField: Natural_Public_Citizen
+  <Title>k__BackingField: Natural_Citizen
   <Trade>k__BackingField:
+    sprite: {fileID: 21300000, guid: 726cb4f94d44f4445acb869069ff47ba, type: 3}
     resourceAmountCondition:
     - resource: {fileID: 11400000, guid: c18536515e38a664e9014e794f89a855, type: 2}
       value: 50

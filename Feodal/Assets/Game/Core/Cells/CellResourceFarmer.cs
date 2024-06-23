@@ -81,7 +81,7 @@ namespace Game.Core.Cells
         private void GetAllResource()
         {
             Debugger.Logger($"CellResourceFarmer Farm {resource.resource.Data}= {_farmedValue}", Process.Update );
-            clickCallback.OnClick.Invoke(Porting.Type<CellResourceFarmer>(), new CellResourcePackaging(resource.resource.Data, _farmedValue));
+            clickCallback.OnCallBackInvocation.Invoke(Porting.Type<CellResourceFarmer>(), new CellResourcePackaging(resource.resource.Data, _farmedValue));
             progressBar.GetResource(_farmedValue);
             _farmedValue = 0;
             progressBar.SetFarmValue(_farmedValue);

@@ -12,11 +12,13 @@ namespace Game.UI.Menu
 {
     public class UIMenuResource : MonoBehaviour
     {
-        public Transform target;
         [SerializeField] private UIResourceListController controller;
+
+        public Transform target;
         private void Awake()
         {
             SessionStateManager.Instance.OnSceneAwakeMicroServiceSession += OnSceneAwakeMicroServiceSession;
+            controller.OnTradeFindAndProcessed += ControllerTradeFindAndProcessed;
         }
         private void OnSceneAwakeMicroServiceSession()
         {
@@ -34,6 +36,10 @@ namespace Game.UI.Menu
             {
                 CloseMenu();
             }
+        }
+        private void ControllerTradeFindAndProcessed()
+        {
+            CloseMenu();
         }
         private void OnClickedByUniversalResource(Port type, IResource resource)
         {

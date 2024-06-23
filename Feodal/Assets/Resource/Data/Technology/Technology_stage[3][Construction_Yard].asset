@@ -16,6 +16,7 @@ MonoBehaviour:
   <CurrentStatus>k__BackingField: 0
   <Title>k__BackingField: Construction_Yard
   <Trade>k__BackingField:
+    sprite: {fileID: 21300000, guid: abaa683e27d006a4eb406212b9981fce, type: 3}
     resourceAmountCondition:
     - resource: {fileID: 11400000, guid: aa99815f5c9c66648963985002e32edb, type: 2}
       value: 1

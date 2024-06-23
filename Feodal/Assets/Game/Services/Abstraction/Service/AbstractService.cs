@@ -23,7 +23,7 @@ namespace Game.Services.Abstraction.Service
         {
             StateManager = SessionStateManager.Instance;
             Debugger.Logger($"Registering type {this.GetType()}",  ContextDebug.Session,Process.Action);
-            SessionStateManager.Instance.Container.RegisterInstance(this.GetType(), this);
+            SessionStateManager.Instance.ServiceLocator.RegisterInstance(this.GetType(), this);
             StateManager.OnSceneAwakeServiceSession += OnAwakeCaller;
             StateManager.OnSceneStartServiceSession += OnStartCaller;
         }

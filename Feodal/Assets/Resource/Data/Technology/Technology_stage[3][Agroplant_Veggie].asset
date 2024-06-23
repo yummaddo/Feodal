@@ -16,6 +16,7 @@ MonoBehaviour:
   <CurrentStatus>k__BackingField: 0
   <Title>k__BackingField: Agroplant_Veggie
   <Trade>k__BackingField:
+    sprite: {fileID: 21300000, guid: 597dbdf1ed1fe5045b2f567db26b6476, type: 3}
     resourceAmountCondition:
     - resource: {fileID: 11400000, guid: 87de4bc291145cd4e953222dd83e202b, type: 2}
       value: 60

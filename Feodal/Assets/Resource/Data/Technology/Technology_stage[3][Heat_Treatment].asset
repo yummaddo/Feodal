@@ -16,6 +16,7 @@ MonoBehaviour:
   <CurrentStatus>k__BackingField: 0
   <Title>k__BackingField: Heat_Treatment
   <Trade>k__BackingField:
+    sprite: {fileID: 21300000, guid: 5e1584438a6c04f489412a1d3b62413a, type: 3}
     resourceAmountCondition:
     - resource: {fileID: 11400000, guid: 87de4bc291145cd4e953222dd83e202b, type: 2}
       value: 2000

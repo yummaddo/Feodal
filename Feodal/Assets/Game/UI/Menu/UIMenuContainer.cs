@@ -36,7 +36,7 @@ namespace Game.UI.Menu
         
         private void OpenMenu()
         {
-            menuTypesOpenedCallBack.OnClick?.Invoke(Porting.Type<ButtonOpenMenuCallBack>() ,MenuTypes.ContainerMenu);
+            menuTypesOpenedCallBack.OnCallBackInvocation?.Invoke(Porting.Type<ButtonOpenMenuCallBack>() ,MenuTypes.ContainerMenu);
             target.gameObject.SetActive(true);
             
             Debugger.Logger("OpenMenu ContainerMenu Menu", ContextDebug.Menu, Process.Action);

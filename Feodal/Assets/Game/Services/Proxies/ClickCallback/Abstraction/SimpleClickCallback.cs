@@ -24,7 +24,7 @@ namespace Game.Services.Proxies.ClickCallback.Abstraction
         /// Tunnelling init
         /// </summary>
         public abstract void Initialization();
-        public Action<Port, TData> OnClick { get; set; } = (type, data) =>
+        public Action<Port, TData> OnCallBackInvocation { get; set; } = (type, data) =>
         {
             Debugger.Logger($"{type}: {typeof(TData)}, {data.ToString()}",  ContextDebug.Session,Process.Action);
         };

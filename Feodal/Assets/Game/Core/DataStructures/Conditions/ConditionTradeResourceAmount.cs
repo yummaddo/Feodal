@@ -1,14 +1,11 @@
-﻿using System.Reflection;
-using Game.Core.DataStructures.Conditions.Abstraction;
-using Game.Core.DataStructures.Conditions.Abstraction.Trades;
-using Game.Core.DataStructures.Editor;
+﻿using Game.Core.DataStructures.Conditions.Abstraction;
 using Game.Core.DataStructures.Trades;
 using Game.Services.Storage.ResourcesRepository;
 using Game.Services.Storage.TechnologyRepositories;
 using UnityEditor;
 using UnityEngine;
 
-namespace Game.Core.DataStructures.Conditions.TradesConditions
+namespace Game.Core.DataStructures.Conditions
 {
     [CreateAssetMenu(menuName = "Trade/Condition/ConditionTradeResourceResourceAmount")]
     public class ConditionTradeResourceAmount : ScriptableObject, ICondition

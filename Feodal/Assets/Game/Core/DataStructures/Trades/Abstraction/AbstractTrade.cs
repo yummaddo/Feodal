@@ -33,7 +33,7 @@ namespace Game.Core.DataStructures.Trades.Abstraction
         
         private void ConnectingToTradeService()
         {
-            TradeMicroservice =  SessionStateManager.Instance.Container.Resolve<TradeMicroservice>();
+            TradeMicroservice =  SessionStateManager.Instance.ServiceLocator.Resolve<TradeMicroservice>();
         }
         public abstract bool IsTradAble();
         public abstract bool IsTradAble(int amount);

@@ -1,7 +1,6 @@
-﻿using Game.Core.Abstraction;
-using Game.Services.Storage.ResourcesRepository;
+﻿using Game.Services.Storage.Abstraction;
 
-namespace Game.Services.Storage.Abstraction
+namespace Game.Services.Storage.ResourcesRepository
 {
     public class ResourceIdentifierConvert : IIdentifier<string,ResourceEncoded>
     {

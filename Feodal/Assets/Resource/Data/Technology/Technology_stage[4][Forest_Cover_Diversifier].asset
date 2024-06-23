@@ -16,6 +16,7 @@ MonoBehaviour:
   <CurrentStatus>k__BackingField: 0
   <Title>k__BackingField: Forest_Cover_Diversifier
   <Trade>k__BackingField:
+    sprite: {fileID: 21300000, guid: bfbff06c4fae2b64f9bba80b480da39a, type: 3}
     resourceAmountCondition:
     - resource: {fileID: 11400000, guid: 40920cd3ba1e6b6439e4fc02c9ac0163, type: 2}
       value: 3000

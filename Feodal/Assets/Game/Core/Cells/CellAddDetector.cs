@@ -31,8 +31,8 @@ namespace Game.Core.Cells
 
         private void ManagerSceneAwakeMicroServiceSession()
         {
-            _inputObservingMicroservice = SessionStateManager.Instance.Container.Resolve<InputObservingMicroservice>();
-            _creation = SessionStateManager.Instance.Container.Resolve<InputObservingMicroservice>();
+            _inputObservingMicroservice = SessionStateManager.Instance.ServiceLocator.Resolve<InputObservingMicroservice>();
+            _creation = SessionStateManager.Instance.ServiceLocator.Resolve<InputObservingMicroservice>();
             
             _inputObservingMicroservice.AddDetector(this);
         }
@@ -44,7 +44,7 @@ namespace Game.Core.Cells
 
         internal void OnClick() 
         {
-            clickCallback.OnClick?.Invoke(Porting.Type<CellAddDetector>(),this);
+            clickCallback.OnCallBackInvocation?.Invoke(Porting.Type<CellAddDetector>(),this);
             
         }
         internal void OnSelect() 
