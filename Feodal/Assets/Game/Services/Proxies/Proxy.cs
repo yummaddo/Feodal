@@ -28,7 +28,18 @@ namespace Game.Services.Proxies
             TActor actor = di.Resolve<TActor>();
             actor.RecipientProxyConnect<TCaller>(connection);
         }
-        
+        public static void Connect<TActor, TData>(Action<Port,TData> connection, Port port) 
+            where TActor : AbstractProvider<TData>
+        {
+            var stateManager = SessionStateManager.Instance;
+            var di = stateManager.ServiceLocator;
+            if (!di.IsRegistered<TActor>())
+            {
+                throw new Exception($"Actor of type {typeof(TActor)} is not registered");
+            }
+            TActor actor = di.Resolve<TActor>();
+            actor.RecipientProxyConnect(connection,port);
+        }
         /// <summary>
         /// Disconnects a previously established connection between the specified actor and the provided callback action.
         /// Ensures the actor is registered and invokes the actor's disconnection method.
@@ -49,6 +60,18 @@ namespace Game.Services.Proxies
             }
             TActor actor = di.Resolve<TActor>();
             actor.RecipientProxyDisconnect<TCaller>( connection);
+        }
+        public static void Disconnect<TActor, TData>( Action<Port,TData> connection, Port port) 
+            where TActor : AbstractProvider<TData>
+        {
+            var stateManager = SessionStateManager.Instance;
+            var di = stateManager.ServiceLocator;
+            if (!di.IsRegistered<TActor>())
+            {
+                throw new Exception($"Actor of type {typeof(TActor)} is not registered");
+            }
+            TActor actor = di.Resolve<TActor>();
+            actor.RecipientProxyDisconnect( connection, port);
         }
     }
 }

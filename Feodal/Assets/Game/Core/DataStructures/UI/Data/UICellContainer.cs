@@ -8,6 +8,7 @@ namespace Game.Core.DataStructures.UI.Data
     [CreateAssetMenu(menuName = "UI/UICellContainer")]
     public class UICellContainer : AbstractDataStructure<IUICellContainer>, IUICellContainer
     {
+        public Seed seed; 
         public Sprite cellImage;
         public Sprite cellLendIdentImage;
         public String cellTitle;
@@ -16,6 +17,7 @@ namespace Game.Core.DataStructures.UI.Data
         public GameObject cellTemplate;
 
         internal override string DataNamePattern => $"UICell_Container_{cellTitle}";
+        public Seed Seed { get; set; }
         public Sprite CellImage { get; set; }
         public Sprite CellLendIdentImage { get; set; }
         public string CellTitle { get; set; }
@@ -25,6 +27,7 @@ namespace Game.Core.DataStructures.UI.Data
 
         protected override IUICellContainer CompareTemplate()
         {
+            Seed = seed;
             UIContainer = uIContainer;
             CellLendIdentImage = cellLendIdentImage;
             CellImage = cellImage;

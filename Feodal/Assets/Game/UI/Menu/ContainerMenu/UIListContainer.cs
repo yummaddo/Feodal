@@ -23,7 +23,7 @@ namespace Game.UI.Menu.ContainerMenu
         {
             view.OnSelectionChanged(OnSelectionChanged);
             var items = Enumerable.Range(0, data.Count-1)
-                .Select(i => new UICellContainerData(data[i].Data))
+                .Select(i => new UICellContainerData(data[i]))
                 .ToArray();
             view.UpdateData(items);
             view.SelectCell(0);

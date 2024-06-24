@@ -14,9 +14,13 @@ namespace Game.UI.Menu.TradeMenu
         internal static void PresentTrade(this UITradeListController controller,  ResourceTrade resourceTrade, UIResourceListElement element)
         {
             controller.tradeResource.sprite = controller.TempResourceTemped.CommonToUIResources[resourceTrade.Into.title].resourceImage;
-            controller.maxAmount = controller.TempResourceTemped.MaxTradeAmount(resourceTrade.Map.GetAmount(1));
+            var map = resourceTrade.Map.GetAmount(1);
+            controller.maxAmount = controller.TempResourceTemped.MaxTradeAmount(map);
+            
+            controller.slider.value = 1.0f;
             controller.tradeAmount = (int)(controller.slider.value * controller.maxAmount);
-            controller.amountOfSliderText.text = (controller.tradeAmount).ToString();
+            
+            controller.amountOfSliderText.text = (controller.maxAmount).ToString();
             CreateTradeElements(controller,resourceTrade.resourceAmountCondition, controller.tradeAmount);
             CreateTechnologyElements(controller, resourceTrade.technologyCondition);
 
@@ -24,7 +28,7 @@ namespace Game.UI.Menu.TradeMenu
         internal static void PresentTrade(this UITradeListController controller,  SeedTrade tradeSeed)
         {
             controller.tradeResource.sprite = tradeSeed.@into.image;
-            var currentTrade = tradeSeed.Trades[tradeSeed.currentStage];
+            var currentTrade = tradeSeed.Trades[tradeSeed.CurrentStage()];
             controller.maxAmount = controller.TempResourceTemped.MaxTradeAmount(currentTrade.Map.GetAmount(1));
             CreateTradeElements(controller, currentTrade.resourceAmountCondition);
             CreateTechnologyElements(controller, currentTrade.technologyCondition);
@@ -79,8 +83,8 @@ namespace Game.UI.Menu.TradeMenu
             }
             Resize<Technology>(conditions, controller.elementTechnologyHeight,controller.techListRect);
         }
-        
-        public static void Resize<T>(List<T> elements, float height, RectTransform transform)
+
+        private static void Resize<T>(List<T> elements, float height, RectTransform transform)
         {
             var newRect = transform.rect;
             newRect.height = height * elements.Count;

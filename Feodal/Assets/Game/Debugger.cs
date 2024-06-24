@@ -8,7 +8,8 @@ namespace Game
     {
         Application,
         Session,
-        Menu
+        Menu,
+        Initialization
     }
     public enum Process
     {
@@ -19,17 +20,19 @@ namespace Game
         Create,
         Update,
         Destroy,
-        Action
+        Action,
+        Initial
     }
     public class Debugger
     {
         private static readonly Dictionary<Process, string[]> ProcessesColorize = new Dictionary<Process, string[]>()
         {
-            { Process.Load, new[]      { " Load      ", "#FF5733", "#F0EAD6", "#00C882" } }, // Orange
-            { Process.Info, new[]      { " Info        ", "#3498DB", "#C2EAD6", "#00C882" } }, // Blue
+            { Process.Load, new[]      { " Load      ", "#FF5733", "#EAB3BA", "#00C882" } }, // Orange
+            { Process.Info, new[]      { " Info         ", "#3498DB", "#C2EAD6", "#00C882" } }, // Blue
             { Process.Process, new[]   { " Process   ", "#27AE60", "#ABEF9C", "#00C882" } }, // Green
             { Process.Create, new[]    {  "Create    ", "#C85300", "#B7EF00", "#00C882" } }, // Green
-            { Process.Update, new[]    { " Update    ", "#50C878", "#50C878", "#00C882" } }, // Green
+            { Process.Initial, new[]   { "Initial      ", "#B700C8", "#00EFDB", "#00C882" } }, // Green
+            { Process.Update, new[]    { " Update   ", "#50C878", "#006685", "#00C882" } }, // Green
             { Process.Destroy, new[]   { " Destroy   ", "#1A0A00", "#9A2C00", "#00C882" } }, // Green
             { Process.Action, new[]    { " Action    ", "#F1C40F", "#F0EAB2", "#00C882" } }, // Yellow
             { Process.TrashHold, new[] { " TrashHold ", "#9F2000", "#9F896D", "#00C882" } },
@@ -38,9 +41,10 @@ namespace Game
         private static readonly Dictionary<ContextDebug, string[]> ContextColorize =
             new Dictionary<ContextDebug, string[]>()
             {
-                { ContextDebug.Session, new[]     { " Session       ", "#289F00" } }, // Purple
-                { ContextDebug.Application, new[] { " Application ", "#E74C3C" } }, // Red
-                { ContextDebug.Menu, new[]        { " Menu           ", "#9F009F" } }, // Turquoise
+                { ContextDebug.Session, new[]        { " Session           ", "#289F00" } }, // Purple
+                { ContextDebug.Initialization, new[] { " Initialization   ", "#21D5AE" } }, // Bl
+                { ContextDebug.Application, new[]    { " Application     ", "#E74C3C" } }, // Red
+                { ContextDebug.Menu, new[]           { " Menu              ", "#9F009F" } }, // Turquoise
             };
 
         private static readonly string On = "<color=#19262C>[</color>";

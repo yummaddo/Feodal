@@ -14,7 +14,6 @@ namespace Game.Core.Abstraction
 
         public GameObject Root { get; set; }
         public List<ICellState> SwitchList { get; set; }
-
         public IResource Resource { get; set; }
         public ICellState Base { get; set; }
         public ICellTransition Transition { get; set; }

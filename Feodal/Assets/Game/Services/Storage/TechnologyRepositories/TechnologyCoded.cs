@@ -14,5 +14,9 @@ namespace Game.Services.Storage.TechnologyRepositories
         {
             this.encodedTitle = encodedTitle.Title;
         }
+        public override string ToString()
+        {
+            return $"{encodedTitle}";
+        }
     }
 }

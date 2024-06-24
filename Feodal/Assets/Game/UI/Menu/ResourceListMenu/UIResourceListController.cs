@@ -16,7 +16,6 @@ namespace Game.UI.Menu.ResourceListMenu
     {
         [SerializeField] private List<UIResourcesList> resourcesLists;
         [SerializeField] private UISeedList seedListsSeed;
-        [SerializeField] private GameObject seedListsTarget;
         [SerializeField] private GameObject target;
         [SerializeField] private GameObject templateUIResource;
         internal Dictionary<IResource,UIResourcesList> ResourcesListCompare;
@@ -61,7 +60,7 @@ namespace Game.UI.Menu.ResourceListMenu
             target.SetActive(true);
             Clear();
             int countOfResource = seedListsSeed.seeds.Count;
-            for (int i = 1; i <= countOfResource; i++)
+            for (int i = 0; i < countOfResource; i++)
                 CreateNewListElements(i,seedListsSeed);
         }
         
@@ -69,16 +68,18 @@ namespace Game.UI.Menu.ResourceListMenu
         {
             target.SetActive(true);
             int countOfResource = resourcesList.resources.Count;
-            for (int i = 1; i <= countOfResource; i++)
+            for (int i = 0; i < countOfResource; i++)
                 CreateNewListElements(i,resourcesList);
         }
         private void CreateNewListElements(int i, UISeedList list)
         {
-            var newElementInList = Instantiate(templateUIResource, seedListsTarget.transform);
+            int currentElementOfList = i / itemInListRoot;
+            targetsListRoot[currentElementOfList].gameObject.SetActive(true);
+            var newElementInList = Instantiate(templateUIResource, targetsListRoot[currentElementOfList]);
             temp.Add(newElementInList);
             var newElementController = newElementInList.GetComponent<UIResourceListElement>();
             tempControllerElements.Add(newElementController);
-            newElementController.UpdateData(list.seeds[i-1]);
+            newElementController.UpdateData(list.seeds[i]);
         }
         private void CreateNewListElements(int i, UIResourcesList list)
         {
@@ -88,7 +89,7 @@ namespace Game.UI.Menu.ResourceListMenu
             temp.Add(newElementInList);
             var newElementController = newElementInList.GetComponent<UIResourceListElement>();
             tempControllerElements.Add(newElementController);
-            newElementController.UpdateData(list.resources[i - 1]);
+            newElementController.UpdateData(list.resources[i]);
         }
     }
 }

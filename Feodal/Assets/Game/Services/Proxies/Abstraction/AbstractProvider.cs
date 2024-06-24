@@ -14,6 +14,10 @@ namespace Game.Services.Proxies.Abstraction
         protected override void Awake() { base.Awake(); }
         protected override void OnAwake() { }
         protected override void OnStart() { }
+        public override string ToString()
+        {
+            return $"{typeof(AbstractProvider<TData>).FullName}";
+        }
         
         /// <summary>
         /// Connects a callback to a specified port for a given type, allowing the callback to be invoked when data is available.
@@ -34,8 +38,22 @@ namespace Game.Services.Proxies.Abstraction
                 Callbacks.Add(port,new List<ICallBack<TData>>());
                 Callbacks[port].Add(callback);
             }
-
-        }/// <summary>
+        }
+        internal static void CallBackTunneling(ICallBack<TData> callback, Port port)
+        {
+            if (Callbacks.ContainsKey(port))
+            {
+                callback.OnCallBackInvocation = OnClick;
+                Callbacks[port].Add(callback);
+            }
+            else
+            {
+                callback.OnCallBackInvocation = OnClick;
+                Callbacks.Add(port,new List<ICallBack<TData>>());
+                Callbacks[port].Add(callback);
+            }
+        }
+        /// <summary>
         /// Removes a callback from the specified port for a given type.
         /// </summary>
         /// <typeparam name="TType">The type of the caller or the context in which the callback is used.</typeparam>
@@ -72,6 +90,14 @@ namespace Game.Services.Proxies.Abstraction
             }
             else OnClickTyping.Add(port,connection);
         }
+        internal void RecipientProxyConnect(Action<Port,TData> connection, Port port)
+        {
+            if (OnClickTyping.ContainsKey(port))
+            {
+                OnClickTyping[port] += connection; 
+            }
+            else OnClickTyping.Add(port,connection);
+        }
         /// <summary>
         /// Unregisters an action from being executed when data is available for the specified port type.
         /// </summary>
@@ -80,6 +106,11 @@ namespace Game.Services.Proxies.Abstraction
         internal void RecipientProxyDisconnect<TType>(Action<Port,TData> connection)
         {
             var port = Porting.Type<TType>();
+            if (OnClickTyping.ContainsKey(port)) 
+                OnClickTyping[port] -= connection;
+        }
+        internal void RecipientProxyDisconnect(Action<Port,TData> connection, Port port)
+        {
             if (OnClickTyping.ContainsKey(port)) 
                 OnClickTyping[port] -= connection;
         }

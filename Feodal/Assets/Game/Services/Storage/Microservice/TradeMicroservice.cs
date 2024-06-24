@@ -31,7 +31,10 @@ namespace Game.Services.Storage.Microservice
         
         internal void SuccessfullyInvoke(ResourceTrade arg, int amount, bool all) => OnSuccessfullyResourceTrade?.Invoke(arg, amount,all);
         internal void SuccessfullyInvoke(BuildingTrade arg, int amount, bool all) => OnSuccessfullyBuildingTrade?.Invoke(arg, amount,all);
-        internal void SuccessfullyInvoke(SeedTrade arg, int amount, bool all) => OnSuccessfullySeedTrade?.Invoke(arg, amount,all);
+        internal void SuccessfullyInvoke(SeedTrade arg, int amount, bool all)
+        {
+            OnSuccessfullySeedTrade?.Invoke(arg, amount, all);
+        }
         internal void SuccessfullyInvoke(TechnologyTrade arg, int amount, bool all) => OnSuccessfullyTechnologyTrade?.Invoke(arg, amount,all);
         internal void FailedInvoke(ResourceTrade arg, int amount, bool all) => OnFailedResourceTrade?.Invoke(arg, amount,all);
         internal void FailedInvoke(BuildingTrade arg, int amount, bool all) => OnFailedBuildingTrade?.Invoke(arg, amount,all);

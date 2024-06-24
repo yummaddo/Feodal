@@ -5,6 +5,7 @@ using Game.Core.Cells;
 using Game.Core.DataStructures;
 using Game.Core.DataStructures.Trades;
 using Game.Core.DataStructures.UI.Data;
+using Game.Services.CellControlling;
 using Game.Services.Proxies;
 using Game.Services.Proxies.Abstraction;
 using Game.Services.Proxies.ClickCallback;
@@ -39,15 +40,18 @@ namespace Game.Services.Storage.ResourcesRepository
         private event Action<SeedTrade, int, bool> OnSuccessfullySeedTrade;
         private event Action<TechnologyTrade, int, bool> OnSuccessfullyTechnologyTrade;
         #endregion
-
+        
+        private TradeMicroservice _tradeMicroservice;
+        private CellService _cellService;
+        public bool IsInit { get; set; }
+        public GameObject TargetObject { get; set; }
+        
         public Action<Port, ResourceTempedCallBack> OnCallBackInvocation { get; set; } = (port, callback) =>
         {
             Debugger.Logger($"[{port}]=>callback:{callback.Resource.Title}=>{callback.Value}", ContextDebug.Session, Process.Update);
         };
-        public bool IsInit { get; set; }
-        public GameObject TargetObject { get; set; }
+
         
-        private void FarmResource(Port type, CellResourcePackaging farmer) => ProvideAddAmounts(farmer.Resource, farmer.Value);
         internal void InjectionTrade(List<ResourceTrade> trades)
         {
             foreach (var trade in trades)
@@ -62,6 +66,7 @@ namespace Game.Services.Storage.ResourcesRepository
             foreach (var trade in trades)
             {
                 trade.Initialization(_tradeMicroservice);
+                trade.Inject(_cellService);
                 _buildingTrade.Add(trade);
                 GetBuildingTrade.Add(trade.Into.Data.ExternalName, trade);
             }
@@ -79,6 +84,7 @@ namespace Game.Services.Storage.ResourcesRepository
             foreach (var trade in trades)
             {
                 trade.Initialization(_tradeMicroservice);
+                trade.Inject(_cellService);
                 _seedTrade.Add(trade);
                 GetSeedTrade.Add(trade.into.title, trade);
             }
@@ -88,10 +94,21 @@ namespace Game.Services.Storage.ResourcesRepository
             foreach (var resourceUI in resourcesUI) 
                 CommonToUIResources.Add(resourceUI.resource.title, resourceUI);
         }
-        private TradeMicroservice _tradeMicroservice;
-        internal void InjectionInMicroservice(TradeMicroservice tradeMicroservice,GameObject target)
+        internal void InjectionResource(List<Resource> resources, ResourceRepository repository)
+        {
+            Resources = new Dictionary<string, IResource>();
+            foreach (var rTechnology in resources)
+            {
+                var temped = rTechnology.Data;
+                temped.Temp = this;
+                temped.Repository = repository;
+                Resources.Add(temped.Title, temped);
+            }
+        }
+        internal void InjectionInMicroservice(TradeMicroservice tradeMicroservice, CellService cellService ,GameObject target)
         {
             _tradeMicroservice = tradeMicroservice;
+            _cellService = cellService;
             OnEncodeChangeData = EncodeChange;
             OnEncodeChangeElement = EncodeChangeElement;
             
@@ -103,27 +120,7 @@ namespace Game.Services.Storage.ResourcesRepository
             tradeMicroservice.OnTryTechnologyTrade += TechnologyTradeByTradeMap;
             tradeMicroservice.OnTrySeedTrade += SeedTradeByTradeMap;
         }
-        private void EncodeChange(string arg1, long arg2)
-        {
-        }
-        private void EncodeChangeElement(string arg1, ResourceEncoded resourceEncoded)
-        {
-            var title = arg1;
-            var resource = Resources[resourceEncoded.Title];
-            var value = Data[resourceEncoded];
-            OnCallBackInvocation?.Invoke(Porting.Type<ResourceTempedCallBack>(),new ResourceTempedCallBack(title, resource, value));
-        }
-        internal void InjectResource(List<Resource> resources, ResourceRepository repository)
-        {
-            Resources = new Dictionary<string, IResource>();
-            foreach (var rTechnology in resources)
-            {
-                var temped = rTechnology.Data;
-                temped.Temp = this;
-                temped.Repository = repository;
-                Resources.Add(temped.Title, temped);
-            }
-        }
+        
         #region ResourceTradeByTradeMap
         public void ResourceTradeByTradeMap(ResourceTrade trade, Dictionary<IResource, int> tradeMap,int amount, bool all = false)
         {
@@ -133,7 +130,10 @@ namespace Game.Services.Storage.ResourcesRepository
                 _tradeMicroservice.SuccessfullyInvoke(trade, amount, all);
                 ProvideAddAmounts(trade.Into.Data, amountResource);
             }
-            else _tradeMicroservice.FailedInvoke(trade, amount, all);
+            else
+            {
+                _tradeMicroservice.FailedInvoke(trade, amount, all);
+            }
         }
         public void BuildingTradeByTradeMap(BuildingTrade trade, Dictionary<IResource, int> tradeMap, int amount, bool all = false)
         {
@@ -158,35 +158,38 @@ namespace Game.Services.Storage.ResourcesRepository
         {
             int amountResource = TradeResource(tradeMap, amount, all);
             if (amountResource != 0)
-            {
                 _tradeMicroservice.SuccessfullyInvoke(trade, amount, all);
-                ProvideAddAmounts(trade.@into.Data, 1);
-                trade.stages++;
-            }
-            else _tradeMicroservice.FailedInvoke(trade, amount, all);
+            else
+                _tradeMicroservice.FailedInvoke(trade, amount, all);
         }
         #endregion
+
+        private void EncodeChangeElement(string arg1, ResourceEncoded resourceEncoded)
+        {
+            var title = arg1;
+            var resource = Resources[resourceEncoded.Title];
+            var value = Data[resourceEncoded];
+            OnCallBackInvocation?.Invoke(Porting.Type<ResourceTempedCallBack>(),new ResourceTempedCallBack(title, resource, value));
+        }
+        private void EncodeChange(string arg1, long arg2)
+        {
+        }
         private int TradeResource(Dictionary<IResource, int> tradeMap, int amount, bool all = false)
         {
-            if (all) 
-                return TradeAll(tradeMap);
-            int resultAmount = 0;
-            for (int iter = 0; iter < amount; iter++)
-            {
-                if (!CanTradeResource(tradeMap)) 
-                    return 0;
-                foreach (var tradeMapElement in tradeMap)
+            if (!CanTradeResource(tradeMap)) return 0;
+            if (all) return TradeAll(tradeMap);
+            foreach (var tradeMapElement in tradeMap)
                     ProvidePayAmounts(tradeMapElement.Key, tradeMapElement.Value);
-                resultAmount++;
-            }
-            Debug.Log($"Result TradeResource: {resultAmount}");
-            return resultAmount;
+            return amount;
         }
         private bool CanTradeResource(Dictionary<IResource, int> tradeMap)
         {
             foreach (var tradeComponent in tradeMap)
                 if (!CanPayAmounts(tradeComponent.Key, tradeComponent.Value))
+                {
+                    Debugger.Logger($"{tradeComponent.Key}:{tradeComponent.Value} == {Data[EncodeByIdentifier[tradeComponent.Key.Title]]}");
                     return false;
+                }
             return true;
         }
         private bool CanTradeAmountResource(Dictionary<IResource, int> tradeMap, int amount)
@@ -199,15 +202,14 @@ namespace Game.Services.Storage.ResourcesRepository
         private int TradeAll(Dictionary<IResource, int> tradeMap)
         {
             int max = MaxTradeAmount(tradeMap);
-            foreach (var tradeMapElement in tradeMap) ProvidePayAmounts(tradeMapElement.Key, tradeMapElement.Value * max);
+            foreach (var tradeMapElement in tradeMap) 
+                ProvidePayAmounts(tradeMapElement.Key, tradeMapElement.Value * max);
             return max;
         }
-
         internal long GetValueAmount(string resource)
         {
             return GetAmount(resource);
         }
-
         internal int MaxTradeAmount(Dictionary<IResource, int> trade)
         {
             long maxAmount = 0;
@@ -225,6 +227,8 @@ namespace Game.Services.Storage.ResourcesRepository
             return (int)maxAmount;
         }
         internal bool IsTradAble(Dictionary<IResource, int> tradeMap) => CanTradeResource(tradeMap);
+        private void FarmResource(Port type, CellResourcePackaging farmer) => ProvideAddAmounts(farmer.Resource, farmer.Value);
+
         #region Temp Signature
 
         protected override long SummedAmounts(long a, long b) { return a + b; }
@@ -232,7 +236,10 @@ namespace Game.Services.Storage.ResourcesRepository
         protected override string GetIdentifierByEncoded(ResourceEncoded encoded) { return encoded.Title; }
         protected void ProvideAddAmounts(IResource resource, int amount) { SummedAmountData(resource.Title, amount); }
         protected void ProvidePayAmounts(IResource resource, int amount) { SubtractionAmountData(resource.Title, amount); }
-        protected bool CanPayAmounts(IResource resource, int amount) { return CanAddAmounts(resource) && DataByIdentifier[resource.Title] >= amount; }
+        protected bool CanPayAmounts(IResource resource, int amount) 
+        { 
+            return  Data[EncodeByIdentifier[resource.Title]] >= amount; 
+        }
         protected bool CanAddAmounts(IResource resource) { return DataByIdentifier.ContainsKey(resource.Title); }
         internal ResourceTemp(IIdentifier<string, ResourceEncoded> identifier) : base(identifier) { }
         

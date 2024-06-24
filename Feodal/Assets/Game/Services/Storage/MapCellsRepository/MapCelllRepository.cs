@@ -85,6 +85,7 @@ namespace Game.Services.Storage.MapCellsRepository
         {
             temp = new MapCellTemp(convert);
         }
+
     }
 
 }

@@ -6,9 +6,10 @@ namespace Game.Core.DataStructures.Trades.Map
 {
     public class BuildingTradeMap :  AbstractTradeMap<ICellState, IResource>
     {
-        private BuildingTrade _tradeDependency;
-        public BuildingTradeMap( BuildingTrade trade )
+        private readonly BuildingTrade _tradeDependency;
+        public BuildingTradeMap( BuildingTrade trade)
         {
+            _tradeDependency = trade;
             From = new List<MapValue<IResource>>();
             foreach (var element in trade.resourceAmountCondition)
             {
@@ -21,12 +22,14 @@ namespace Game.Core.DataStructures.Trades.Map
             var cellAmount = _tradeDependency.CellStateQuantity();
             var value = Into.Value.Resource.Quantity;
             var dataMap =  base.GetAmount(amount);
+            Dictionary<IResource, int> newDict = new Dictionary<IResource, int>();
             foreach (var pair in dataMap)
             {
-                dataMap[pair.Key] = pair.Value * (value*cellAmount);
+                newDict.Add(pair.Key, pair.Value * (value*cellAmount));
                 cellAmount++;
             }
-            return dataMap;
+            dataMap.Clear();
+            return newDict;
         }
         public sealed override MapValue<ICellState> Into { get; protected set; }
         public sealed override List<MapValue<IResource>> From { get; protected set; }

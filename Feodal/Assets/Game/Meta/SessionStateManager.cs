@@ -38,7 +38,9 @@ namespace Game.Meta
             await Task.Delay(100);
             SceneAwakeMicroServiceSession();
             IsMicroServiceSessionInit = true;
+            await Task.Delay(60);
             await StartAfterAwake();
+            SceneAwakeMicroClose();
         }
         /// <summary>
         /// Event triggered during the scene awake session.
@@ -53,10 +55,13 @@ namespace Game.Meta
         /// </summary>
         public event Action OnSceneAwakeMicroServiceSession;
         
+        public event Action OnSceneAwakeClose;
+
         private void SceneAwakeSession() => OnSceneAwakeSession?.Invoke();
         private void SceneAwakeServiceSession() => OnSceneAwakeServiceSession?.Invoke();
         private void SceneAwakeMicroServiceSession() => OnSceneAwakeMicroServiceSession?.Invoke();
-        
+        private void SceneAwakeMicroClose() => OnSceneAwakeClose?.Invoke();
+
         /// <summary>
         /// Starts the session after the awake phase is completed.
         /// </summary>

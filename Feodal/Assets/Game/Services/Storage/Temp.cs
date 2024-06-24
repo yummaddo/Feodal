@@ -63,6 +63,12 @@ namespace Game.Services.Storage
         {
             return Data[EncodeByIdentifier[identifier]];
         }
+        internal void AddAmount(TEncodedIdentifier identifier, TData value)
+        {
+            SummedAmountData(identifier, value);
+            OnEncodeChangeData?.Invoke(identifier,Data[EncodeByIdentifier[identifier]]);
+            OnEncodeChangeElement?.Invoke(identifier,EncodeByIdentifier[identifier]);
+        }
         internal void SetAmount(TEncodedIdentifier identifier, TData value)
         {
             Data[EncodeByIdentifier[identifier]] = value;

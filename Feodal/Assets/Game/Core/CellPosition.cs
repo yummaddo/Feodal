@@ -18,7 +18,13 @@ namespace Game.Core
             new Vector3(-0.5f, 0, -Mathf.Sqrt(3) / 2), // Direct240 - 
             new Vector3(0.5f, 0, -Mathf.Sqrt(3) / 2) // Direct300 - 
         };
-
+        
+        public int Identifier { get; set; }
+        public Vector3 Global { get; set; }
+        public HexPosition CellHexPosition { get; set; }
+        public HexCoords CellHexCoord { get; set; }
+        public Transform Root { get; set; }
+        
         public CellPosition(int identifier, Vector3 @global, Transform root,float distance)
         {
             this.CellHexPosition = HexMath.PointToHexPosition(global, distance);
@@ -27,11 +33,7 @@ namespace Game.Core
             Global = global;
             Root = root;
         }
-        public int Identifier { get; set; }
-        public Vector3 Global { get; set; }
-        public HexPosition CellHexPosition { get; set; }
-        public HexCoords CellHexCoord { get; set; }
-        public Transform Root { get; set; }
+
         public CellPosition MoveTo(Direction direction, float distance)
         {
             Vector3 directionVector = DirectionVectors[(int)direction];

@@ -22,7 +22,7 @@ namespace Game.Services.Abstraction.Service
         protected virtual void Awake()
         {
             StateManager = SessionStateManager.Instance;
-            Debugger.Logger($"Registering type {this.GetType()}",  ContextDebug.Session,Process.Action);
+            Debugger.Logger($"Registering type {this.GetType().Name}",  ContextDebug.Session,Process.Initial);
             SessionStateManager.Instance.ServiceLocator.RegisterInstance(this.GetType(), this);
             StateManager.OnSceneAwakeServiceSession += OnAwakeCaller;
             StateManager.OnSceneStartServiceSession += OnStartCaller;

@@ -42,7 +42,7 @@ namespace Game.Services.Storage.Abstraction
         }
         internal virtual void Initialization( IIdentifier<TEncodedIdentifier,TEncoded> convert, List<TEncoded> encodes = null )
         {
-            Debugger.Logger($"Repository {this.GetType()} Init Temp", Process.Action);
+            Debugger.Logger($"Repository {this.GetType().Name} Init Temp {typeof(TTemp).Name}", ContextDebug.Initialization, Process.Update);
             InitTemp(convert);
             if (encodes != null) InitHimselfEncodes(encodes);
             else Encodes = new List<TEncoded>();

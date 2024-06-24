@@ -45,7 +45,7 @@ namespace Game.Services.Proxies.ClickCallback.Abstraction
             StatusInit = true;
         }
         public Action<Port, TData> OnCallBackInvocation { get; set; } =
-            (type,data) => Debugger.Logger($"Button {type} {typeof(TData)}, {data.ToString()}",  ContextDebug.Session,Process.Action);
+            (type,data) => Debugger.Logger($"Button {type} {typeof(TData).Name}, {data.ToString()}",  ContextDebug.Session,Process.Action);
         public bool IsInit { get; set; } = false;
         public GameObject TargetObject { get; set; }
     }

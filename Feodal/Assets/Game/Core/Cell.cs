@@ -29,20 +29,17 @@ namespace Game.Core
             transform.position = position;
             _rootedContent = Instantiate(container.initial.root, root);
             State = container.initial.Data;
-            
             FindFarmer();
-            _cellService.CellCreated(this, invocation);
         }
 
-        internal void MigrateToNewState(ICellState state, bool invocation = true)
+        internal ICellState MigrateToNewState(ICellState state, bool invocation = true)
         {
             var lastState = State;
             State = state;
             Destroy(_rootedContent);
             _rootedContent = Instantiate(state.Root, root);
-            
             FindFarmer();
-            _cellService.CellChange(lastState,State,this,invocation);
+            return lastState;
         }
         internal Seed GetSeed() => container.seed;
         internal void DestroyCell()

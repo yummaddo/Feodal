@@ -19,23 +19,31 @@ namespace Game.Core.DataStructures.Trades
         [SerializeField] internal List<ResourceTrade> resourceAmountCondition = new List<ResourceTrade>();
         [SerializeField] internal int stages = 0;
         [SerializeField] internal int currentStage = 0;
+        /// <summary>
+        /// key start from 1 
+        /// </summary>
         internal Dictionary<int, ResourceTrade> Trades = new Dictionary<int, ResourceTrade>();
 
         private CellService _cellService;
         internal SeedTradeMap Map;
         public override string TradeName => ToString();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns> value can be 0 </returns>
         internal int CellQuantity()
         {
             return _cellService.cellMap.GetCellCount(into);
+        }
+        internal int CurrentStage()
+        {
+            return _cellService.cellMap.GetCellCount(into)+1;
         }
         internal void Inject(CellService service)
         {
             _cellService = service;
         }
-        public override string ToString()
-        {
-            return $"Seed_{into.title}";
-        }
+        public override string ToString() { return $"Seed_{into.title}"; }
         internal override void Initialization(TradeMicroservice microservice)
         {
             base.Initialization(microservice);

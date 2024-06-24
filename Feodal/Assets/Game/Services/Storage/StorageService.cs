@@ -7,6 +7,7 @@ using Game.Core.DataStructures.Trades;
 using Game.Core.DataStructures.UI.Data;
 using Game.Meta;
 using Game.Services.Abstraction.Service;
+using Game.Services.CellControlling;
 using Game.Services.Storage.Abstraction;
 using Game.Services.Storage.MapCellsRepository;
 using Game.Services.Storage.Microservice;
@@ -29,7 +30,8 @@ namespace Game.Services.Storage
         [SerializeField] private List<UIResource> resourcesUI = new List<UIResource>();
 
         private TradeMicroservice _tradeMicroservice;
-        
+        private CellService _cellMicroservice;
+
         public event Action OnResourceRepositoryInit;
         public event Action OnCellsMapRepositoryInit;
         public event Action OnTechnologyRepositoryInit;
@@ -55,9 +57,9 @@ namespace Game.Services.Storage
         private void InjectRepository()
         {
             resourceRepository.temp.Injection();
-            resourceRepository.temp.InjectResource(resourceList, resourceRepository);
+            resourceRepository.temp.InjectionResource(resourceList, resourceRepository);
             resourceRepository.temp.InjectionResource(resourcesUI);
-            resourceRepository.temp.InjectionInMicroservice(_tradeMicroservice, gameObject);
+            resourceRepository.temp.InjectionInMicroservice(_tradeMicroservice,_cellMicroservice, gameObject);
             
             resourceRepository.temp.InjectionTrade(this.GetTradeSetTemplate(tradeResourceAmounts));
             resourceRepository.temp.InjectionTrade(this.GetTradeSetTemplate(technologyBuildList));
@@ -76,6 +78,7 @@ namespace Game.Services.Storage
         {
             SessionStateManager.Instance.OnSceneAwakeMicroServiceSession -= Injection;
             _tradeMicroservice = SessionStateManager.Instance.ServiceLocator.Resolve<TradeMicroservice>();
+            _cellMicroservice = SessionStateManager.Instance.ServiceLocator.Resolve<CellService>();
             InitializationRepository();
             LoadRepositoriesData();
         }

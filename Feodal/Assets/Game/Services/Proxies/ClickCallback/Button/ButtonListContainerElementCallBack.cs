@@ -13,7 +13,7 @@ namespace Game.Services.Proxies.ClickCallback.Button
         public MenuTypes menuTypesToClose = MenuTypes.BuildingMenu;
         public override void Initialization()
         {
-            CellContainerElementProvider.CallBackTunneling<UIMenuBuilding>(this);
+            UICellContainerElementProvider.CallBackTunneling<UIMenuBuilding>(this);
             StatusInit = true;
         }
         protected override void OnButtonClick()

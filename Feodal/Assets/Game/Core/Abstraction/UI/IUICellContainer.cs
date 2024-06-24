@@ -9,6 +9,7 @@ namespace Game.Core.Abstraction.UI
 {
     public interface IUICellContainer
     {
+        public Seed Seed { get; set; }
         public Sprite CellImage { get; set; }
         public Sprite CellLendIdentImage { get; set; }
         public string CellTitle { get; set; }

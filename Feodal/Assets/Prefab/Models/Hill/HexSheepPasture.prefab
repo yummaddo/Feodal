@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickCallback: {fileID: -3969770457538586131}
-  farmAmountPerIteration: 2
+  farmAmountPerIteration: 13922
   farmTime: 5
   resource: {fileID: 11400000, guid: b2f9c998787f74c4fb1851c122bd8738, type: 2}
   progressBar: {fileID: 7764191686295128865}

@@ -25,8 +25,7 @@ namespace Game.UI.Menu
         {
             Proxy.Connect<UIListResourceElementProvider, UIResourceListElement, UIResourceListElement>(OnClickedBySimpleResource);
             Proxy.Connect<UITechnologyElementProvider, UITechnologyListElement, UITechnologyListElement>(OnClickedByTechnology);
-            Proxy.Connect<CellContainerElementProvider, IUICellContainerElement, UIMenuBuilding>( OnBuildSelected);
-
+            Proxy.Connect<UICellContainerElementProvider, IUICellContainerElement, UIMenuBuilding>( OnBuildSelected);
             
             Proxy.Connect<MenuTypesExitProvider, MenuTypes, ButtonExitMenuCallBack>(OnClickedByMenuExit);
             Proxy.Connect<MenuTypesOpenProvider, MenuTypes, ButtonOpenMenuCallBack>(OnClickedByMenuOpen);

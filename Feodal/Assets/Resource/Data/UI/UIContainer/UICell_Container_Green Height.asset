@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e22d58d9c34148bf989ab5a8f3b72d9f, type: 3}
   m_Name: UICell_Container_Green Height
   m_EditorClassIdentifier: 
+  seed: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
   cellImage: {fileID: 21300000, guid: eb38c883d5d3b8a42b90ebc70417cef6, type: 3}
   cellLendIdentImage: {fileID: 21300000, guid: d320925ae3737244cb240de34a816bcf, type: 3}
   cellTitle: Green Height

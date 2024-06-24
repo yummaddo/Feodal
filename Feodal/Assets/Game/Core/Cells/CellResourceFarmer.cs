@@ -15,13 +15,12 @@ namespace Game.Core.Cells
         
         [SerializeField] private SimpleCellResourcePackagingCallBack clickCallback;
         
-        [Range(1f,20f)]
+        [Range(1f,20000f)]
         [SerializeField] 
         internal int farmAmountPerIteration = 1;
         
         [Range(0.4f,50f)]
         [SerializeField] float farmTime = 2f;
-        
         [SerializeField] internal UIResource resource;
         [SerializeField] internal UICellFarmerProgressBar progressBar;
         private Cell _cellConnected;

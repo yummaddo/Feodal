@@ -20,13 +20,15 @@ namespace Game.Core.DataStructures.Trades
         internal BuildingTradeMap Map;
 
         public override string TradeName => Into.externalName;
-        
+        internal void Inject(CellService service)
+        {
+            _cellService = service;
+        }
 
-        internal void Inject(CellService service) => _cellService = service;
-        
         internal override void Initialization(TradeMicroservice microservice)
         {
             base.Initialization(microservice);
+            
             Map = new BuildingTradeMap(this);
         }
         public int CellStateQuantity() => _cellService.cellMap.GetCountOfCellState(Into.Data);

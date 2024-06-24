@@ -17,7 +17,7 @@ namespace Game.Services.Abstraction.MicroService
         protected virtual void Awake()
         {
             var stateManager = SessionStateManager.Instance;
-            Debugger.Logger($"Registering type {this.GetType()}",  ContextDebug.Session,Process.Action);
+            Debugger.Logger($"Registering type {this.GetType().Name}",  ContextDebug.Initialization, Process.Initial);
             stateManager.ServiceLocator.RegisterInstance(this.GetType(), this);
             stateManager.OnSceneAwakeMicroServiceSession += SceneAwakeMicroServiceSession;
             stateManager.OnSceneStartMicroServiceSession += OnStart;
@@ -48,16 +48,19 @@ namespace Game.Services.Abstraction.MicroService
             Stop();
             OnMicroServiceStop?.Invoke();
         }
+        
         private void MicroServiceReStart()
         {
             status = ServiceStatus.Play;
             ReStart();
             OnMicroServiceReStart?.Invoke();
         }
+        
         protected override bool Active()
         {
             return status == ServiceStatus.Play; 
         }
+        
         protected virtual void Freezing() { }
         protected virtual void UnFreezing() { }
         protected abstract void ReStart();

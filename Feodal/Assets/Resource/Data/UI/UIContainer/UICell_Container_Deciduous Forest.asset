@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e22d58d9c34148bf989ab5a8f3b72d9f, type: 3}
   m_Name: UICell_Container_Deciduous Forest
   m_EditorClassIdentifier: 
+  seed: {fileID: 11400000, guid: 1f6f8f81dce7e6d48b33a53a41977ab6, type: 2}
   cellImage: {fileID: 21300000, guid: 8be50fd4993a3804c96bbef549bc19ae, type: 3}
   cellLendIdentImage: {fileID: 21300000, guid: ff47e189affccad4caa485ebcb2671b6, type: 3}
   cellTitle: Deciduous Forest

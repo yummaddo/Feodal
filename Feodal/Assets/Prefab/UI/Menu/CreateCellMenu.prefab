@@ -73,11 +73,9 @@ MonoBehaviour:
   data:
   - {fileID: 11400000, guid: 2dfba2f0a4daef14eb47f96e4048f431, type: 2}
   - {fileID: 11400000, guid: 341e19a297e5c1745a2774fc2e937367, type: 2}
-  - {fileID: 11400000, guid: 3854822363a4a724386569bf22c4a356, type: 2}
-  - {fileID: 11400000, guid: fe25be1530aa8c144ae58494756be529, type: 2}
   - {fileID: 11400000, guid: e8feb799cb3f27649bc07a24d6416ea1, type: 2}
+  - {fileID: 11400000, guid: 3854822363a4a724386569bf22c4a356, type: 2}
   - {fileID: 11400000, guid: a8baf32cab9d474458888d0df6dd5e00, type: 2}
-  - {fileID: 11400000, guid: aab57ebd742a8534e8ee6b25412ef7df, type: 2}
   - {fileID: 11400000, guid: 5cc95464bd707d541b84137e617a6a7b, type: 2}
 --- !u!1 &1357919145629881874
 GameObject:
@@ -221,7 +219,7 @@ MonoBehaviour:
     Enable: 1
     VelocityThreshold: 0.5
     Duration: 0.35
-    Easing: 25
+    Easing: 4
   draggable: 1
   scrollbar: {fileID: 0}
 --- !u!1 &3200104777585211766

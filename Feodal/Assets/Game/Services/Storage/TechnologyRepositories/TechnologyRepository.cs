@@ -35,7 +35,7 @@ namespace Game.Services.Storage.TechnologyRepositories
 
         public void OnTradeTechnology(Port port, TechnologyTradeCallBack callBack)
         {
-            var newTech = callBack.TechnologyTrade.@into.Data.Title;
+            var newTech = callBack.Trade.@into.Data.Title;
             var encodedTech = temp.EncodeByIdentifier[newTech];
             temp.SetAmount(encodedTech, newTech, true);
         }

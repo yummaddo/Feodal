@@ -19,8 +19,11 @@ namespace Game.Services.Inputs.Microservice
         [Range(0.31f, 1.5f)]public float timeForSelection = 0.5f;
         [Range(0.01f, 0.1f)]public float speedForCameraMove = 0.02f;
         [Range(10f, 200)]public float maximumTouchScreenDistance = 10f;
+
         [Header("Program speed parameters")] 
-        [Range(0.5f, 10f)] public float cameraMovementSpeed = 2f;
+        public AnimationCurve elevation;
+        [Range(0.5f, 100f)] public float cameraMovementSpeed = 2f;
+        
         private Vector2 _screenPositionStart;
         private Vector2 _screenPositionProcessed;
         private Vector2 _screenPositionProcessedLast;
@@ -30,6 +33,7 @@ namespace Game.Services.Inputs.Microservice
         private bool _isClick = false;
         private bool _activeTouch = false;
         private bool _active = true;
+        
         
         private float _screenSwipeSpeed = 0;
         private float _distanceOfStartEndTouch = 0;
@@ -69,12 +73,15 @@ namespace Game.Services.Inputs.Microservice
 
         private void OpenMenuCallFormMenu(Port arg1, MenuTypes arg2)
         {
-            if (arg2 == MenuTypes.Technology || arg2 == MenuTypes.TradeMenu)
+            if (arg2 == MenuTypes.Technology 
+                || arg2 == MenuTypes.TradeMenu)
                 _active = false;
         }
         private void ExitMenuCallFormMenu(Port arg1, MenuTypes arg2)
         {
-            if (arg2 == MenuTypes.Technology || arg2 == MenuTypes.ContainerMenu)
+            if (arg2 == MenuTypes.Technology 
+                || arg2 == MenuTypes.ContainerMenu
+                || arg2 == MenuTypes.TradeMenu)
             {
                 _active = true;
             }
@@ -135,7 +142,7 @@ namespace Game.Services.Inputs.Microservice
             }
             catch (Exception e) { Debugger.Logger(e.Message, Process.TrashHold); }
         }
-        
+
         protected override void OnStart() { }
         protected override void Stop() { }
         protected override void ReStart() { }
@@ -183,8 +190,14 @@ namespace Game.Services.Inputs.Microservice
             } 
             else if (_active && _activeTouch && _isClick && _isMoveCamera) // camera move condition
             {
-                var distanceFromStart = _screenPositionProcessed- _screenPositionStart;
-                _controlService.MoveCamera(cameraMovementSpeed, _screenPositionProcessedLast, _screenPositionProcessed, distanceFromStart);
+                var vector2Normal = _screenPositionProcessed - _screenPositionProcessedLast;
+                var magnitudeDivision = vector2Normal.magnitude * cameraMovementSpeed;
+                if (vector2Normal.magnitude > 0)
+                {
+                    magnitudeDivision -=  elevation.Evaluate(Mathf.Clamp01(magnitudeDivision / vector2Normal.magnitude)) * magnitudeDivision;
+                }
+                var vector3Normal = new Vector3(-vector2Normal.y, 0, vector2Normal.x).normalized * magnitudeDivision ;
+                _controlService.MoveCamera( vector3Normal * Time.deltaTime,  vector3Normal.magnitude, vector3Normal);
             }
 
             if (!_activeTouch && _isClick)

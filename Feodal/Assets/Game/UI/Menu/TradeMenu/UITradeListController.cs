@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Game.Core.Abstraction.UI;
 using Game.Core.DataStructures;
 using Game.Core.DataStructures.Trades;
@@ -99,19 +100,17 @@ namespace Game.UI.Menu.TradeMenu
             _tradeType = TradeType.None;
         }
         private void SomeResourceUpdate(Port port,ResourceTempedCallBack callBack) { }
+        private void OnEnable()
+        {
+            SliderValueChangeCheck();
+        }
         private void SliderValueChangeCheck()
         {
             if (ResourceTradeTemped != null && TempResourceTemped != null)
             {
                 maxAmount = TempResourceTemped.MaxTradeAmount(ResourceTradeTemped.Map.GetAmount(1));
-                var tradeAmountTemped = (int)(slider.value * maxAmount);
-                if (tradeAmountTemped != tradeAmount)
-                {
-                    tradeAmount = tradeAmountTemped;
-                    amountOfSliderText.text = (tradeAmount).ToString();
-                    foreach (var counterPair in TradeUCompareCounter)
-                        TradeUCompare[counterPair.Key].UpdatePriceValue(maxAmount*counterPair.Value.value, true);
-                }
+                tradeAmount = (int)(slider.value * maxAmount);
+                amountOfSliderText.text = (tradeAmount).ToString();
             }
         }
         public void ViewResource(UIResourceListElement element)
@@ -154,6 +153,7 @@ namespace Game.UI.Menu.TradeMenu
             payRoot.SetActive(true);
             amountSlider.SetActive(false);
             TradeBuildTemped = TempResourceTemped.GetBuildingTrade[element.State.Data.ExternalName];
+            Debugger.Logger(TradeBuildTemped.TradeName);
             _tradeType = TradeType.Building;
             this.PresentTrade(element);
         }
@@ -167,30 +167,19 @@ namespace Game.UI.Menu.TradeMenu
         // internal TechnologyTrade TechnologyTradeTemped;
         public void TryTyPayTrade()
         {
-            Debug.Log("fsgdsgsdgsdgd");
             if (_tradeType == TradeType.Resource)
-            {
-                Debug.Log("fsgdsgsdgsdgd1");
                 _tradeMicroservice.Trade(ResourceTradeTemped, ResourceTradeTemped.Map.GetAmount(tradeAmount),
                     tradeAmount, false);
-            }
             else if (_tradeType == TradeType.Seed)
             {
-                Debug.Log("fsgdsgsdgsdgd2");
-                var currentTrade = TradeSeedTemped.Trades[TradeSeedTemped.currentStage];
+                var currentTrade = TradeSeedTemped.Trades[TradeSeedTemped.CurrentStage()];
                 var mapTrade =  currentTrade.Map.GetAmount(1);
                 _tradeMicroservice.Trade(TradeSeedTemped, mapTrade, 1, false);
             }
             else if (_tradeType == TradeType.Building)
-            {
-                Debug.Log("fsgdsgsdgsdgd3");
                 _tradeMicroservice.Trade(TradeBuildTemped, TradeBuildTemped.Map.GetAmount(1), 1, false);
-            }
             else if (_tradeType == TradeType.Technology)
-            {
-                Debug.Log("fsgdsgsdgsdgd4");
                 _tradeMicroservice.Trade(TechnologyTradeTemped, TechnologyTradeTemped.Map.GetAmount(1), 1, false);
-            }
             else
             {
                 // no one trade was be not provide

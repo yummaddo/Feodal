@@ -34,7 +34,6 @@ namespace Game.Core
         private Dictionary<string, ICellContainer> _cellContainers;
         private Dictionary<string, ICellState> _cellStates;
         private Dictionary<HexCoords, Cell> _hexCellsIdentifier;
-
         private void InitAllData()
         {
             _hexCellsIdentifier = new Dictionary<HexCoords, Cell>();
@@ -45,17 +44,19 @@ namespace Game.Core
             foreach (var container in containers)
             {
                 _cellContainers.Add(container.containerName, container.Data);
-                
                 foreach (var state in container.states) 
                     _cellStates.Add(state.externalName, state.Data);
             }
+        }
 
+        private void Awake()
+        {
+            storageService.OnCellsMapRepositoryInit += StorageServiceCellsMapRepositoryInit;
         }
 
         public void InitCellMap(CellService service)
         {
             _service = service;
-            storageService.OnCellsMapRepositoryInit += StorageServiceCellsMapRepositoryInit;
             baseCells.Initialization(_service,0, root.position, distance);
         }
 
@@ -103,17 +104,28 @@ namespace Game.Core
             var component = obj.GetComponent<Cell>();
             if (component == null) throw new Exception($"{container.CellTemplate} doesnt contain Cell component");
             TryAddCell(component, position, false);
-            component.MigrateToNewState(state,false);
+            var last = component.MigrateToNewState(state,false);
+            _service.CellChange(last,component.State,component,false);
         }
         public int GetCountOfCellState(ICellState state)
         {
-            return 0;
-            
+            int result = 0;
+            for (int i = 0; i < _hexCells.Count; i++)
+            {
+                if (state.ExternalName == _hexCells[i].State.ExternalName) 
+                    result++;
+            }
+            return result;
         }
-        public int GetCellCount(Seed intoData)
+        public int GetCellCount(Seed intoDataSeed)
         {
-            
-            return 0;
+            int result = 0;
+            for (int i = 0; i < _hexCells.Count; i++)
+            {
+                if (intoDataSeed.Is(_hexCells[i].container.Seed))
+                    result++;
+            }
+            return result;
         }
         private void UpdateMap(Cell newCell)
         {
@@ -144,12 +156,13 @@ namespace Game.Core
         public void TryAddCell(Cell addable, Vector3 position, bool invocation = true)
         {
             addable.Initialization(_service,_hexCells.Count, position, distance, invocation);
-            
             if (!_hexIdentifier.Contains(addable.Position.CellHexCoord))
+            {
                 UpdateMap(addable);
-            
-            _service.CellAdded(addable, FindFreeCoordsList(), invocation);
-            closeCallBackMenuTypesClose.OnCallBackInvocation?.Invoke(Porting.Type<ButtonExitMenuCallBack>(),MenuTypes.ContainerMenu);
+                _service.CellCreated(addable, invocation);
+                _service.CellAdded(addable, FindFreeCoordsList(), invocation);
+                closeCallBackMenuTypesClose.OnCallBackInvocation?.Invoke(Porting.Type<ButtonExitMenuCallBack>(),MenuTypes.ContainerMenu);
+            }
         }
     }
 }
