@@ -1,11 +1,9 @@
 ﻿using System;
-using Game.Core.Abstraction;
-using Game.Core.Typing;
-using Game.Meta;
-using Game.Services.Proxies;
-using Game.Services.Proxies.ClickCallback.Button;
-using Game.Services.Proxies.ClickCallback.Simple;
-using Game.Services.Proxies.Providers;
+using System.Threading.Tasks;
+using Game.CallBacks.CallbackClick.Button;
+using Game.DataStructures.Abstraction;
+using Game.Services.ProxyServices;
+using Game.Services.ProxyServices.Providers;
 using Game.UI.Menu.ResourceListMenu;
 using UnityEngine;
 
@@ -17,13 +15,15 @@ namespace Game.UI.Menu
         public Transform target;
         private void Awake()
         {
-            SessionStateManager.Instance.OnSceneAwakeMicroServiceSession += OnSceneAwakeMicroServiceSession;
+            SessionLifeStyleManager.AddLifeIteration(OnSceneAwakeMicroServiceSession, SessionLifecycle.OnSceneAwakeMicroServiceSession);
             controller.OnTradeFindAndProcessed += ControllerTradeFindAndProcessed;
         }
-        private void OnSceneAwakeMicroServiceSession()
+        private Task OnSceneAwakeMicroServiceSession(IProgress<float> progress)
         {
             Proxy.Connect<UniversalResourceProvider, IResource, UIMenuResource>(OnClickedByUniversalResource);
+            Proxy.Connect<MenuTypesExitProvider, MenuTypes, UIMenuResource>(OnClickedByMenuExit);
             Proxy.Connect<MenuTypesExitProvider, MenuTypes, ButtonExitMenuCallBack>(OnClickedByMenuExit);
+            return Task.CompletedTask;
         }
         private void CloseMenu()
         {

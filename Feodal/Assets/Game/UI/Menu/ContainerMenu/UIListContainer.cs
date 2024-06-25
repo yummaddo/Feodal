@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Game.Core.Abstraction.UI;
-using Game.Core.DataStructures.UI.Data;
+using Game.DataStructures.UI;
+using Game.UI.Abstraction;
 using UnityEngine;
 using UnityEngine.UI.Extensions;
 
@@ -22,7 +22,7 @@ namespace Game.UI.Menu.ContainerMenu
         void Start()
         {
             view.OnSelectionChanged(OnSelectionChanged);
-            var items = Enumerable.Range(0, data.Count-1)
+            var items = Enumerable.Range(0, data.Count)
                 .Select(i => new UICellContainerData(data[i]))
                 .ToArray();
             view.UpdateData(items);

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.Core.DataStructures.UI.Data;
+using Game.DataStructures.UI;
 using UnityEngine;
 
 namespace Game.UI.Menu.BuildingCellMenuList

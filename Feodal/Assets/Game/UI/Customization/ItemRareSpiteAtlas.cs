@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Game.Core.Typing;
+using Game.Typing;
 using UnityEngine;
 
 namespace Game.UI.Customization

@@ -1,22 +1,45 @@
 ﻿using System.Collections.Generic;
-using Game.Core.Abstraction.UI;
-using Game.Core.DataStructures;
-using Game.Core.DataStructures.Technologies;
-using Game.Core.DataStructures.Trades;
+using Game.DataStructures;
+using Game.DataStructures.Technologies;
+using Game.DataStructures.Trades;
+using Game.UI.Abstraction;
 using Game.UI.Menu.ResourceListMenu;
 using Game.UI.Menu.TechnologyMenu;
+using Game.Utility;
 using UnityEngine;
 
 namespace Game.UI.Menu.TradeMenu
 {
     public static class UITradeListControllerExtension
     {
+        internal static void PresentSeedTradeUpdate(this UITradeListController controller, SeedTrade tradeSeedTemped)
+        {
+            UpdateReset(controller);
+            var currentTrade = tradeSeedTemped.Trades[tradeSeedTemped.CurrentStage()];
+            Debugger.Logger($"PresentSeedTradeUpdate stage = {tradeSeedTemped.CurrentStage()}");
+            controller.maxAmount = controller.TempResourceTemped.MaxTradeAmount(currentTrade.Map.GetAmount(1));
+            CreateTradeElements(controller, currentTrade.resourceAmountCondition);
+            CreateTechnologyElements(controller, currentTrade.technologyCondition);
+        }
+        internal static void PresentResourceTradeUpdate(this UITradeListController controller,
+            ResourceTrade tradeResourceTemped)
+        {
+            UpdateReset(controller);
+            var map = tradeResourceTemped.Map.GetAmount(1);
+            controller.maxAmount = controller.TempResourceTemped.MaxTradeAmount(map);
+            controller.slider.value = 1.0f;
+            controller.tradeAmount = (int)(controller.slider.value * controller.maxAmount);
+            controller.amountOfSliderText.text = (controller.maxAmount).ToString();
+            CreateTradeElements(controller,tradeResourceTemped.resourceAmountCondition, controller.tradeAmount);
+            CreateTechnologyElements(controller, tradeResourceTemped.technologyCondition);
+
+        }
+
         internal static void PresentTrade(this UITradeListController controller,  ResourceTrade resourceTrade, UIResourceListElement element)
         {
             controller.tradeResource.sprite = controller.TempResourceTemped.CommonToUIResources[resourceTrade.Into.title].resourceImage;
             var map = resourceTrade.Map.GetAmount(1);
             controller.maxAmount = controller.TempResourceTemped.MaxTradeAmount(map);
-            
             controller.slider.value = 1.0f;
             controller.tradeAmount = (int)(controller.slider.value * controller.maxAmount);
             
@@ -33,9 +56,9 @@ namespace Game.UI.Menu.TradeMenu
             CreateTradeElements(controller, currentTrade.resourceAmountCondition);
             CreateTechnologyElements(controller, currentTrade.technologyCondition);
         }
-        internal static void PresentTrade(this UITradeListController controller,  IUICellContainerElement tradeSeed)
+        internal static void PresentTrade(this UITradeListController controller,  IUICellContainerElement buildeSeed)
         {
-             controller.tradeResource.sprite = tradeSeed.CellImage;
+             controller.tradeResource.sprite = buildeSeed.CellImage;
              CreateTradeElements(controller, controller.TradeBuildTemped.resourceAmountCondition, 1);
              CreateTechnologyElements(controller, controller.TradeBuildTemped.technologyCondition);
         }
@@ -79,11 +102,11 @@ namespace Game.UI.Menu.TradeMenu
                     controller.TechnologyTradeTemped = condition.Data.Trade;
                     var ui = controller.TechnologyTradeTemped.sprite;
                     component.UpdateValue(condition);
+                    component.UpdateStatus();
                 }
             }
             Resize<Technology>(conditions, controller.elementTechnologyHeight,controller.techListRect);
         }
-
         private static void Resize<T>(List<T> elements, float height, RectTransform transform)
         {
             var newRect = transform.rect;
@@ -94,6 +117,17 @@ namespace Game.UI.Menu.TradeMenu
             pos.y = newRect.height / 2;
             transform.anchoredPosition = pos;
             transform.sizeDelta = sizeDelta;
+        }
+        private static void UpdateReset(UITradeListController controller)
+        {
+            foreach (var rGameObject in controller.ResourceTradeCompare)
+                Object.Destroy(rGameObject.Value);
+            foreach (var rGameObject in controller.TechnologyTradeCompare)
+                Object.Destroy(rGameObject.Value);
+            controller.TradeUCompare = new Dictionary<int, UITradeResource>();
+            controller.TradeUCompareCounter = new Dictionary<int, ResourceCounter>();
+            controller.ResourceTradeCompare = new Dictionary<int, GameObject>();
+            controller.TechnologyCompare = new Dictionary<int, UITechnologyListElement>();
         }
     }
 }

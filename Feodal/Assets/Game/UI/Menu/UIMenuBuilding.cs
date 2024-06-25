@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.Core;
-using Game.Core.Abstraction;
-using Game.Core.Cells;
-using Game.Core.DataStructures.UI.Data;
-using Game.Meta;
-using Game.Services.Proxies;
-using Game.Services.Proxies.ClickCallback;
-using Game.Services.Proxies.ClickCallback.Button;
-using Game.Services.Proxies.Providers;
+using System.Threading.Tasks;
+using Game.CallBacks.CallbackClick.Button;
+using Game.Cells;
+using Game.DataStructures.UI;
+using Game.Services.ProxyServices;
+using Game.Services.ProxyServices.Providers;
 using Game.UI.Menu.BuildingCellMenuList;
+using Game.Utility;
 using UnityEngine;
 
 namespace Game.UI.Menu
@@ -23,23 +21,22 @@ namespace Game.UI.Menu
 
         private void Awake()
         {
-            SessionStateManager.Instance.OnSceneAwakeMicroServiceSession += OnSceneAwakeMicroServiceSession;
+            SessionLifeStyleManager.AddLifeIteration( OnSceneAwakeMicroServiceSession, SessionLifecycle.OnSceneAwakeMicroServiceSession);
         }
-        private void OnSceneAwakeMicroServiceSession()
+        private Task OnSceneAwakeMicroServiceSession(IProgress<float> progress)
         {
             Proxy.Connect<MenuTypesExitProvider, MenuTypes,UIMenuBuilding>(ExitMenu);
             Proxy.Connect<MenuTypesExitProvider, MenuTypes,CellMap>(ExitMenu);
-            
             Proxy.Connect<CellProvider, Cell, CellUpdatedDetector>(OpenMenu);
+            Proxy.Connect<MenuTypesExitProvider, MenuTypes, UIMenuContainer>(ExitMenu);
             Proxy.Connect<MenuTypesExitProvider, MenuTypes, ButtonExitMenuCallBack>(ExitMenu);
+            return Task.CompletedTask;
         }
 
         private void ExitMenu(Port type, MenuTypes obj)
         {
             if (obj == MenuTypes.BuildingMenu)
-            {
                 target.gameObject.SetActive(false);
-            }
         }
         private void OpenMenu(Port type, Cell cell)
         {

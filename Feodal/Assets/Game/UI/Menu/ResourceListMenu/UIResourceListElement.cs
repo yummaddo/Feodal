@@ -1,15 +1,15 @@
 ﻿using System;
-using Game.Core.Abstraction;
-using Game.Core.Abstraction.UI;
-using Game.Core.DataStructures;
-using Game.Core.DataStructures.UI.Data;
-using Game.Core.Typing;
-using Game.Meta;
-using Game.Services.Proxies;
-using Game.Services.Proxies.ClickCallback;
-using Game.Services.Proxies.ClickCallback.Button;
-using Game.Services.Proxies.Providers;
-using Game.Services.Storage;
+using System.Threading.Tasks;
+using Game.CallBacks;
+using Game.CallBacks.CallbackClick.Button;
+using Game.DataStructures;
+using Game.DataStructures.Abstraction;
+using Game.DataStructures.UI;
+using Game.Services.ProxyServices;
+using Game.Services.ProxyServices.Providers.DatabaseProviders;
+using Game.Services.StorageServices;
+using Game.Typing;
+using Game.UI.Abstraction;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,26 +26,26 @@ namespace Game.UI.Menu.ResourceListMenu
         public Text value;
         public Resource universal;
         public ButtonListResourceElementCallBack buttonResourceCallBack;
-
         private bool _isInit = false;
-        private void OnEnable()
+        private void Awake()
         {
-            var sessionManager = SessionStateManager.Instance;
-            if (sessionManager.IsMicroServiceSessionInit && !_isInit)
-            {
-                UpdateOnInit();
-            }
-            else if (!_isInit)
-            {
-                sessionManager.OnSceneStartSession += UpdateOnInit;
-            }
+            SessionLifeStyleManager.AddLifeIteration(UpdateOnInit, SessionLifecycle.OnSceneAwakeClose);
         }
-
-        private void UpdateOnInit()
+        private Task UpdateOnInit(IProgress<float> progress)
         {
             _isInit = true;
+            UpdateOnInit();
+            return Task.CompletedTask;
+        }
+        private void OnEnable()
+        {
+            if (!_isInit)
+                UpdateOnInit();
+        }
+        private void UpdateOnInit()
+        {
             Proxy.Connect<DatabaseResourceProvider,ResourceTempedCallBack,ResourceTempedCallBack>(SomeResourceUpdate);
-            var store = SessionStateManager.Instance.ServiceLocator.Resolve<StorageService>();
+            var store = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<StorageService>();
             var temp = store.GetResourceTemp();
             if (type == ResourceType.Universal)
                 UpdateValue(temp.GetAmount(universal.title));
@@ -73,6 +73,11 @@ namespace Game.UI.Menu.ResourceListMenu
                 if (arg2.Resource.Title == universal.title)
                     UpdateValue(arg2.Value);
             }
+            else
+            {
+                if (arg2.Resource.Title == UiResource.Resource.Title)
+                    UpdateValue(arg2.Value);
+            }
         }
         private void UpdateData()
         {
@@ -85,11 +90,11 @@ namespace Game.UI.Menu.ResourceListMenu
                 title.text = UiResource.Title;
             
             var valueAmount = UiResource.Resource.Temp.GetAmount(UiResource.Resource.Title);
-            value.text = valueAmount.ToString();
+            if (value) value.text = valueAmount.ToString();
         }
         public void UpdateValue(long valueElement)
         {
-            value.text = valueElement.ToString();
+            if (value) value.text = valueElement.ToString();
         }
         public bool TryUpdate(IResource callBackResource, long callBackValue)
         {

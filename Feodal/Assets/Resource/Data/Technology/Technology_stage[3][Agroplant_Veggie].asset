@@ -20,4 +20,4 @@ MonoBehaviour:
     resourceAmountCondition:
     - resource: {fileID: 11400000, guid: 87de4bc291145cd4e953222dd83e202b, type: 2}
       value: 60
-    into: {fileID: 11400000, guid: 57c87b7204aa8bf40b9f1b71757d6461, type: 2}
+    into: {fileID: 11400000}

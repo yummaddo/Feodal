@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.Core.Abstraction;
-using Game.Core.DataStructures.UI.Data;
-using Game.Core.Typing;
-using Game.Meta;
-using Game.Services.Proxies;
-using Game.Services.Proxies.ClickCallback;
-using Game.Services.Proxies.ClickCallback.Button;
-using Game.Services.Proxies.Providers;
+using System.Threading.Tasks;
+using Game.CallBacks;
+using Game.DataStructures.Abstraction;
+using Game.DataStructures.UI;
+using Game.Services.ProxyServices;
+using Game.Services.ProxyServices.Providers.DatabaseProviders;
 using UnityEngine;
 
 namespace Game.UI.Menu.ResourceListMenu
@@ -17,6 +15,7 @@ namespace Game.UI.Menu.ResourceListMenu
         [SerializeField] private List<UIResourcesList> resourcesLists;
         [SerializeField] private UISeedList seedListsSeed;
         [SerializeField] private GameObject target;
+        [SerializeField] private GameObject targetUniversal;
         [SerializeField] private GameObject templateUIResource;
         internal Dictionary<IResource,UIResourcesList> ResourcesListCompare;
         [Range(1,10)]public int itemInListRoot = 4;
@@ -30,13 +29,22 @@ namespace Game.UI.Menu.ResourceListMenu
             ResourcesListCompare = new Dictionary<IResource, UIResourcesList>();
             foreach (var list in resourcesLists)
                 ResourcesListCompare.Add(list.universal, list);
-            SessionStateManager.Instance.OnSceneAwakeMicroServiceSession += OnSceneAwakeMicroServiceSession;
+            SessionLifeStyleManager.AddLifeIteration(OnSceneAwakeMicroServiceSession, SessionLifecycle.OnSceneAwakeMicroServiceSession);
+            SessionLifeStyleManager.AddLifeIteration(OnSceneStart, SessionLifecycle.OnSceneStartSession);
         }
-        private void OnSceneAwakeMicroServiceSession()
+        private Task OnSceneAwakeMicroServiceSession(IProgress<float> progress)
         {
             tempControllerElements = new List<UIResourceListElement>();
             Proxy.Connect<DatabaseResourceProvider,ResourceTempedCallBack,ResourceTempedCallBack>(SomeResourceUpdate);
+            return Task.CompletedTask;
         }
+
+        private Task OnSceneStart(IProgress<float> progress)
+        {
+            targetUniversal.SetActive(true);
+            return Task.CompletedTask;
+        }
+
         private void SomeResourceUpdate(Port port,ResourceTempedCallBack callBack)
         {
             if (enabled)

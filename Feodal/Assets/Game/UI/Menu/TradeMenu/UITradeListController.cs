@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.Core.Abstraction.UI;
-using Game.Core.DataStructures;
-using Game.Core.DataStructures.Trades;
-using Game.Core.Typing;
-using Game.Meta;
-using Game.Services.Proxies;
-using Game.Services.Proxies.ClickCallback;
-using Game.Services.Proxies.Providers;
-using Game.Services.Storage;
-using Game.Services.Storage.Microservice;
-using Game.Services.Storage.ResourcesRepository;
-using Game.Services.Storage.TechnologyRepositories;
+using System.Threading.Tasks;
+using Game.CallBacks;
+using Game.CallBacks.CallBackTrade;
+using Game.DataStructures;
+using Game.DataStructures.Trades;
+using Game.RepositoryEngine.ResourcesRepository;
+using Game.RepositoryEngine.TechnologyRepositories;
+using Game.Services.StorageServices;
+using Game.Services.StorageServices.Microservice;
+using Game.Typing;
+using Game.UI.Abstraction;
 using Game.UI.Menu.ResourceListMenu;
 using Game.UI.Menu.TechnologyMenu;
+using Game.Utility;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -73,18 +73,17 @@ namespace Game.UI.Menu.TradeMenu
         #endregion
         private void Awake()
         {
-            SessionStateManager.Instance.OnSceneStartMicroServiceSession += OnSceneAwakeMicroServiceSession;
+            SessionLifeStyleManager.AddLifeIteration(OnSceneAwakeMicroServiceSession, SessionLifecycle.OnSceneStartServiceSession);
         }
-        private void OnSceneAwakeMicroServiceSession()
+        private Task OnSceneAwakeMicroServiceSession(IProgress<float> progress)
         {
             slider.onValueChanged.AddListener(delegate { SliderValueChangeCheck(); });
-            _service = SessionStateManager.Instance.ServiceLocator.Resolve<StorageService>();
-            _tradeMicroservice = SessionStateManager.Instance.ServiceLocator.Resolve<TradeMicroservice>();
-            Proxy.Connect<DatabaseResourceProvider,ResourceTempedCallBack,ResourceTempedCallBack>(SomeResourceUpdate);
+            _service = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<StorageService>();
+            _tradeMicroservice = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<TradeMicroservice>();
             TempResourceTemped = _service.GetResourceTemp();
             TempTechnologyTemped = _service.GetTechnologyTemp();
+            return Task.CompletedTask;
         }
-        
         private void Reset()
         {
             foreach (var rGameObject in ResourceTradeCompare) Destroy(rGameObject.Value);
@@ -99,7 +98,6 @@ namespace Game.UI.Menu.TradeMenu
             TechnologyTradeTemped = null;
             _tradeType = TradeType.None;
         }
-        private void SomeResourceUpdate(Port port,ResourceTempedCallBack callBack) { }
         private void OnEnable()
         {
             SliderValueChangeCheck();
@@ -157,14 +155,34 @@ namespace Game.UI.Menu.TradeMenu
             _tradeType = TradeType.Building;
             this.PresentTrade(element);
         }
+        public void ViewResourceUpdate(ResourceTempedCallBack element)
+        {
+            if (!gameObject.activeSelf) return;
+            targetRoot.SetActive(true);
+            payRoot.SetActive(false);
+            amountSlider.SetActive(true);
+            ResourceTradeTemped = element.Resource.Temp.GetResourceTrade[element.Resource.Title];
+            _tradeType = TradeType.Resource;
+            this.PresentResourceTradeUpdate(ResourceTradeTemped);
+        }
+        public void ViewSeedUpdate(Seed element)
+        {
+            if (!gameObject.activeSelf) return;
+            targetRoot.SetActive(true);
+            payRoot.SetActive(true);
+            amountSlider.SetActive(false);
+            TradeSeedTemped = element.Data.Temp.GetSeedTrade[element.title];
+            _tradeType = TradeType.Seed;
+            this.PresentSeedTradeUpdate(TradeSeedTemped);
+        }
+
+        public void ViewBuildingUpdate(BuildingTradeCallBack element) => Clear();
+        public void ViewTechnologyUpdate(TechnologyTradeCallBack element) => Clear();
         public void Clear()
         {
+            if (!gameObject.activeSelf) return;
             Reset();
         }
-        // internal ResourceTrade ResourceTradeTemped;
-        // internal SeedTrade TradeSeedTemped;
-        // internal BuildingTrade TradeBuildTemped;
-        // internal TechnologyTrade TechnologyTradeTemped;
         public void TryTyPayTrade()
         {
             if (_tradeType == TradeType.Resource)
@@ -180,10 +198,6 @@ namespace Game.UI.Menu.TradeMenu
                 _tradeMicroservice.Trade(TradeBuildTemped, TradeBuildTemped.Map.GetAmount(1), 1, false);
             else if (_tradeType == TradeType.Technology)
                 _tradeMicroservice.Trade(TechnologyTradeTemped, TechnologyTradeTemped.Map.GetAmount(1), 1, false);
-            else
-            {
-                // no one trade was be not provide
-            }
         }
     }
 }

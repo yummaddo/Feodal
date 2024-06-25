@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.Core.DataStructures.UI;
+using Game.DataStructures.UI;
 using UnityEngine;
 using UnityEngine.UI.Extensions;
 using UnityEngine.UI.Extensions.EasingCore;

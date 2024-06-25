@@ -1,10 +1,14 @@
-﻿using Game.Core.Abstraction;
-using Game.Core.Abstraction.UI;
-using Game.Core.Typing;
-using Game.Meta;
-using Game.Services.Proxies;
-using Game.Services.Proxies.ClickCallback.Button;
-using Game.Services.Proxies.Providers;
+﻿using System;
+using System.Threading.Tasks;
+using Game.CallBacks;
+using Game.CallBacks.CallbackClick.Button;
+using Game.CallBacks.CallBackTrade;
+using Game.DataStructures;
+using Game.Services.ProxyServices;
+using Game.Services.ProxyServices.Providers;
+using Game.Services.ProxyServices.Providers.DatabaseProviders;
+using Game.Typing;
+using Game.UI.Abstraction;
 using Game.UI.Menu.ResourceListMenu;
 using Game.UI.Menu.TechnologyMenu;
 using Game.UI.Menu.TradeMenu;
@@ -19,25 +23,38 @@ namespace Game.UI.Menu
         [SerializeField] private GameObject root;
         private void Awake()
         {
-            SessionStateManager.Instance.OnSceneAwakeMicroServiceSession += OnSceneAwakeMicroServiceSession;
+            SessionLifeStyleManager.AddLifeIteration(OnSceneAwakeMicroServiceSession, SessionLifecycle.OnSceneAwakeMicroServiceSession);
         }
-        private void OnSceneAwakeMicroServiceSession()
+        private Task OnSceneAwakeMicroServiceSession(IProgress<float> progress)
         {
-            Proxy.Connect<UIListResourceElementProvider, UIResourceListElement, UIResourceListElement>(OnClickedBySimpleResource);
+            Proxy.Connect<UIListResourceElementProvider, UIResourceListElement, UIResourceListElement>(OnClickedByResource);
             Proxy.Connect<UITechnologyElementProvider, UITechnologyListElement, UITechnologyListElement>(OnClickedByTechnology);
             Proxy.Connect<UICellContainerElementProvider, IUICellContainerElement, UIMenuBuilding>( OnBuildSelected);
             
-            Proxy.Connect<MenuTypesExitProvider, MenuTypes, ButtonExitMenuCallBack>(OnClickedByMenuExit);
-            Proxy.Connect<MenuTypesOpenProvider, MenuTypes, ButtonOpenMenuCallBack>(OnClickedByMenuOpen);
+            Proxy.Connect<MenuTypesExitProvider, MenuTypes, UITradeMenu>(OnClickedByMenuExit);
+            Proxy.Connect<MenuTypesExitProvider, MenuTypes, UITradeMenu>(OnClickedByMenuExit);
+            Proxy.Connect<MenuTypesOpenProvider, MenuTypes, ButtonExitMenuCallBack>(OnClickedByMenuOpen);
+            // TradeSuccessfully
+            Proxy.Connect<DatabaseSeedProvider,Seed, Seed>(OnSeedWasBay);
+            // Proxy.Connect<DatabaseResourceProvider,ResourceTempedCallBack,ResourceTempedCallBack>(OnResourceUpdate);
+            // Proxy.Connect<SeedTradeProvider,SeedTradeCallBack>(OnSeedWasBay, Port.TradeSuccessfully);
+            // Proxy.Connect<BuildingTradeProvider,BuildingTradeCallBack>(OnBuildWasBay, Port.TradeSuccessfully);
+            // Proxy.Connect<TechnologyTradeProvider,TechnologyTradeCallBack>(OnTechnologyWasBay, Port.TradeSuccessfully);
+            return Task.CompletedTask;
         }
-
+        private void OnTechnologyWasBay(Port arg1, TechnologyTradeCallBack arg2) => controller.ViewTechnologyUpdate(arg2);
+        private void OnBuildWasBay(Port arg1, BuildingTradeCallBack arg2) => controller.ViewBuildingUpdate(arg2);
+        
+        private void OnResourceUpdate(Port arg1, ResourceTempedCallBack arg2) => controller.ViewResourceUpdate(arg2);
+        private void OnSeedWasBay(Port arg1, Seed arg2) => controller.ViewSeedUpdate(arg2);
+        
         private void OnBuildSelected(Port port, IUICellContainerElement element)
         {
             root.SetActive(true);
             controller.ViewBuilding(element);
         }
 
-        private void OnClickedBySimpleResource(Port port,UIResourceListElement element)
+        private void OnClickedByResource(Port port,UIResourceListElement element)
         {
             if (element.type == ResourceType.Seed)
             {
@@ -65,7 +82,7 @@ namespace Game.UI.Menu
         }
         private void OnClickedByMenuOpen(Port type, MenuTypes obj)
         {
-            if (obj == MenuTypes.Technology)
+            if (obj == MenuTypes.TradeMenu)
             {
                 CloseMenu();
             }

@@ -1,7 +1,5 @@
 ﻿using System;
-using Game.Core.DataStructures;
-using Game.Core.DataStructures.UI.Data;
-using Game.Services.Proxies.ClickCallback.Button;
+using Game.DataStructures;
 using UnityEngine;
 using UnityEngine.UI;
 

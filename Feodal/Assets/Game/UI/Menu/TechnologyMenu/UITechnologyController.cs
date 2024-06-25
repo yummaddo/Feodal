@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.Meta;
-using Game.Services.Proxies;
-using Game.Services.Proxies.Abstraction;
-using Game.Services.Proxies.CallBack;
-using Game.Services.Proxies.ClickCallback.Button;
-using Game.Services.Proxies.Providers;
+using System.Threading.Tasks;
+using Game.CallBacks;
+using Game.CallBacks.CallbackClick.Button;
+using Game.Services.ProxyServices;
+using Game.Services.ProxyServices.Abstraction;
+using Game.Services.ProxyServices.Providers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,20 +24,22 @@ namespace Game.UI.Menu.TechnologyMenu
         private Action<Port, ButtonExitMenuCallBack> _onCallBackInvocation;
         private void Awake()
         {
-            SessionStateManager.Instance.OnSceneAwakeMicroServiceSession += OnSceneAwakeMicroServiceSession;
+            SessionLifeStyleManager.AddLifeIteration(OnSceneAwakeMicroServiceSession, SessionLifecycle.OnSceneAwakeMicroServiceSession);
             _callBackInvocationButtonExitMenu = new MenuTypesCallback();
             _callBackTechnologyListElement = new UITechnologyListElementCallBack();
             
             UITechnologyElementProvider.CallBackTunneling<UITechnologyListElement>(_callBackTechnologyListElement);
             MenuTypesExitProvider.CallBackTunneling<ButtonExitMenuCallBack>(_callBackInvocationButtonExitMenu);
+            
         }
-        private void OnSceneAwakeMicroServiceSession()
+        private Task OnSceneAwakeMicroServiceSession(IProgress<float> progress)
         {
             technologyButton.onClick.AddListener(OnTechnologyButtonClick);
             foreach (var element in elements)
             {
                 element.Inject(this);
             }
+            return Task.CompletedTask;
         }
         private void OnTechnologyButtonClick()
         {
@@ -51,11 +53,11 @@ namespace Game.UI.Menu.TechnologyMenu
         }
         internal void TechnologyElementActiveCall(UITechnologyListElement listElement)
         {
-            _callBackTechnologyListElement.OnCallBackInvocation?.Invoke(Porting.Type<UITechnologyListElement>(),listElement);
             // => tradeMenu
         }
         internal void TechnologyElementDisabledCall(UITechnologyListElement listElement)
         {
+            _callBackTechnologyListElement.OnCallBackInvocation?.Invoke(Porting.Type<UITechnologyListElement>(),listElement);
             // OnCallBackInvocation?.Invoke(Porting.Type<UITechnologyElement>(),element);
         }
         public void OpenMenuManaged()

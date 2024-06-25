@@ -7,6 +7,8 @@
         ResourceMenu,
         StorageMenu,
         TradeMenu,
-        Technology
+        Technology,
+        SettingMenu,
+        CellSetterMenu
     }
 }

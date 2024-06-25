@@ -1,5 +1,4 @@
-﻿using Game.Core.Abstraction.UI;
-using Game.Core.DataStructures.UI.Data;
+﻿using Game.DataStructures.UI;
 
 namespace Game.UI.Menu.ContainerMenu
 {

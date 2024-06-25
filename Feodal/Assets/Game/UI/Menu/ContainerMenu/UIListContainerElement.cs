@@ -1,17 +1,15 @@
 ﻿using System;
-using Game.Core.Abstraction.UI;
-using Game.Core.DataStructures;
-using Game.Core.DataStructures.UI;
-using Game.Core.DataStructures.UI.Data;
-using Game.Meta;
-using Game.Services.CellControlling.Microservice;
-using Game.Services.Proxies;
-using Game.Services.Proxies.Abstraction;
-using Game.Services.Proxies.ClickCallback;
-using Game.Services.Proxies.ClickCallback.Button;
-using Game.Services.Proxies.ClickCallback.Simple;
-using Game.Services.Proxies.Providers;
-using Game.Services.Storage;
+using System.Threading.Tasks;
+using Game.CallBacks.CallbackClick.Button;
+using Game.CallBacks.CallbackClick.Simple;
+using Game.DataStructures;
+using Game.DataStructures.UI;
+using Game.Services.CellServices.Microservice;
+using Game.Services.ProxyServices;
+using Game.Services.ProxyServices.Abstraction;
+using Game.Services.ProxyServices.Providers;
+using Game.UI.Abstraction;
+using Game.Utility;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
@@ -49,25 +47,26 @@ namespace Game.UI.Menu.ContainerMenu
         internal IUICellContainer UIContainer;
         
         private bool _isInit = false;
-        private void OnEnable()
+        private void Awake()
         {
-            var sessionManager = SessionStateManager.Instance;
-            if (sessionManager.IsMicroServiceSessionInit && !_isInit)
-            {
-                UpdateOnInit();
-            }
-            else if (!_isInit)
-            {
-                sessionManager.OnSceneStartSession += UpdateOnInit;
-            }
+            SessionLifeStyleManager.AddLifeIteration(UpdateOnInit, SessionLifecycle.OnSceneStartServiceSession);
+        }
 
-            UpdatePosition(_currentPosition);
+        private Task UpdateOnInit(IProgress<float> progress)
+        {
+            _isInit = true;
+            UpdateOnInit();
+            return Task.CompletedTask;
+        }
+
+        private void UpdateOnInit() 
+        {
+            _isInit = true;
             try
             {
-                if (_seedControllingMicroservice && uIContainer != null)
-                {
-                    pool.color = _seedControllingMicroservice.CanCreateNewSeed(uIContainer.Data.Container.seed) ? availableColor : unAvailableColor;
-                }
+                callBack.onClick.AddListener(OnButtonClick);
+                _seedControllingMicroservice = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<CellSeedControllingMicroservice>();
+                UICellContainerProvider.CallBackTunneling<UIMenuBuilding>(this);
             }
             catch (Exception e)
             {
@@ -75,19 +74,27 @@ namespace Game.UI.Menu.ContainerMenu
             }
         }
 
-        private void UpdateOnInit()
+        private void OnEnable()
         {
-            _isInit = true;
-            try
+            if (!_isInit)
             {
-                callBack.onClick.AddListener(OnButtonClick);
-                _seedControllingMicroservice = SessionStateManager.Instance.ServiceLocator.Resolve<CellSeedControllingMicroservice>();
-                UICellContainerProvider.CallBackTunneling<UIMenuBuilding>(this);
+                UpdateOnInit();
             }
-            catch (Exception e)
+            else
             {
-                Debugger.Logger(e.Message, Process.TrashHold);
+                UpdatePosition(_currentPosition);
+                try
+                {
+                    if (_seedControllingMicroservice && uIContainer != null)
+                        pool.color = _seedControllingMicroservice.CanCreateNewSeed(uIContainer.Data.Container.seed) ? availableColor : unAvailableColor;
+                }
+                catch (Exception e)
+                {
+                    Debugger.Logger(e.Message, Process.TrashHold);
+                }
             }
+
+
         }
         private void OnButtonClick()
         {
@@ -115,9 +122,7 @@ namespace Game.UI.Menu.ContainerMenu
                 title.text = UIContainer.Container.containerName;
                 price.text = UIContainer.Container.price.ToString();
                 if (_seedControllingMicroservice)
-                {
                     pool.color = _seedControllingMicroservice.CanCreateNewSeed(itemContainerData.Data.Container.seed) ? availableColor : unAvailableColor;
-                }
             }
             catch (Exception e)
             {
