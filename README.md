@@ -1,2 +1,2 @@
 # Feodal
-Tycoon Game For test
+Tycoon Game
