@@ -8,8 +8,6 @@ using UnityEngine.UI.Extensions;
 
 namespace Game.UI.Menu.ContainerMenu
 {
-
-
     public class UIListContainer : MonoBehaviour
     {
         [SerializeField] Scroller scroller = default;

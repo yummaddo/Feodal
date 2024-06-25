@@ -83,7 +83,7 @@ namespace Game.UI.Menu.TechnologyMenu
             }
             catch (Exception e)
             {
-                
+                // ignored
             }
         }
         public void UpdateStatus()

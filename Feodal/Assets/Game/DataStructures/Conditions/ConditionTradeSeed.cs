@@ -2,7 +2,11 @@
 using Game.DataStructures.Trades;
 using Game.RepositoryEngine.ResourcesRepository;
 using Game.RepositoryEngine.TechnologyRepositories;
-using UnityEditor;
+
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
+
 using UnityEngine;
 
 namespace Game.DataStructures.Conditions
@@ -26,6 +30,7 @@ namespace Game.DataStructures.Conditions
         {
             return ConditionName;
         }
+#if UNITY_EDITOR
         internal void RenameAsset()
         {
             string assetPath = AssetDatabase.GetAssetPath(this);
@@ -33,7 +38,10 @@ namespace Game.DataStructures.Conditions
             AssetDatabase.RenameAsset(assetPath, GetName());
             AssetDatabase.SaveAssets();
         }
+#endif
+
     }
+#if UNITY_EDITOR
     [CanEditMultipleObjects]
     [CustomEditor(typeof(ConditionTradeSeed))]
     public class ConditionTradeSeedAmountEditor : UnityEditor.Editor 
@@ -48,4 +56,5 @@ namespace Game.DataStructures.Conditions
             }
         }
     }
+#endif
 }

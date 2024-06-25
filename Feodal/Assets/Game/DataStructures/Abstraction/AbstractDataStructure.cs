@@ -6,7 +6,6 @@ namespace Game.DataStructures.Abstraction
     {
         public virtual TTemplate Data => CompareTemplate();
         protected abstract TTemplate CompareTemplate();
-
         protected virtual bool IsStorageChanged()
         {
             // if (DataNamePattern == name)
@@ -16,15 +15,13 @@ namespace Game.DataStructures.Abstraction
 
             return true;
         }
-
         public override string ToString()
         {
             return DataNamePattern;
         }
-
         internal abstract string DataNamePattern { get; }
-        internal void ChangeStorageNaming(TTemplate type) { RenameAsset(); }
-        
+
+#if UNITY_EDITOR
         [ContextMenu("RenameAsset")]
         public virtual void RenameAsset()
         {
@@ -32,6 +29,6 @@ namespace Game.DataStructures.Abstraction
             UnityEditor.AssetDatabase.RenameAsset(assetPath, DataNamePattern);
             UnityEditor.AssetDatabase.SaveAssets();
         }
-        
+#endif
     }
 }
