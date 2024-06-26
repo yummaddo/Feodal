@@ -69,7 +69,7 @@ namespace Game.RepositoryEngine.ResourcesRepository
                 trade.Initialization(_tradeMicroservice);
                 trade.Inject(_cellService);
                 _buildingTrade.Add(trade);
-                GetBuildingTrade.Add(trade.Into.Data.ExternalName, trade);
+                GetBuildingTrade.Add(trade.@into.Data.ExternalName, trade);
             }
         }
         internal void InjectionTrade(List<TechnologyTrade> trades)
@@ -155,7 +155,7 @@ namespace Game.RepositoryEngine.ResourcesRepository
             if (amountResource != 0)
             {
                 _tradeMicroservice.SuccessfullyInvoke(trade, amount, all);
-                ProvideAddAmounts(trade.Into.Data, amountResource);
+                ProvideAddAmounts(trade.@into.Data, amountResource);
             }
             else
             {

@@ -11,7 +11,7 @@ namespace Game.DataStructures.Trades.Map
             From = new List<MapValue<IResource>>();
             foreach (var element in trade.resourceAmountCondition)
                 From.Add(new MapValue<IResource>(element.resource, element.value ));
-            Into = new MapValue<IResource>(trade.Into.Data, trade.Value);
+            Into = new MapValue<IResource>(trade.@into.Data, trade.value);
         }
         public sealed override MapValue<IResource> Into { get; protected set; }
         public sealed override List<MapValue<IResource>> From { get; protected set; }

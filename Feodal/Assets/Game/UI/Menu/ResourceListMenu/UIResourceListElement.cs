@@ -16,7 +16,7 @@ using UnityEngine.UI;
 namespace Game.UI.Menu.ResourceListMenu
 {
 
-    public class UIResourceListElement : MonoBehaviour
+    public class UIResourceListElement : UIElementOnEnable
     {
         public IUIResource UiResource;
         public ResourceType type;
@@ -26,23 +26,13 @@ namespace Game.UI.Menu.ResourceListMenu
         public Text value;
         public Resource universal;
         public ButtonListResourceElementCallBack buttonResourceCallBack;
-        private bool _isInit = false;
-        private void Awake()
+        public override void OnEnableSProcess()
         {
-            SessionLifeStyleManager.AddLifeIteration(UpdateOnInit, SessionLifecycle.OnSceneAwakeClose);
         }
-        private Task UpdateOnInit(IProgress<float> progress)
+        public override void OnAwake()
         {
-            _isInit = true;
-            UpdateOnInit();
-            return Task.CompletedTask;
         }
-        private void OnEnable()
-        {
-            if (!_isInit)
-                UpdateOnInit();
-        }
-        private void UpdateOnInit()
+        public override void UpdateOnInit()
         {
             Proxy.Connect<DatabaseResourceProvider,ResourceTempedCallBack,ResourceTempedCallBack>(SomeResourceUpdate);
             var store = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<StorageService>();
@@ -57,7 +47,6 @@ namespace Game.UI.Menu.ResourceListMenu
             buttonResourceCallBack.DataInitialization(this);
             UpdateData();
         }
-        
         public void UpdateData(UISeed newResource)
         {
             UiResource = newResource.Data;
@@ -65,7 +54,6 @@ namespace Game.UI.Menu.ResourceListMenu
             buttonResourceCallBack.DataInitialization(this);
             UpdateData();
         }
-        
         private void SomeResourceUpdate(Port arg1, ResourceTempedCallBack arg2)
         {
             if (type == ResourceType.Universal)

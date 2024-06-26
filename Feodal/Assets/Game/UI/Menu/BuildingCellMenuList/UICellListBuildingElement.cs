@@ -14,7 +14,8 @@ namespace Game.UI.Menu.BuildingCellMenuList
         public Image universalResource;
         public Text cellTitle;
         public UICellContainerElement element;
-        public void UpdateElement()
+
+        private void UpdateElement()
         {
             cellImage.sprite = element.cellImage;
             resource.sprite = element.cellResource;

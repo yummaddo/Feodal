@@ -13,13 +13,13 @@ namespace Game.DataStructures.Trades
     {
         [SerializeField] internal List<ResourceCounter> resourceAmountCondition;
         [SerializeField] internal List<Technology> technologyCondition;
-        [SerializeField] public CellState Into;
-        [SerializeField] public int Value;
+        [SerializeField] public CellState @into;
+        [SerializeField] public int value;
         
         private CellService _cellService;
         internal BuildingTradeMap Map;
 
-        public override string TradeName => Into.externalName;
+        public override string TradeName => @into.externalName;
         internal void Inject(CellService service)
         {
             _cellService = service;
@@ -31,7 +31,7 @@ namespace Game.DataStructures.Trades
             
             Map = new BuildingTradeMap(this);
         }
-        public int CellStateQuantity() => _cellService.cellMap.GetCountOfCellState(Into.Data);
+        public int CellStateQuantity() => _cellService.cellMap.GetCountOfCellState(@into.Data);
         public override bool IsTradAble() => TradeMicroservice.CanTrade(Map.GetAmount(1));
         public override bool IsTradAble(int amount) => TradeMicroservice.CanTrade(Map.GetAmount(amount));
         public override bool IsTradAbleAll() => TradeMicroservice.CanTrade(Map.GetAmount(1));

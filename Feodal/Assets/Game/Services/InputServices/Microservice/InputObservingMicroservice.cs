@@ -116,8 +116,6 @@ namespace Game.Services.InputServices.Microservice
         private void ExitMenuCallFormMenu(Port arg1, MenuTypes arg2) => MenuCallFormMenuSwitcher(arg2, true);
         private void OpenMenuCallFormMenu(Port type, CellAddDetector obj) => _containerMenu = false;
         
-        
-        
         private void MenuCallFormMenuSwitcher(MenuTypes menu, bool status)
         {
             if (menu == MenuTypes.Technology)

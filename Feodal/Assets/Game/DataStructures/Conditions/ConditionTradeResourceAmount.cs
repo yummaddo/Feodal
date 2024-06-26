@@ -19,7 +19,7 @@ namespace Game.DataStructures.Conditions
 
         private string GetName()
         {
-            return ConditionName +$"{connectedToDependency.Value}_"+ GetDataResource();
+            return ConditionName +$"{connectedToDependency.value}_"+ GetDataResource();
         }
         public bool Status()
         {

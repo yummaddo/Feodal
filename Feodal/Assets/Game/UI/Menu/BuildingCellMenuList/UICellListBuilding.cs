@@ -16,7 +16,8 @@ namespace Game.UI.Menu.BuildingCellMenuList
             currentViewContainer = container;
             UpdateData();
         }
-        public void UpdateData()
+
+        private void UpdateData()
         {           
             foreach (var sGameObject in _elementsSource) { Destroy(sGameObject); }
             foreach (var element in currentViewContainer.uIContainer)

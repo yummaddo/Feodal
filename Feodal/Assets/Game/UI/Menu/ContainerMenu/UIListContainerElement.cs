@@ -20,20 +20,18 @@ namespace Game.UI.Menu.ContainerMenu
     public class UIListContainerElement : FancyCell<UICellContainerData, Context>, ICallBack<IUICellContainer>
     {
         public UICellContainer uIContainer;
-        public CellContainer Container;
-
+        public CellContainer container;
         public Button callBack;
         public SimpleMenuTypesCloseCallBack closeMenuCallBack;
         public MenuTypes menuTypesToClose = MenuTypes.ContainerMenu;
         public Animator animator;
-        public AnimationCurve x;
+        [Header("Style")]
         public Color availableColor = Color.green;
         public Color unAvailableColor = Color.gray;
+        [Header("Controlling")]
         public Image seed;
         public Image cell;
-        
         public Image pool;
-        
         public Text title;
         public Text price;
         
@@ -43,22 +41,19 @@ namespace Game.UI.Menu.ContainerMenu
         private static readonly int Scroll = Animator.StringToHash("scroll");
         private float _currentPosition = 0;
         private CellSeedControllingMicroservice _seedControllingMicroservice;
-        
-        internal IUICellContainer UIContainer;
+        private IUICellContainer _uiContainer;
         
         private bool _isInit = false;
         private void Awake()
         {
             SessionLifeStyleManager.AddLifeIteration(UpdateOnInit, SessionLifecycle.OnSceneStartServiceSession);
         }
-
         private Task UpdateOnInit(IProgress<float> progress)
         {
             _isInit = true;
             UpdateOnInit();
             return Task.CompletedTask;
         }
-
         private void UpdateOnInit() 
         {
             _isInit = true;
@@ -73,13 +68,9 @@ namespace Game.UI.Menu.ContainerMenu
                 Debugger.Logger(e.Message, Process.TrashHold);
             }
         }
-
         private void OnEnable()
         {
-            if (!_isInit)
-            {
-                UpdateOnInit();
-            }
+            if (!_isInit) UpdateOnInit();
             else
             {
                 UpdatePosition(_currentPosition);
@@ -104,23 +95,19 @@ namespace Game.UI.Menu.ContainerMenu
                 OnCallBackInvocation?.Invoke(Porting.Type<UIMenuBuilding>(),uIContainer.Data);
                 closeMenuCallBack.OnCallBackInvocation?.Invoke(Porting.Type<ButtonExitMenuCallBack>(), menuTypesToClose);
             }
-            else
-            {
-                Debugger.Logger($"No Amount {uIContainer.Data.Container.seed}");
-
-            }
+            else Debugger.Logger($"No Amount {uIContainer.Data.Container.seed}");
         }
         public override void UpdateContent(UICellContainerData itemContainerData)
         {
             try
             {
-                UIContainer = itemContainerData.Data;
+                _uiContainer = itemContainerData.Data;
                 uIContainer = itemContainerData.Data;
-                Container = itemContainerData.Data.container;
-                cell.sprite = UIContainer.CellImage;
-                seed.sprite = UIContainer.CellLendIdentImage;
-                title.text = UIContainer.Container.containerName;
-                price.text = UIContainer.Container.price.ToString();
+                container = itemContainerData.Data.container;
+                cell.sprite = _uiContainer.CellImage;
+                seed.sprite = _uiContainer.CellLendIdentImage;
+                title.text = _uiContainer.Container.containerName;
+                price.text = _uiContainer.Container.price.ToString();
                 if (_seedControllingMicroservice)
                     pool.color = _seedControllingMicroservice.CanCreateNewSeed(itemContainerData.Data.Container.seed) ? availableColor : unAvailableColor;
             }
@@ -133,9 +120,7 @@ namespace Game.UI.Menu.ContainerMenu
         {
             _currentPosition = position;
             if (animator.isActiveAndEnabled)
-            {
                 animator.Play(Scroll, -1, position);
-            }
             animator.speed = 0;
         }
     }

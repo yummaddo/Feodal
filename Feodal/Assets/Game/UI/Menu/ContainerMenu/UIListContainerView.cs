@@ -14,7 +14,7 @@ namespace Game.UI.Menu.ContainerMenu
         [SerializeField] Scroller scroller = default;
         [SerializeField] GameObject cellPrefab = default;
         protected override GameObject CellPrefab => cellPrefab;
-        Action<int> onSelectionChanged;
+        Action<int> _onSelectionChanged;
 
         protected override void Initialize()
         {
@@ -54,6 +54,6 @@ namespace Game.UI.Menu.ContainerMenu
             scroller.ScrollTo(index, 0.35f, Ease.OutCubic);
         }
         
-        public void OnSelectionChanged(Action<int> callback) => onSelectionChanged = callback;
+        public void OnSelectionChanged(Action<int> callback) => _onSelectionChanged = callback;
     }
 }

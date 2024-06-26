@@ -11,18 +11,6 @@ namespace Game.Services.InputServices
     {
         public Camera mainCamera;
         private event Action<Camera> OnTryGetCamera;
-        public event Action OnClickCloseVoid;
-        public event Action OnClickPrecessedVoid;
-        public event Action OnClickEnteredVoid;
-        public event Action<GameObject> OnClickedByObject;
-        public event Action<GameObject,CellAddDetector> OnClickedByAddCellObject;
-
-        internal void ClickedByAddCellObject(GameObject sendObject, CellAddDetector detector) => OnClickedByAddCellObject?.Invoke(sendObject,detector);
-        internal void ClickedByObject(GameObject sendObject) => OnClickedByObject?.Invoke(sendObject);
-        internal void ClickCloseVoid() => OnClickCloseVoid?.Invoke();
-        internal void ClickPrecessedVoid() => OnClickPrecessedVoid?.Invoke();
-        internal void ClickEnteredVoid() => OnClickEnteredVoid?.Invoke();
-        
 
         protected override Task OnAwake(IProgress<float> progress)
         {

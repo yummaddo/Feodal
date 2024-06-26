@@ -37,7 +37,7 @@ namespace Game.UI.Menu.TradeMenu
 
         internal static void PresentTrade(this UITradeListController controller,  ResourceTrade resourceTrade, UIResourceListElement element)
         {
-            controller.tradeResource.sprite = controller.TempResourceTemped.CommonToUIResources[resourceTrade.Into.title].resourceImage;
+            controller.tradeResource.sprite = controller.TempResourceTemped.CommonToUIResources[resourceTrade.@into.title].resourceImage;
             var map = resourceTrade.Map.GetAmount(1);
             controller.maxAmount = controller.TempResourceTemped.MaxTradeAmount(map);
             controller.slider.value = 1.0f;

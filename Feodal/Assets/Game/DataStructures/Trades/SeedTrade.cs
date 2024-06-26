@@ -31,7 +31,7 @@ namespace Game.DataStructures.Trades
         internal int CellQuantity()
         {
             var maximumQuantity = resourceAmountCondition.Count-1;
-            return Mathf.Clamp(_cellService.cellMap.GetSeedCount(into), 0, maximumQuantity);
+            return Mathf.Clamp(_cellService.cellMap.GetCellCount(into), 0, maximumQuantity);
         }
         internal int CurrentStage()
         {

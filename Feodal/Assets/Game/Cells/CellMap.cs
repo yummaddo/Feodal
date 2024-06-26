@@ -45,10 +45,7 @@ namespace Game.Cells
                     _cellStates.Add(state.externalName, state.Data);
             }
         }
-        private void Awake()
-        {
-            storageService.OnCellsMapRepositoryInit += StorageServiceCellsMapRepositoryInit;
-        }
+        private void Awake() => storageService.OnCellsMapRepositoryInit += StorageServiceCellsMapRepositoryInit;
         public int GetCountOfCellState(ICellState state) => _hexCells.Count(t => state.ExternalName == t.State.ExternalName);
         public int GetCellCount(Seed intoDataSeed) => _hexCells.Count(t => intoDataSeed.Is(t.container.Seed));
         public int GetSeedCount(Seed intoDataSeed) => (int)storageService.GetResourceTemp().GetValueAmount(intoDataSeed.title);

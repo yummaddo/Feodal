@@ -17,9 +17,9 @@ namespace Game.DataStructures.Trades
         internal ResourceTradeMap Map;
         [SerializeField] internal List<Technology> technologyCondition = new List<Technology>();
         [SerializeField] internal List<ResourceCounter> resourceAmountCondition = new List<ResourceCounter>();
-        [SerializeField] internal Resource Into;
-        [SerializeField] internal int Value;
-        public override string TradeName => Into.title;
+        [SerializeField] internal Resource @into;
+        [SerializeField] internal int value;
+        public override string TradeName => @into.title;
         internal override void Initialization(TradeMicroservice microservice)
         {
             base.Initialization(microservice);

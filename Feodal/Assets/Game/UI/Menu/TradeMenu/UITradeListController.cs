@@ -19,7 +19,7 @@ using UnityEngine.UI;
 
 namespace Game.UI.Menu.TradeMenu
 {
-    public class UITradeListController : MonoBehaviour
+    public class UITradeListController : UIElementOnEnable
     {
         public GameObject targetTradeTemplate;
         public GameObject targetTechnologyTemplate;
@@ -71,19 +71,6 @@ namespace Game.UI.Menu.TradeMenu
         private TradeMicroservice _tradeMicroservice;
 
         #endregion
-        private void Awake()
-        {
-            SessionLifeStyleManager.AddLifeIteration(OnSceneAwakeMicroServiceSession, SessionLifecycle.OnSceneStartServiceSession);
-        }
-        private Task OnSceneAwakeMicroServiceSession(IProgress<float> progress)
-        {
-            slider.onValueChanged.AddListener(delegate { SliderValueChangeCheck(); });
-            _service = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<StorageService>();
-            _tradeMicroservice = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<TradeMicroservice>();
-            TempResourceTemped = _service.GetResourceTemp();
-            TempTechnologyTemped = _service.GetTechnologyTemp();
-            return Task.CompletedTask;
-        }
         private void Reset()
         {
             foreach (var rGameObject in ResourceTradeCompare) Destroy(rGameObject.Value);
@@ -98,10 +85,23 @@ namespace Game.UI.Menu.TradeMenu
             TechnologyTradeTemped = null;
             _tradeType = TradeType.None;
         }
-        private void OnEnable()
+        public override void OnEnableSProcess()
         {
             SliderValueChangeCheck();
         }
+        public override void OnAwake()
+        {
+        }
+
+        public override void UpdateOnInit()
+        {
+            slider.onValueChanged.AddListener(delegate { SliderValueChangeCheck(); });
+            _service = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<StorageService>();
+            _tradeMicroservice = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<TradeMicroservice>();
+            TempResourceTemped = _service.GetResourceTemp();
+            TempTechnologyTemped = _service.GetTechnologyTemp();
+        }
+
         private void SliderValueChangeCheck()
         {
             if (ResourceTradeTemped != null && TempResourceTemped != null)

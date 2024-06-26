@@ -42,8 +42,8 @@ namespace Game.Services.CellServices.Microservice
         private void OnBuildWasBay(Port port, BuildingTradeCallBack successfullyCellTrade)
         {
             if (successfullyCellTrade.Result != TradeCallBackResult.Successfully) return;
-            Debugger.Logger($"Build was bay {successfullyCellTrade.Trade.Into.externalName}", ContextDebug.Session, Process.Update);
-            var cellState = successfullyCellTrade.Trade.Into;
+            Debugger.Logger($"Build was bay {successfullyCellTrade.Trade.@into.externalName}", ContextDebug.Session, Process.Update);
+            var cellState = successfullyCellTrade.Trade.@into;
             OnCallBackInvocation?.Invoke(Porting.Type<CellState>(),cellState);
             _menuExit.OnCallBackInvocation?.Invoke(Porting.Type<ButtonExitMenuCallBack>(), MenuTypes.Technology);
             _menuExit.OnCallBackInvocation?.Invoke(Porting.Type<ButtonExitMenuCallBack>(), MenuTypes.TradeMenu);

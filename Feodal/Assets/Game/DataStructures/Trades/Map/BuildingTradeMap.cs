@@ -15,7 +15,7 @@ namespace Game.DataStructures.Trades.Map
             {
                 From.Add(new MapValue<IResource>(element.resource.Data, element.value));
             }
-            Into = new MapValue<ICellState>(trade.Into, 1);
+            Into = new MapValue<ICellState>(trade.@into, 1);
         }
         public override Dictionary<IResource, int> GetAmount(int amount)
         {
