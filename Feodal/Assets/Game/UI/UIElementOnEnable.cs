@@ -10,7 +10,7 @@ namespace Game.UI
         private void Awake()
         {
             OnAwake();
-            SessionLifeStyleManager.AddLifeIteration(UpdateOnInit, SessionLifecycle.OnSceneAwakeClose);
+            AwakeLifeIterationInjection();
         }
         private Task UpdateOnInit(IProgress<float> progress)
         {
@@ -29,6 +29,12 @@ namespace Game.UI
             {
                 OnEnableSProcess();
             }
+        }
+
+        public virtual void AwakeLifeIterationInjection(
+            SessionLifecycle sessionLifecycle = SessionLifecycle.OnSceneAwakeClose)
+        {
+            SessionLifeStyleManager.AddLifeIteration(UpdateOnInit,sessionLifecycle);
         }
         public abstract void OnEnableSProcess();
         public abstract void OnAwake();

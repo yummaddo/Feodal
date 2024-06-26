@@ -15,7 +15,6 @@ namespace Game.RepositoryEngine.ResourcesRepository
         // ResourceRepository Custom Data Spase
         private CellService _cellService;
         // Base
-        protected override string SaveFileName { get; set; } = "ResourceRepository.json";
         protected override object PublicAesLock { get; set; } = new object();
         protected override object PrivateAesLock { get; set; } = new object();
         protected override void UpdateName()=> SaveFileName = ApplicationContext.Instance.setting.ResourceSaveFileName;

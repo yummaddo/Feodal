@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Game.DataStructures.Trades.Abstraction;
 using Game.DataStructures.Trades.Map;
 using Game.Services.CellServices;
@@ -217,8 +219,16 @@ namespace Game.DataStructures.Trades
                     tempR.FindPropertyRelative("value").intValue = soursR.FindPropertyRelative("value").intValue;
                     tempR.FindPropertyRelative("resource").objectReferenceValue = soursR.FindPropertyRelative("resource").objectReferenceValue;
                 }
-                into.objectReferenceValue = it.objectReferenceValue;
-                value.intValue = v.intValue;
+
+                try
+                {
+                    into.objectReferenceValue = it.objectReferenceValue;
+                    value.intValue = v.intValue;
+                }
+                catch (Exception e)
+                {
+                    // ignored
+                }
             } else
             {
                 if (technologyCondition != null)

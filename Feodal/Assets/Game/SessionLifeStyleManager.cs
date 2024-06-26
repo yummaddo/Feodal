@@ -44,6 +44,12 @@ namespace Game
         private static List<Func<IProgress<float>, Task>> _onSceneStartServiceSession = new List<Func<IProgress<float>, Task>>();
         private static List<Func<IProgress<float>, Task>> _onSceneStartMicroServiceSession = new List<Func<IProgress<float>, Task>>();
         internal Action<float, string> OnLoadProcess;
+
+        private void Awake()
+        {
+            ServiceLocator = new DIServiceLocator();
+        }
+
         internal void SessionAwake()
         {
             _instance = this;
@@ -93,7 +99,6 @@ namespace Game
         /// </summary>
         public async Task AwakeStartOperation()
         {
-            ServiceLocator = new DIServiceLocator();
             var progress = new Progress<float>(p => { OnLoadProcess?.Invoke(p,",Awake"); });
             await ExecuteAllAwakeSessionsAsync(progress);
             IsMicroServiceSessionInit = true;

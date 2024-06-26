@@ -16,7 +16,6 @@ namespace Game.RepositoryEngine.TechnologyRepositories
     {
         // ResourceRepository Custom Data Spase
         private CellService _cellService;
-        protected override string SaveFileName { get; set; } = "TechnologyRepository.json";
         protected override object PublicAesLock { get; set; } = new object();
         protected override object PrivateAesLock { get; set; } = new object();
         

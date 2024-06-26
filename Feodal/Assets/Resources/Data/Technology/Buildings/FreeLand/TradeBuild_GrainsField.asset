@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45abcab1bb94e9ab1ed8bdc7d6cb2aa, type: 3}
+  m_Name: TradeBuild_GrainsField
+  m_EditorClassIdentifier: 
+  title: TradeBuild_GrainsField
+  <IntoBuild>k__BackingField:
+    resourceAmountCondition:
+    - resource: {fileID: 11400000, guid: e016025b89b63eb4595c63124f32cd06, type: 2}
+      value: 500
+    technologyCondition: []
+    into: {fileID: 11400000, guid: d50178b9634c3e54380f5b99bd913685, type: 2}
+    value: 0
