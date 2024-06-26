@@ -20,7 +20,7 @@ namespace Game
         internal Action<GameObject> OnLoadGame;
         internal Action OnExit;
         internal Action OnResetProgress;
-        internal Action OnLoadStartMenu;
+        internal Action<GameObject> OnLoadStartMenu;
         internal Action<Boot> OnLoadGameBoot;
 
         private GameObject _rootGame;
@@ -44,14 +44,12 @@ namespace Game
         {
             DontDestroyOnLoad(this);
             _instance = this;
-            
             OnExit += Exit;
             OnLoadGame += LoadGame;
             OnResetProgress += ResetProgress;
             OnLoadGameBoot += OnBoot;
             OnLoadStartMenu += LoadStartMenu;
-            
-            OnLoadStartMenu?.Invoke();
+            OnLoadStartMenu?.Invoke(null);
         }
         private async void OnBoot(Boot boot)
         {
@@ -77,11 +75,17 @@ namespace Game
                 Destroy(uiMenuGameObject);
             _rootGame = Instantiate(bootTemplate);
         }
-        private void LoadStartMenu()
+        private void LoadStartMenu(GameObject gameGameObject)
         {
-            if (_rootGame)
-                Destroy(_rootGame);
-            _rootMenu = Instantiate(menuTemplate);
+            
+            if (gameGameObject != null)
+            {
+                SceneManager.LoadScene("boot");
+            }
+            else
+            {
+                _rootMenu = Instantiate(menuTemplate);
+            }
         }
     }
 }

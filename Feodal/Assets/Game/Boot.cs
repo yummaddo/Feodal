@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Game.Services.StorageServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -47,7 +48,9 @@ namespace Game
 
         public void OnComeBackToMainMenu()
         {
-            _context.OnLoadStartMenu?.Invoke();
+            var store = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<StorageService>();
+            store.SaveRepositories();
+            _context.OnLoadStartMenu?.Invoke(this.gameObject);
         }
 
         public async Task BootOperation()

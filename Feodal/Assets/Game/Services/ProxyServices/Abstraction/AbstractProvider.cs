@@ -17,7 +17,13 @@ namespace Game.Services.ProxyServices.Abstraction
         {
             return $"{typeof(AbstractProvider<TData>).FullName}";
         }
-        
+
+        private void OnDestroy()
+        {
+            Callbacks.Clear();
+            OnClickTyping.Clear();
+        }
+
         /// <summary>
         /// Connects a callback to a specified port for a given type, allowing the callback to be invoked when data is available.
         /// </summary>
@@ -71,9 +77,7 @@ namespace Game.Services.ProxyServices.Abstraction
         private static void OnClick(Port ip, TData obj)
         {
             if (OnClickTyping.TryGetValue(ip, out var data))
-            {
                 data.Invoke(ip, obj);
-            }
         }
         /// <summary>
         /// Registers an action to be executed when data is available for the specified port type.

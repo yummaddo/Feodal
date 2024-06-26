@@ -36,9 +36,9 @@ namespace Game
         /// Indicates whether the microservice session has been initialized.
         /// </summary>
         internal bool IsMicroServiceSessionInit = false;
-        private static readonly List<Func<IProgress<float>, Task>> OnSceneAwakeSession = new List<Func<IProgress<float>, Task>>();
-        private static readonly List<Func<IProgress<float>, Task>> OnSceneAwakeServiceSession = new List<Func<IProgress<float>, Task>>();
-        private static readonly List<Func<IProgress<float>, Task>> OnSceneAwakeMicroServiceSession = new List<Func<IProgress<float>, Task>>();
+        private static List<Func<IProgress<float>, Task>> _onSceneAwakeSession = new List<Func<IProgress<float>, Task>>();
+        private static List<Func<IProgress<float>, Task>> _onSceneAwakeServiceSession = new List<Func<IProgress<float>, Task>>();
+        private static List<Func<IProgress<float>, Task>> _onSceneAwakeMicroServiceSession = new List<Func<IProgress<float>, Task>>();
         private static List<Func<IProgress<float>, Task>> _onSceneAwakeClose = new List<Func<IProgress<float>, Task>>();
         private static List<Func<IProgress<float>, Task>> _onSceneStartSession = new List<Func<IProgress<float>, Task>>();
         private static List<Func<IProgress<float>, Task>> _onSceneStartServiceSession = new List<Func<IProgress<float>, Task>>();
@@ -48,18 +48,31 @@ namespace Game
         {
             _instance = this;
         }
+
+        private void OnDestroy()
+        {
+            _onSceneAwakeSession.Clear();
+            _onSceneAwakeServiceSession.Clear();
+            _onSceneAwakeMicroServiceSession.Clear();
+            _onSceneAwakeClose.Clear();
+            _onSceneStartSession.Clear();
+            _onSceneStartServiceSession.Clear();
+            _onSceneStartMicroServiceSession.Clear();
+            _instance = null;
+            ServiceLocator = null;
+        }
         public static void AddLifeIteration(Func<IProgress<float>,Task> action, SessionLifecycle sessionLifecycle)
         {
             switch (sessionLifecycle)
             {
                 case SessionLifecycle.OnSceneAwakeSession:
-                    OnSceneAwakeSession.Add(action);
+                    _onSceneAwakeSession.Add(action);
                     break;
                 case SessionLifecycle.OnSceneAwakeServiceSession:
-                    OnSceneAwakeServiceSession.Add(action);
+                    _onSceneAwakeServiceSession.Add(action);
                     break;
                 case SessionLifecycle.OnSceneAwakeMicroServiceSession:
-                    OnSceneAwakeMicroServiceSession.Add(action);
+                    _onSceneAwakeMicroServiceSession.Add(action);
                     break;
                 case SessionLifecycle.OnSceneAwakeClose:
                     _onSceneAwakeClose.Add(action);
@@ -118,9 +131,9 @@ namespace Game
         }
         private async Task ExecuteAllAwakeSessionsAsync(IProgress<float> progress)
         {
-            await ExecuteAllAsync(OnSceneAwakeSession, progress);
-            await ExecuteAllAsync(OnSceneAwakeServiceSession, progress);
-            await ExecuteAllAsync(OnSceneAwakeMicroServiceSession, progress);
+            await ExecuteAllAsync(_onSceneAwakeSession, progress);
+            await ExecuteAllAsync(_onSceneAwakeServiceSession, progress);
+            await ExecuteAllAsync(_onSceneAwakeMicroServiceSession, progress);
             await ExecuteAllAsync(_onSceneAwakeClose, progress);
         }
         private async Task ExecuteAllStartSessionsAsync(IProgress<float> progress)
@@ -128,14 +141,6 @@ namespace Game
             await ExecuteAllAsync(_onSceneStartSession, progress);
             await ExecuteAllAsync(_onSceneStartServiceSession, progress);
             await ExecuteAllAsync(_onSceneStartMicroServiceSession, progress);
-        }
-        /// <summary>
-        /// Cleans up the instance and container when the object is destroyed.
-        /// </summary>
-        private void OnDestroy()
-        {
-            _instance = null;
-            ServiceLocator = null;
         }
     }
 }

@@ -100,7 +100,7 @@ namespace Game.Services.StorageServices
                 technologyRepository.LoadResourceData();
             }
         }
-        private void SaveRepositories()
+        public void SaveRepositories()
         {
             if (save)
             {
@@ -114,6 +114,7 @@ namespace Game.Services.StorageServices
         }
         private void OnDestroy()
         {
+            technologyRepository.Dispose();
             resourceRepository.Dispose();
             cellsMapRepository.Dispose();
         }
@@ -134,22 +135,6 @@ namespace Game.Services.StorageServices
         private void OnApplicationQuit()
         {
             SaveRepositories();
-        }
-        [ContextMenu("XORfunk")]
-        public void XORfunk()
-        {
-            // string publicRsaKey = ApplicationSetting.PublicRsa;
-            // Debug.Log("Public RSA Key:");
-            // Debug.Log(publicRsaKey);
-            // string privateRsaKey = ApplicationSetting.PrivateRsa;
-            // Debug.Log("Private RSA Key:");
-            // Debug.Log(privateRsaKey);
-            // string xorKey = ApplicationSetting.key;
-            // string encryptedXorKey = ApplicationSetting.EncryptXorKey(xorKey);
-            // Debug.Log("Encrypted XOR Key:");
-            // Debug.Log(encryptedXorKey);
-            // Debug.Log($" XOR Key: {ApplicationSetting.DecryptXorKey(ApplicationSetting.keyEncrypt)}");
-            // Debug.Log($" XOR Key: {ApplicationSetting.DecryptXorKey(ApplicationSetting.keyEncrypt) == ApplicationSetting.key}");
         }
 #elif UNITY_STANDALONE_WIN
         private void OnApplicationQuit()

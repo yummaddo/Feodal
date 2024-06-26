@@ -13,12 +13,13 @@ namespace Game.CallBacks.CallbackClick.Abstraction
         //     
         public GameObject TargetObject { get; set; }
         protected bool StatusIteration = false;
+        public bool IsInit { get; set; } = false;
+
         protected virtual void Awake()
         {
             StatusIteration = false;
             SessionLifeStyleManager.AddLifeIteration(AwakeButton, SessionLifecycle.OnSceneAwakeSession);
         }
-
         private void OnEnable()
         {
             if (!StatusIteration)
@@ -26,11 +27,18 @@ namespace Game.CallBacks.CallbackClick.Abstraction
                 Initialization(this.gameObject);
             }
         }
-
         private Task AwakeButton(IProgress<float> progress)
         {
-            StatusIteration = true;
-            Initialization(this.gameObject);
+            try
+            {
+                StatusIteration = true;
+                Initialization(this.gameObject);
+                return Task.CompletedTask;
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
             return Task.CompletedTask;
         }
 
@@ -47,7 +55,5 @@ namespace Game.CallBacks.CallbackClick.Abstraction
         {
             Debugger.Logger($"{type}: {typeof(TData)}, {data.ToString()}",  ContextDebug.Session,Process.Action);
         };
-
-        public bool IsInit { get; set; } = false;
     }
 }

@@ -11,6 +11,7 @@ namespace Game.DataStructures.Trades.Map
         {
             this.trade = trade;
             int indexation = 1;
+            trade.Trades.Clear();
             foreach (var counters in trade.resourceAmountCondition)
             {
                 trade.Trades.Add(indexation, counters);

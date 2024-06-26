@@ -128,7 +128,6 @@ namespace Game.UI.Menu.ContainerMenu
             {
                 Debugger.Logger(e.Message, Process.TrashHold);
             }
-
         }
         public override void UpdatePosition(float position)
         {
