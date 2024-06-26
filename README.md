@@ -68,9 +68,6 @@ cd idle-tycoon-game
         <img src="Doc/4.png" alt="Screenshot 4" style="display: flex; justify-content: space-between; align-items: center;>
         <img src="Doc/5.png" alt="Screenshot 5" style="display: flex; justify-content: space-between; align-items: center;>
     </div>
-    <div class="gallery">
-
-    </div>
     <h2 id="contributing">Contributing</h2>
     <p>Guidelines for contributing to the project.</p>
     <ol>
