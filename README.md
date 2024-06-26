@@ -82,7 +82,7 @@ cd idle-tycoon-game
     <p>If you have any questions or suggestions, feel free to contact us:</p>
     <ul>
         <li>Email: <a href="mailto:bhj010fert14@gmail.com">bhj010fert14@gmail.com</a></li>
-        <li>LinkedIn: <a href="www.linkedin.com/in/voytusik-ivan-609aaa281">Yummaddo</a></li>
+        <li>LinkedIn: <a href="https://www.linkedin.com/in/voytusik-ivan-609aaa281/">Yummaddo</a></li>
         <li>GitHub: <a href="https://github.com/yummaddo">Yummaddo</a></li>
     </ul>
 </body>
