@@ -8,42 +8,6 @@ Tycoon Game
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Idle Tycoon Game by Yummaddo</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        h1, h2, h3 {
-            color: #333;
-        }
-        pre {
-            background-color: #eee;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .badge {
-            display: inline-block;
-            padding: 5px;
-            border-radius: 5px;
-            background-color: #ddd;
-            color: #333;
-            margin-right: 5px;
-        }
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .gallery img {
-            width: 200px;
-            height: auto;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-    </style>
 </head>
 <body>
     <h1>Idle Tycoon Game by Yummaddo</h1>
@@ -97,12 +61,15 @@ cd idle-tycoon-game
     </pre>
     <h2 id="examples">Examples</h2>
     <p>Gallery of screenshots showcasing the game's interface and features:</p>
+    <div class="comparison-container"style="max-width: 0.45; height: auto;">
+        <img src="Doc/1.png" alt="Screenshot 1" style="display: flex; justify-content: space-between; align-items: center;>
+        <img src="Doc/2.png" alt="Screenshot 2" style="display: flex; justify-content: space-between; align-items: center;>
+        <img src="Doc/3.png" alt="Screenshot 3" tyle="display: flex; justify-content: space-between; align-items: center;>
+        <img src="Doc/4.png" alt="Screenshot 4" style="display: flex; justify-content: space-between; align-items: center;>
+        <img src="Doc/5.png" alt="Screenshot 5" style="display: flex; justify-content: space-between; align-items: center;>
+    </div>
     <div class="gallery">
-        <img src="Doc/1.png" alt="Screenshot 1">
-        <img src="Doc/2.png" alt="Screenshot 2">
-        <img src="Doc/3.png" alt="Screenshot 3">
-        <img src="Doc/4.png" alt="Screenshot 4">
-        <img src="Doc/5.png" alt="Screenshot 5">
+
     </div>
     <h2 id="contributing">Contributing</h2>
     <p>Guidelines for contributing to the project.</p>
