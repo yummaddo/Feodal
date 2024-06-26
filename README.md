@@ -1,4 +1,4 @@
-<<<<<<< Updated upstream
+
 # Feodal
 Tycoon Game
 =======
@@ -46,16 +46,12 @@ Tycoon Game
     </style>
 </head>
 <body>
-
     <h1>Idle Tycoon Game by Yummaddo</h1>
-
     <div class="badge">License: MIT</div>
     <div class="badge">Build Status: Successful</div>
     <div class="badge">Version: 1.0.0</div>
-
     <h2>Description</h2>
     <p>An engaging idle tycoon game developed for Android using Unity by Yummaddo. Build and manage your empire, optimize resources, and become the ultimate tycoon!</p>
-
     <h2>Contents</h2>
     <ul>
         <li><a href="#features">Features</a></li>
@@ -66,7 +62,6 @@ Tycoon Game
         <li><a href="#license">License</a></li>
         <li><a href="#contact">Contact</a></li>
     </ul>
-
     <h2 id="features">Features</h2>
     <ul>
         <li>Automated resource management</li>
@@ -75,7 +70,6 @@ Tycoon Game
         <li>Beautifully crafted 3D graphics</li>
         <li>Intuitive user interface</li>
     </ul>
-
     <h2 id="installation">Installation</h2>
     <h3>Requirements</h3>
     <ul>
@@ -87,15 +81,12 @@ Tycoon Game
         <code>
 # Clone the repository
 git clone https://github.com/yummaddo/Feodal
-
 # Navigate to the project directory
 cd idle-tycoon-game
-
 # Open the project in Unity
 # (Ensure you have the correct version of Unity installed)
         </code>
     </pre>
-
     <h2 id="usage">Usage</h2>
     <p>Instructions on how to play the game and make the most out of its features.</p>
     <pre>
@@ -104,7 +95,6 @@ cd idle-tycoon-game
 # Follow the in-game tutorial to get started
         </code>
     </pre>
-
     <h2 id="examples">Examples</h2>
     <p>Gallery of screenshots showcasing the game's interface and features:</p>
     <div class="gallery">
@@ -114,7 +104,6 @@ cd idle-tycoon-game
         <img src="Doc/4.png" alt="Screenshot 4">
         <img src="Doc/5.png" alt="Screenshot 5">
     </div>
-
     <h2 id="contributing">Contributing</h2>
     <p>Guidelines for contributing to the project.</p>
     <ol>
@@ -124,10 +113,8 @@ cd idle-tycoon-game
         <li>Push to the branch (<code>git push origin feature/feature-name</code>)</li>
         <li>Open a Pull Request</li>
     </ol>
-
     <h2 id="license">License</h2>
     <p>This project is licensed under the MIT License. See the <a href="LICENSE">LICENSE</a> file for details.</p>
-
     <h2 id="contact">Contact</h2>
     <p>If you have any questions or suggestions, feel free to contact us:</p>
     <ul>
@@ -135,7 +122,5 @@ cd idle-tycoon-game
         <li>LinkedIn: <a href="www.linkedin.com/in/voytusik-ivan-609aaa281">Yummaddo</a></li>
         <li>GitHub: <a href="https://github.com/yummaddo">Yummaddo</a></li>
     </ul>
-
 </body>
 </html>
->>>>>>> Stashed changes
