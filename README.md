@@ -62,11 +62,11 @@ cd idle-tycoon-game
     <h2 id="examples">Examples</h2>
     <p>Gallery of screenshots showcasing the game's interface and features:</p>
     <div class="comparison-container"style="max-width: 0.45; height: auto;">
-        <img src="Doc/1.png" alt="Screenshot 1" style="display: flex; justify-content: space-between; align-items: center;>
-        <img src="Doc/2.png" alt="Screenshot 2" style="display: flex; justify-content: space-between; align-items: center;>
-        <img src="Doc/3.png" alt="Screenshot 3" tyle="display: flex; justify-content: space-between; align-items: center;>
-        <img src="Doc/4.png" alt="Screenshot 4" style="display: flex; justify-content: space-between; align-items: center;>
-        <img src="Doc/5.png" alt="Screenshot 5" style="display: flex; justify-content: space-between; align-items: center;>
+        <img src="Doc/1.png" alt="no batch" style="display: flex; justify-content: space-between; align-items: center;">
+        <img src="Doc/2.png" alt="batch" style="display: flex; justify-content: space-between; align-items: center;">
+        <img src="Doc/3.png" alt="batch" style="display: flex; justify-content: space-between; align-items: center;">
+        <img src="Doc/4.png" alt="batch" style="display: flex; justify-content: space-between; align-items: center;">
+        <img src="Doc/5.png" alt="batch" style="display: flex; justify-content: space-between; align-items: center;">
     </div>
     <h2 id="contributing">Contributing</h2>
     <p>Guidelines for contributing to the project.</p>
