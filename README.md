@@ -7,7 +7,7 @@ Tycoon Game
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Idle Tycoon Game by Yummaddo</title>
+    Idle Tycoon Game by Yummaddo
 </head>
 <body>
     <h1>Idle Tycoon Game by Yummaddo</h1>
@@ -63,7 +63,6 @@ cd idle-tycoon-game
     <p>Gallery of screenshots showcasing the game's interface and features:</p>
     <div class="comparison-container"style="max-width: 0.45; height: auto;">
         <img src="Doc/1.png" alt="no batch" style="display: flex; justify-content: space-between; align-items: center;">
-        <img src="Doc/2.png" alt="batch" style="display: flex; justify-content: space-between; align-items: center;">
         <img src="Doc/3.png" alt="batch" style="display: flex; justify-content: space-between; align-items: center;">
         <img src="Doc/4.png" alt="batch" style="display: flex; justify-content: space-between; align-items: center;">
         <img src="Doc/5.png" alt="batch" style="display: flex; justify-content: space-between; align-items: center;">
