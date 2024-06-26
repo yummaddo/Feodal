@@ -13,7 +13,6 @@ namespace Game.RepositoryEngine.MapCellsRepository
         // MapCellRepository Custom Data Spase
         [SerializeField] private CellMap resourceListMap;
         // Base
-        protected override string SaveFileName { get; set; } = "MapRepository.json";
         protected override object PublicAesLock { get; set; } = new object();
         protected override object PrivateAesLock { get; set; } = new object();
         protected override void UpdateName() => SaveFileName = ApplicationContext.Instance.setting.MapSaveFileName;
