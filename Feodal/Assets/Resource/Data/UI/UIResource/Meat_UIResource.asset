@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resource: {fileID: 11400000, guid: 9d8e7417e57ec1d4eabbcd4e86c1462f, type: 2}
   resourceImage: {fileID: 21300000, guid: 9c24cd174a35dbd42ad59eccf3224ee5, type: 3}
-  resourceRareImage: {fileID: 0}
+  resourceRareImage: {fileID: 11400000, guid: a37977486e50b404e91ecd5a0f0de91d, type: 2}

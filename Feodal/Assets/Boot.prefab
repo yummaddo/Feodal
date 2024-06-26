@@ -2470,6 +2470,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5ecb1d3a224c7f740981942c040fb006, type: 2}
   - {fileID: 11400000, guid: ba383610cc72d044db93cc394cf5a2a1, type: 2}
   - {fileID: 11400000, guid: fab5696053a8093448ee6ecfef355610, type: 2}
+  - {fileID: 11400000, guid: 2da84a418d9140b4e832b02d019a7055, type: 2}
   - {fileID: 11400000, guid: 7b2cf31636100ba469909185cd903738, type: 2}
   - {fileID: 11400000, guid: 3084ccd1aac63ff44aac3a12bd2058b4, type: 2}
   tradeResourceAmounts:

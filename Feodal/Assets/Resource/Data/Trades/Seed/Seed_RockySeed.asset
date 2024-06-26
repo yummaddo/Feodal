@@ -19,15 +19,15 @@ MonoBehaviour:
       resourceAmountCondition:
       - resource: {fileID: 11400000, guid: fe9be7a38b3c1aa4fad2cc624bbbc60a, type: 2}
         value: 100
-      Into: {fileID: 11400000, guid: 8dd0281a03ec5a9409e4bfaaf40f3534, type: 2}
-      Value: 1
+      into: {fileID: 11400000, guid: 8dd0281a03ec5a9409e4bfaaf40f3534, type: 2}
+      value: 1
     - technologyCondition: []
       resourceAmountCondition:
       - resource: {fileID: 11400000, guid: 9d8e7417e57ec1d4eabbcd4e86c1462f, type: 2}
         value: 10
       - resource: {fileID: 11400000, guid: 278774648635c5b4f987e3a4c6a95b54, type: 2}
         value: 10
-      Into: {fileID: 11400000, guid: 8dd0281a03ec5a9409e4bfaaf40f3534, type: 2}
-      Value: 1
+      into: {fileID: 11400000, guid: 8dd0281a03ec5a9409e4bfaaf40f3534, type: 2}
+      value: 1
     stages: 2
-    currentStage: 1
+    currentStage: 2

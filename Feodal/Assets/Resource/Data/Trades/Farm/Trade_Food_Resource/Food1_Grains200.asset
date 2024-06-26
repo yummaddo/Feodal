@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2475fcb949d4f01a6b694dba9cb1704, type: 3}
-  m_Name: Food1_Apple2
+  m_Name: Food1_Grains200
   m_EditorClassIdentifier: 
   connectedToDependency:
     technologyCondition: []
     resourceAmountCondition:
-    - resource: {fileID: 11400000, guid: e016025b89b63eb4595c63124f32cd06, type: 2}
-      value: 2
-    Into: {fileID: 11400000, guid: fe9be7a38b3c1aa4fad2cc624bbbc60a, type: 2}
-    Value: 1
+    - resource: {fileID: 11400000, guid: db64404f0b537524c85e1c7800e85631, type: 2}
+      value: 200
+    into: {fileID: 11400000, guid: fe9be7a38b3c1aa4fad2cc624bbbc60a, type: 2}
+    value: 1

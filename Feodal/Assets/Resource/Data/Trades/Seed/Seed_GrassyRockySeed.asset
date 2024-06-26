@@ -19,63 +19,71 @@ MonoBehaviour:
       resourceAmountCondition:
       - resource: {fileID: 11400000, guid: ca987885152007c4f9f94fc40cde4d2a, type: 2}
         value: 1
-      Into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
-      Value: 1
+      into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
+      value: 1
     - technologyCondition: []
       resourceAmountCondition:
       - resource: {fileID: 11400000, guid: ca987885152007c4f9f94fc40cde4d2a, type: 2}
         value: 5
-      Into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
-      Value: 1
+      into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
+      value: 1
     - technologyCondition: []
       resourceAmountCondition:
       - resource: {fileID: 11400000, guid: ca987885152007c4f9f94fc40cde4d2a, type: 2}
         value: 10
-      Into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
-      Value: 1
+      into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
+      value: 1
     - technologyCondition: []
       resourceAmountCondition:
       - resource: {fileID: 11400000, guid: ca987885152007c4f9f94fc40cde4d2a, type: 2}
         value: 50
-      Into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
-      Value: 1
+      into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
+      value: 1
     - technologyCondition: []
       resourceAmountCondition:
       - resource: {fileID: 11400000, guid: ca987885152007c4f9f94fc40cde4d2a, type: 2}
         value: 200
-      Into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
-      Value: 1
+      into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
+      value: 1
     - technologyCondition: []
       resourceAmountCondition:
       - resource: {fileID: 11400000, guid: 9d8e7417e57ec1d4eabbcd4e86c1462f, type: 2}
         value: 1
-      Into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
-      Value: 1
+      into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
+      value: 1
     - technologyCondition: []
       resourceAmountCondition:
       - resource: {fileID: 11400000, guid: 9d8e7417e57ec1d4eabbcd4e86c1462f, type: 2}
         value: 2
-      Into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
-      Value: 1
+      into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
+      value: 1
     - technologyCondition: []
       resourceAmountCondition:
       - resource: {fileID: 11400000, guid: 9d8e7417e57ec1d4eabbcd4e86c1462f, type: 2}
         value: 5
-      Into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
-      Value: 1
+      into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
+      value: 1
     - technologyCondition: []
       resourceAmountCondition:
       - resource: {fileID: 11400000, guid: 9d8e7417e57ec1d4eabbcd4e86c1462f, type: 2}
         value: 50
-      Into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
-      Value: 1
+      into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
+      value: 1
     - technologyCondition: []
       resourceAmountCondition:
       - resource: {fileID: 11400000, guid: 9d8e7417e57ec1d4eabbcd4e86c1462f, type: 2}
         value: 60
       - resource: {fileID: 11400000, guid: c18536515e38a664e9014e794f89a855, type: 2}
         value: 20
-      Into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
-      Value: 1
-    stages: 10
-    currentStage: 1
+      into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
+      value: 1
+    - technologyCondition: []
+      resourceAmountCondition:
+      - resource: {fileID: 11400000, guid: 9d8e7417e57ec1d4eabbcd4e86c1462f, type: 2}
+        value: 60
+      - resource: {fileID: 11400000, guid: c18536515e38a664e9014e794f89a855, type: 2}
+        value: 20
+      into: {fileID: 11400000, guid: 9beabce303f434441a078c4801926fa4, type: 2}
+      value: 1
+    stages: 11
+    currentStage: 11

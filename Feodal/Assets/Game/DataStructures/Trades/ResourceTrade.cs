@@ -51,8 +51,8 @@ namespace Game.DataStructures.Trades
         public static void DrawGUI( SerializedProperty property, Rect startPosition, int singleLineHeight)
         {
             if (property == null) return;
-            SerializedProperty into = property.FindPropertyRelative("Into");
-            SerializedProperty value = property.FindPropertyRelative("Value");
+            SerializedProperty into = property.FindPropertyRelative("into");
+            SerializedProperty value = property.FindPropertyRelative("value");
             SerializedProperty technologyCondition = property.FindPropertyRelative("technologyCondition");
             SerializedProperty resourceAmountCondition = property.FindPropertyRelative("resourceAmountCondition");
             

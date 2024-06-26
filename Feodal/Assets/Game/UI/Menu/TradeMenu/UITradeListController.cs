@@ -23,41 +23,41 @@ namespace Game.UI.Menu.TradeMenu
     {
         public GameObject targetTradeTemplate;
         public GameObject targetTechnologyTemplate;
-        [Header("Control Elements")]
-        public GameObject targetRoot;
+        [Header("Control Elements")] public GameObject targetRoot;
         public GameObject amountSlider;
         public GameObject payRoot;
         public Slider slider;
         public Image tradeResource;
         public Text amountOfSliderText;
-        [Header("Values")]
-        public int tradeAmount;
-        [Range(1,10)]public int itemInListRootMax = 4;
+        [Header("Values")] public int tradeAmount;
+        [Range(1, 10)] public int itemInListRootMax = 4;
         public int maxAmount = 0;
         public int elementHeight = 240;
         public int elementTechnologyHeight = 240;
-        [Header("Detectors")] 
-        public Button add;
+        [Header("Detectors")] public Button add;
         public Button res;
 
         public Button payAmountMany;
         public Button payUnic;
 
         public Button exit;
-        [Header("List")] 
-        public RectTransform resourceListRect;
+        [Header("List")] public RectTransform resourceListRect;
         public RectTransform techListRect;
 
         internal ResourceTemp TempResourceTemped;
         internal TechnologyTemp TempTechnologyTemped;
 
-        #region Internal 
+        #region Internal
+
         internal Dictionary<int, GameObject> TechnologyTradeCompare = new Dictionary<int, GameObject>();
         internal Dictionary<int, GameObject> ResourceTradeCompare = new Dictionary<int, GameObject>();
         internal Dictionary<int, UITradeResource> TradeUCompare = new Dictionary<int, UITradeResource>();
-        internal Dictionary<int, UITechnologyListElement> TechnologyCompare = new Dictionary<int, UITechnologyListElement>();
+
+        internal Dictionary<int, UITechnologyListElement> TechnologyCompare =
+            new Dictionary<int, UITechnologyListElement>();
+
         internal Dictionary<int, ResourceCounter> TradeUCompareCounter = new Dictionary<int, ResourceCounter>();
-        
+
         internal ResourceTrade ResourceTradeTemped;
         internal SeedTrade TradeSeedTemped;
         internal BuildingTrade TradeBuildTemped;
@@ -71,6 +71,7 @@ namespace Game.UI.Menu.TradeMenu
         private TradeMicroservice _tradeMicroservice;
 
         #endregion
+
         private void Reset()
         {
             foreach (var rGameObject in ResourceTradeCompare) Destroy(rGameObject.Value);
@@ -92,14 +93,18 @@ namespace Game.UI.Menu.TradeMenu
         public override void OnAwake()
         {
         }
-
         public override void UpdateOnInit()
         {
+            SessionLifeStyleManager.AddLifeIteration(Inject, SessionLifecycle.OnSceneAwakeClose);
             slider.onValueChanged.AddListener(delegate { SliderValueChangeCheck(); });
+        }
+        private Task Inject(IProgress<float> progress)
+        {
             _service = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<StorageService>();
             _tradeMicroservice = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<TradeMicroservice>();
             TempResourceTemped = _service.GetResourceTemp();
             TempTechnologyTemped = _service.GetTechnologyTemp();
+            return Task.CompletedTask;
         }
 
         private void SliderValueChangeCheck()

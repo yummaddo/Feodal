@@ -23,5 +23,5 @@ MonoBehaviour:
       value: 1200
     technologyCondition:
     - {fileID: 11400000, guid: f51617ae027207d4eb74bfb5fbb9a0ef, type: 2}
-    Into: {fileID: 11400000, guid: 90353920b44415844a7b0c5914c35496, type: 2}
-    Value: 1
+    into: {fileID: 11400000, guid: 90353920b44415844a7b0c5914c35496, type: 2}
+    value: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f45abcab1bb94e9ab1ed8bdc7d6cb2aa, type: 3}
   m_Name: TradeBuild_SheepPasture
   m_EditorClassIdentifier: 
-  title: TradeBuild_CowHerd
+  title: TradeBuild_SheepPasture
   <IntoBuild>k__BackingField:
     resourceAmountCondition:
     - resource: {fileID: 11400000, guid: 73f1fc93774bd7b49864ed38de97f37b, type: 2}
@@ -21,5 +21,5 @@ MonoBehaviour:
       value: 500
     technologyCondition:
     - {fileID: 11400000, guid: f51617ae027207d4eb74bfb5fbb9a0ef, type: 2}
-    Into: {fileID: 11400000, guid: 95235e4d992667b489ee0269f6a2aa10, type: 2}
-    Value: 1
+    into: {fileID: 11400000, guid: 95235e4d992667b489ee0269f6a2aa10, type: 2}
+    value: 0

@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: TradeBuild_AppleFarm
   <IntoBuild>k__BackingField:
-    resourceAmountCondition: []
+    resourceAmountCondition:
+    - resource: {fileID: 11400000, guid: fe9be7a38b3c1aa4fad2cc624bbbc60a, type: 2}
+      value: 0
     technologyCondition: []
-    Into: {fileID: 11400000, guid: abfb1f07265baa349ae09ec6f768737f, type: 2}
-    Value: 1
+    into: {fileID: 11400000, guid: abfb1f07265baa349ae09ec6f768737f, type: 2}
+    value: 0

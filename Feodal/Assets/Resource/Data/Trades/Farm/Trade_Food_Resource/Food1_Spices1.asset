@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2475fcb949d4f01a6b694dba9cb1704, type: 3}
-  m_Name: Food1_Grains140
+  m_Name: Food1_Spices1
   m_EditorClassIdentifier: 
   connectedToDependency:
-    technologyCondition: []
+    technologyCondition:
+    - {fileID: 11400000, guid: bd2406ff96a2b3949aeeb456d4047066, type: 2}
     resourceAmountCondition:
-    - resource: {fileID: 11400000, guid: db64404f0b537524c85e1c7800e85631, type: 2}
-      value: 2
-    Into: {fileID: 11400000, guid: fe9be7a38b3c1aa4fad2cc624bbbc60a, type: 2}
-    Value: 1
+    - resource: {fileID: 11400000, guid: 8693d290f8e818d47873dd764072bcb9, type: 2}
+      value: 1
+    into: {fileID: 11400000, guid: fe9be7a38b3c1aa4fad2cc624bbbc60a, type: 2}
+    value: 1

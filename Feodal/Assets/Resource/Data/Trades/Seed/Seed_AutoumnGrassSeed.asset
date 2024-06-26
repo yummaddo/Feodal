@@ -19,21 +19,21 @@ MonoBehaviour:
       resourceAmountCondition:
       - resource: {fileID: 11400000, guid: 73f1fc93774bd7b49864ed38de97f37b, type: 2}
         value: 10
-      Into: {fileID: 11400000, guid: 1f6f8f81dce7e6d48b33a53a41977ab6, type: 2}
-      Value: 1
+      into: {fileID: 11400000, guid: 1f6f8f81dce7e6d48b33a53a41977ab6, type: 2}
+      value: 1
     - technologyCondition: []
       resourceAmountCondition:
       - resource: {fileID: 11400000, guid: 73f1fc93774bd7b49864ed38de97f37b, type: 2}
         value: 50
-      Into: {fileID: 11400000, guid: 1f6f8f81dce7e6d48b33a53a41977ab6, type: 2}
-      Value: 1
+      into: {fileID: 11400000, guid: 1f6f8f81dce7e6d48b33a53a41977ab6, type: 2}
+      value: 1
     - technologyCondition: []
       resourceAmountCondition:
       - resource: {fileID: 11400000, guid: 73f1fc93774bd7b49864ed38de97f37b, type: 2}
         value: 50
       - resource: {fileID: 11400000, guid: fe9be7a38b3c1aa4fad2cc624bbbc60a, type: 2}
         value: 100
-      Into: {fileID: 11400000, guid: 1f6f8f81dce7e6d48b33a53a41977ab6, type: 2}
-      Value: 1
+      into: {fileID: 11400000, guid: 1f6f8f81dce7e6d48b33a53a41977ab6, type: 2}
+      value: 1
     stages: 3
-    currentStage: 1
+    currentStage: 3

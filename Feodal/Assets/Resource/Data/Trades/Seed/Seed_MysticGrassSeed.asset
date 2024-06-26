@@ -21,23 +21,23 @@ MonoBehaviour:
         value: 50
       - resource: {fileID: 11400000, guid: db64404f0b537524c85e1c7800e85631, type: 2}
         value: 100
-      Into: {fileID: 11400000, guid: ea04209e6d125ca4b92be49f603c2a04, type: 2}
-      Value: 1
+      into: {fileID: 11400000, guid: ea04209e6d125ca4b92be49f603c2a04, type: 2}
+      value: 1
     - technologyCondition: []
       resourceAmountCondition:
       - resource: {fileID: 11400000, guid: 87de4bc291145cd4e953222dd83e202b, type: 2}
         value: 200
       - resource: {fileID: 11400000, guid: db64404f0b537524c85e1c7800e85631, type: 2}
         value: 1000
-      Into: {fileID: 11400000, guid: ea04209e6d125ca4b92be49f603c2a04, type: 2}
-      Value: 1
+      into: {fileID: 11400000, guid: ea04209e6d125ca4b92be49f603c2a04, type: 2}
+      value: 1
     - technologyCondition: []
       resourceAmountCondition:
       - resource: {fileID: 11400000, guid: fe9be7a38b3c1aa4fad2cc624bbbc60a, type: 2}
         value: 20
       - resource: {fileID: 11400000, guid: 9d8e7417e57ec1d4eabbcd4e86c1462f, type: 2}
         value: 10
-      Into: {fileID: 11400000, guid: ea04209e6d125ca4b92be49f603c2a04, type: 2}
-      Value: 1
+      into: {fileID: 11400000, guid: ea04209e6d125ca4b92be49f603c2a04, type: 2}
+      value: 1
     stages: 3
-    currentStage: 1
+    currentStage: 3

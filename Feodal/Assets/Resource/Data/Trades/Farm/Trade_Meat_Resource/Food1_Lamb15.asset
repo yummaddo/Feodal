@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2475fcb949d4f01a6b694dba9cb1704, type: 3}
-  m_Name: Wood5_Redwood1
+  m_Name: Food1_Lamb15
   m_EditorClassIdentifier: 
   connectedToDependency:
     technologyCondition:
-    - {fileID: 11400000, guid: e1b821f194974844a8d9a8d8b4867604, type: 2}
+    - {fileID: 11400000, guid: e436f2c07408bc745862e827c10975fd, type: 2}
     resourceAmountCondition:
-    - resource: {fileID: 11400000, guid: 7f59f0227a4f54947939d86b547093d4, type: 2}
-      value: 1
-    Into: {fileID: 11400000, guid: aa99815f5c9c66648963985002e32edb, type: 2}
-    Value: 5
+    - resource: {fileID: 11400000, guid: d3f28d3b2034a04429f5f84a0e8a6e66, type: 2}
+      value: 15
+    into: {fileID: 11400000, guid: fe9be7a38b3c1aa4fad2cc624bbbc60a, type: 2}
+    value: 1
