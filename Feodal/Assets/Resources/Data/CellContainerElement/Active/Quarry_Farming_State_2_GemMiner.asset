@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce072eaf48bf4a2eaa178f29481b99e2, type: 3}
+  m_Name: Quarry_Farming_State_2_GemMiner
+  m_EditorClassIdentifier: 
+  id: 2
+  externalName: GemMiner
+  type: 8
+  activeType: 1
+  root: {fileID: 0}
+  switchList: []
+  resource: {fileID: 11400000, guid: c5ce2f4fa1c5d2340b28c5c912c60b08, type: 2}
+  baseState: {fileID: 11400000, guid: 2546dd9ba933af049a6a0f877c9611bf, type: 2}

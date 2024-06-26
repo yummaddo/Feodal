@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a1091fdf80c4ee590f65cf9cc69b10d, type: 3}
+  m_Name: Technology_stage[3][Heat_Treatment]
+  m_EditorClassIdentifier: 
+  stage: 3
+  <CurrentStatus>k__BackingField: 0
+  <Title>k__BackingField: Heat_Treatment
+  <Trade>k__BackingField:
+    sprite: {fileID: 21300000, guid: 5e1584438a6c04f489412a1d3b62413a, type: 3}
+    resourceAmountCondition:
+    - resource: {fileID: 11400000, guid: 87de4bc291145cd4e953222dd83e202b, type: 2}
+      value: 2000
+    - resource: {fileID: 11400000, guid: 40920cd3ba1e6b6439e4fc02c9ac0163, type: 2}
+      value: 5000
+    into: {fileID: 11400000}

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e76c16975ff457380ec2f2ee6998804, type: 3}
+  m_Name: UICell_ContainerElement_Pig Pen
+  m_EditorClassIdentifier: 
+  cellImage: {fileID: 21300000, guid: d53c32fe6a54113429a7f14a33ecbd4c, type: 3}
+  cellResource: {fileID: 21300000, guid: 438c010fb3df46440b8575ec704da44c, type: 3}
+  cellUniversalResource: {fileID: 21300000, guid: 9c24cd174a35dbd42ad59eccf3224ee5, type: 3}
+  cellTitle: Pig Pen
+  state: {fileID: 11400000, guid: a1bf0e830fe1b884b8e4fa283e452230, type: 2}
+  container: {fileID: 11400000, guid: c823cb9edda8ed04b9ebaea7e776057e, type: 2}
+  uIContainer: {fileID: 11400000, guid: 2dfba2f0a4daef14eb47f96e4048f431, type: 2}

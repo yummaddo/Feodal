@@ -12,7 +12,7 @@ namespace Game.RepositoryEngine.Abstraction
         where TTemp : Temp<TEncoded, TEncodedIdentifier, TData>
     {
         [SerializeField] internal TTemp temp;
-        protected abstract string SaveFileName { get; set; }
+        protected static string SaveFileName { get; set; }
         /// <summary>
         /// Parameter that will be contained in repository data file
         /// </summary>
@@ -44,7 +44,7 @@ namespace Game.RepositoryEngine.Abstraction
             InitTemp(convert);
             if (encodes != null) InitHimselfEncodes(encodes);
             else Encodes = new List<TEncoded>();
-            SaveFileResourcePath = InitHimselfDataFilePath(SaveFileName);
+
         }
         #region Abstraction
         /// <summary>
@@ -101,69 +101,86 @@ namespace Game.RepositoryEngine.Abstraction
                 RepositoryInst(resourceData);
                 if (resourceData.Keys.Count != 0)
                 {
-                    var json =  GetJsonData();
-                    try
-                    {
-                        using (StreamWriter writer = new StreamWriter(SaveFileResourcePath))
-                        {
-                            writer.Write(json);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Debugger.Logger(e.Message, Process.TrashHold);
-
-                    }
+                    var json =  GetJsonData();                
+                    Data dataEncrypt = new Data(_data);
+                    WriteDataToJson(dataEncrypt);
                 }
             }
             catch (Exception e)
             {
+                
                 Debugger.Logger(e.Message, Process.TrashHold);
-
             }
 
         }
         
         internal void LoadResourceData()
         {
-            lock (PublicAesLock)
+            try
             {
                 Debugger.Logger($"Load Resource Data {GetType()}", Process.Process);
-                if (File.Exists(SaveFileResourcePath))
+                if (File.Exists(DataPath()))
                 {
-                    Debugger.Logger(SaveFileResourcePath, ContextDebug.Application, Process.Info);
-                    var json = File.ReadAllText(SaveFileResourcePath);
+                    Debugger.Logger(DataPath(), ContextDebug.Application, Process.Info);
+                    var json = ReadDataFromJson();
                     Debugger.Logger($"Read json {json.Length} literals", ContextDebug.Application, Process.Load);
                     RepositoryInst(json);
-                    UpdateFromRepository();
                 }
                 else
                 {
-                    Debugger.Logger("File Doesnt exist: path="+ SaveFileResourcePath, ContextDebug.Application, Process.Info);
-                    // Write the string array to a new file named "WriteLines.txt".
-
+                    Debugger.Logger("File Doesnt exist: path="+ DataPath(), ContextDebug.Application, Process.Info);
                     Data data = new Data(new List<EncryptData>());
                     var voidJson = JsonUtility.ToJson(data);
-                    using (StreamWriter outputFile = new StreamWriter(SaveFileResourcePath))
-                    {
-                        outputFile.Write(voidJson);
-                    }
-                    
+                    WriteDataToJson(data);
                     DataJson = voidJson;
                     ResourceData = new Dictionary<TEncoded, TData>();
-                    _data = new List<EncryptData>();
-                    UpdateFromRepository();
+                    lock (PublicAesLock)
+                    {
+                        _data = new List<EncryptData>();
+                    }
                 }
+                UpdateFromRepository();
             }
+            catch (Exception e)
+            {
+                
+                Debugger.Logger(e.Message, Process.TrashHold);
+            }
+        
         }
-        /// <summary>
-        /// Get Path to repository 
-        /// </summary>
-        /// <returns></returns>
-        internal static string InitHimselfDataFilePath(string saveFileName)
-        {
-            return Application.dataPath + $"{ApplicationSetting.RepositoryLocalPath}{saveFileName}";
-        }
+      public static void WriteDataToJson(Data savedData) {
+              string dataString;
+              string jsonFilePath = DataPath();
+              CheckFileExistance(jsonFilePath);
+              dataString = JsonUtility.ToJson(savedData);
+              File.WriteAllText(jsonFilePath, dataString);
+      }
+      public  string ReadDataFromJson() {
+              string dataString;
+              string jsonFilePath = DataPath();
+              CheckFileExistance(jsonFilePath, true);
+              dataString = File.ReadAllText(jsonFilePath);
+              return dataString;
+      }
+
+      static string DataPath() {
+              if (Directory.Exists(Application.persistentDataPath))
+              {
+                  return Application.persistentDataPath + $"/{SaveFileName}";
+              }
+              return Path.Combine(Application.streamingAssetsPath + $"/{SaveFileName}");
+      }
+
+      static void CheckFileExistance(string filePath, bool isReading = false) {
+              if (!File.Exists(filePath)){
+                  File.Create(filePath).Close();
+                  if (isReading) {
+                    Data data = new Data(new List<EncryptData>());
+                    var voidJson = JsonUtility.ToJson(data);
+                    File.WriteAllText(filePath, voidJson);
+                  }
+              }
+      }
         /// <summary>
         ///  get data form temp object
         /// </summary>
@@ -223,7 +240,6 @@ namespace Game.RepositoryEngine.Abstraction
                 {
                     return ResourceData;
                 }
-
                 foreach (var resourceEncrypt in storage)
                 {
                     var decryptedResource = Decrypt(resourceEncrypt.resource);
@@ -236,11 +252,7 @@ namespace Game.RepositoryEngine.Abstraction
 
         internal static void Reset(string repositoryName)
         {
-            Data data = new Data(new List<EncryptData>());
-            var path = InitHimselfDataFilePath(repositoryName);
-            var voidJson = JsonUtility.ToJson(data);
-            using (StreamWriter outputFile = new StreamWriter(path))
-            { outputFile.Write(voidJson); }
+            WriteDataToJson(new Data(new List<EncryptData>()));
         }
 
         /// <summary>
@@ -253,7 +265,6 @@ namespace Game.RepositoryEngine.Abstraction
             {
 
                 Data dataEncrypt = new Data(_data);
-                Debugger.Logger(JsonUtility.ToJson(dataEncrypt));
                 return JsonUtility.ToJson(dataEncrypt);
             }
         }
@@ -275,7 +286,8 @@ namespace Game.RepositoryEngine.Abstraction
         {
             try
             {
-                foreach (var key in ResourceData) temp.Temped(key.Key, key.Value);
+                foreach (var key in ResourceData)
+                    temp.Temped(key.Key, key.Value);
             }
             catch (Exception e)
             {

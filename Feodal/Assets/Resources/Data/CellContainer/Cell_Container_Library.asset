@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94dea7f3417a4b96b0c7a2a2278df398, type: 3}
+  m_Name: Cell_Container_Library
+  m_EditorClassIdentifier: 
+  containerName: Library
+  price: 1
+  seedType: 2
+  initial: {fileID: 11400000, guid: 50a939f333c831a47becbe282d2531b4, type: 2}
+  states: []
+  template: {fileID: 3808138823535645106, guid: 3fd65e09df36b634ea8a9ad07def91d1, type: 3}
+  seed: {fileID: 11400000, guid: 8dd0281a03ec5a9409e4bfaaf40f3534, type: 2}

@@ -34,11 +34,17 @@ namespace Game.UI.Menu.ResourceListMenu
         }
         public override void UpdateOnInit()
         {
-            Proxy.Connect<DatabaseResourceProvider,ResourceTempedCallBack,ResourceTempedCallBack>(SomeResourceUpdate);
-            var store = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<StorageService>();
-            var temp = store.GetResourceTemp();
-            if (type == ResourceType.Universal)
-                UpdateValue(temp.GetAmount(universal.title));
+            try
+            {
+                var store = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<StorageService>();
+                var temp = store.GetResourceTemp();
+                if (type == ResourceType.Universal)
+                    UpdateValue(temp.GetAmount(universal.title));
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
         }
         public void UpdateData(UIResource newResource)
         {

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a1091fdf80c4ee590f65cf9cc69b10d, type: 3}
+  m_Name: Technology_stage[4][Natural_Public_Citizen]
+  m_EditorClassIdentifier: 
+  stage: 4
+  <CurrentStatus>k__BackingField: 0
+  <Title>k__BackingField: Natural_Citizen
+  <Trade>k__BackingField:
+    sprite: {fileID: 21300000, guid: 726cb4f94d44f4445acb869069ff47ba, type: 3}
+    resourceAmountCondition:
+    - resource: {fileID: 11400000, guid: c18536515e38a664e9014e794f89a855, type: 2}
+      value: 50
+    - resource: {fileID: 11400000, guid: 9d8e7417e57ec1d4eabbcd4e86c1462f, type: 2}
+      value: 5
+    - resource: {fileID: 11400000, guid: aa99815f5c9c66648963985002e32edb, type: 2}
+      value: 3
+    - resource: {fileID: 11400000, guid: fe9be7a38b3c1aa4fad2cc624bbbc60a, type: 2}
+      value: 6
+    into: {fileID: 11400000}

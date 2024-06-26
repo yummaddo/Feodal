@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a1091fdf80c4ee590f65cf9cc69b10d, type: 3}
+  m_Name: Technology_stage[1][Eco-Architect]
+  m_EditorClassIdentifier: 
+  stage: 1
+  <CurrentStatus>k__BackingField: 0
+  <Title>k__BackingField: Eco-Architect
+  <Trade>k__BackingField:
+    sprite: {fileID: 21300000, guid: c7c37848356fa1f449befa931af162cc, type: 3}
+    resourceAmountCondition:
+    - resource: {fileID: 11400000, guid: db64404f0b537524c85e1c7800e85631, type: 2}
+      value: 200
+    - resource: {fileID: 11400000, guid: e016025b89b63eb4595c63124f32cd06, type: 2}
+      value: 1000
+    into: {fileID: 11400000}

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94dea7f3417a4b96b0c7a2a2278df398, type: 3}
+  m_Name: Cell_Container_FreeLand
+  m_EditorClassIdentifier: 
+  containerName: FreeLand
+  price: 1
+  seedType: 0
+  initial: {fileID: 11400000, guid: 6ce9c47ccab8eff4c97249cfb9b84c44, type: 2}
+  states:
+  - {fileID: 11400000, guid: abfb1f07265baa349ae09ec6f768737f, type: 2}
+  - {fileID: 11400000, guid: d50178b9634c3e54380f5b99bd913685, type: 2}
+  - {fileID: 11400000, guid: 19d3f63c6f2d49242bd35859210071d2, type: 2}
+  - {fileID: 11400000, guid: a1bf0e830fe1b884b8e4fa283e452230, type: 2}
+  - {fileID: 11400000, guid: 1e7bda28340b1724986427f830d8bcd6, type: 2}
+  template: {fileID: 8505558440730397036, guid: 34d8477c4b3a1934aae2620711b4d36e, type: 3}
+  seed: {fileID: 11400000, guid: b4e8317307c100f4e8d3929df6ab8813, type: 2}

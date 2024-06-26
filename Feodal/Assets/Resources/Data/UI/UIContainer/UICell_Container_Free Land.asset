@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e22d58d9c34148bf989ab5a8f3b72d9f, type: 3}
+  m_Name: UICell_Container_Free Land
+  m_EditorClassIdentifier: 
+  seed: {fileID: 11400000, guid: b4e8317307c100f4e8d3929df6ab8813, type: 2}
+  cellImage: {fileID: 21300000, guid: 60bf1ba3eda3da14187b09c2775b9483, type: 3}
+  cellLendIdentImage: {fileID: 21300000, guid: ad1242ac1d72b6949a7a9db806aefad0, type: 3}
+  cellTitle: Free Land
+  container: {fileID: 11400000, guid: c823cb9edda8ed04b9ebaea7e776057e, type: 2}
+  uIContainer:
+  - {fileID: 11400000, guid: f967492aa5ec5b045917e641f452718a, type: 2}
+  - {fileID: 11400000, guid: 7f464c73437640745a3638be5a2fb087, type: 2}
+  - {fileID: 11400000, guid: c6fc59691bc23bf46adfb16384c014b4, type: 2}
+  - {fileID: 11400000, guid: 091fc36c8b9ad8b43916c8561f690415, type: 2}
+  cellTemplate: {fileID: 8505558440730397036, guid: 34d8477c4b3a1934aae2620711b4d36e, type: 3}

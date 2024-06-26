@@ -26,6 +26,7 @@ namespace Game.UI.Menu.ContainerMenu
         public MenuTypes menuTypesToClose = MenuTypes.ContainerMenu;
         public Animator animator;
         [Header("Style")]
+        public Color availableCellColor = Color.white;
         public Color availableColor = Color.green;
         public Color unAvailableColor = Color.gray;
         [Header("Controlling")]
@@ -33,7 +34,6 @@ namespace Game.UI.Menu.ContainerMenu
         public Image cell;
         public Image pool;
         public Text title;
-        public Text price;
         
         public Action<Port, IUICellContainer> OnCallBackInvocation { get; set; }
         public bool IsInit { get; set; }
@@ -47,6 +47,21 @@ namespace Game.UI.Menu.ContainerMenu
         private void Awake()
         {
             SessionLifeStyleManager.AddLifeIteration(UpdateOnInit, SessionLifecycle.OnSceneStartServiceSession);
+            SessionLifeStyleManager.AddLifeIteration(UpdateDependency, SessionLifecycle.OnSceneAwakeClose);
+        }
+        private void OnEnable()
+        {
+            if (!_isInit)
+            {
+                UpdateOnInit();
+                OnEnableSProcess();
+            }
+            else
+                OnEnableSProcess();
+        }
+        private Task UpdateDependency(IProgress<float> arg)
+        {
+            return Task.CompletedTask;
         }
         private Task UpdateOnInit(IProgress<float> progress)
         {
@@ -57,45 +72,74 @@ namespace Game.UI.Menu.ContainerMenu
         private void UpdateOnInit() 
         {
             _isInit = true;
-            try
-            {
-                callBack.onClick.AddListener(OnButtonClick);
-                _seedControllingMicroservice = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<CellSeedControllingMicroservice>();
-                UICellContainerProvider.CallBackTunneling<UIMenuBuilding>(this);
-            }
-            catch (Exception e)
-            {
-                Debugger.Logger(e.Message, Process.TrashHold);
-            }
+            callBack.onClick.AddListener(OnButtonClick);
+            _seedControllingMicroservice = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<CellSeedControllingMicroservice>();
+            callBack.onClick.AddListener(OnButtonClick);
         }
-        private void OnEnable()
+        private void OnEnableSProcess()
         {
-            if (!_isInit) UpdateOnInit();
+            if (!_isInit) 
+                UpdateOnInit();
             else
             {
-                UpdatePosition(_currentPosition);
                 try
                 {
-                    if (_seedControllingMicroservice && uIContainer != null)
-                        pool.color = _seedControllingMicroservice.CanCreateNewSeed(uIContainer.Data.Container.seed) ? availableColor : unAvailableColor;
+                    UpdatePosition(_currentPosition);
+                    TryToColorUpdate();
                 }
                 catch (Exception e)
                 {
                     Debugger.Logger(e.Message, Process.TrashHold);
                 }
             }
-
-
         }
-        private void OnButtonClick()
+
+        private void TryToColorUpdate()
+        {
+            if (SessionLifeStyleManager.Instance.IsMicroServiceSessionInit && uIContainer != null)
+            {
+                UICellContainerProvider.CallBackTunneling<UIMenuBuilding>(this);
+                _seedControllingMicroservice =
+                    SessionLifeStyleManager.Instance.ServiceLocator.Resolve<CellSeedControllingMicroservice>();
+                UpdateCellContainerColor();
+            }
+        }
+
+        private void UpdateCellContainerColor()
         {
             if (_seedControllingMicroservice.CanCreateNewSeed(uIContainer.Data.Container.seed))
             {
-                Debugger.Logger($"Create {uIContainer.Data.Container.seed}", Process.Create);
-                OnCallBackInvocation?.Invoke(Porting.Type<UIMenuBuilding>(),uIContainer.Data);
-                closeMenuCallBack.OnCallBackInvocation?.Invoke(Porting.Type<ButtonExitMenuCallBack>(), menuTypesToClose);
+                pool.color = availableColor;
+                cell.color = availableCellColor;
             }
-            else Debugger.Logger($"No Amount {uIContainer.Data.Container.seed}");
+            else
+            {
+                pool.color = unAvailableColor;
+                cell.color = unAvailableColor;
+            }
+        }
+
+        private void OnButtonClick()
+        {
+            try
+            {
+                UICellContainerProvider.CallBackTunneling<UIMenuBuilding>(this);
+                _seedControllingMicroservice = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<CellSeedControllingMicroservice>();
+                if (_seedControllingMicroservice.CanCreateNewSeed(uIContainer.Data.Container.seed))
+                {
+                    Debugger.Logger($"Create {uIContainer.Data.Container.seed}", Process.Create);
+                    OnCallBackInvocation?.Invoke(Porting.Type<UIMenuBuilding>(),uIContainer.Data);
+                    
+                    closeMenuCallBack.OnCallBackInvocation?.Invoke(Porting.Type<ButtonExitMenuCallBack>(), menuTypesToClose);
+                }
+                else 
+                    Debugger.Logger($"No Amount {uIContainer.Data.Container.seed}");
+            }
+            catch (Exception e)
+            {
+                Debugger.Logger(e.ToString(), Process.TrashHold);
+            }
+
         }
         public override void UpdateContent(UICellContainerData itemContainerData)
         {
@@ -106,14 +150,13 @@ namespace Game.UI.Menu.ContainerMenu
                 container = itemContainerData.Data.container;
                 cell.sprite = _uiContainer.CellImage;
                 seed.sprite = _uiContainer.CellLendIdentImage;
-                title.text = _uiContainer.Container.containerName;
-                price.text = _uiContainer.Container.price.ToString();
-                if (_seedControllingMicroservice)
-                    pool.color = _seedControllingMicroservice.CanCreateNewSeed(itemContainerData.Data.Container.seed) ? availableColor : unAvailableColor;
+                title.text = container.containerName;
+                if (_seedControllingMicroservice) 
+                    UpdateCellContainerColor();
             }
             catch (Exception e)
             {
-                Debugger.Logger(e.Message, Process.TrashHold);
+                Debugger.Logger(e.ToString(), Process.TrashHold);
             }
         }
         public override void UpdatePosition(float position)

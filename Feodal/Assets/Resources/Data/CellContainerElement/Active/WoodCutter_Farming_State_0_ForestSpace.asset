@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce072eaf48bf4a2eaa178f29481b99e2, type: 3}
+  m_Name: WoodCutter_Farming_State_0_ForestSpace
+  m_EditorClassIdentifier: 
+  id: 0
+  externalName: ForestSpace
+  type: 5
+  activeType: 1
+  root: {fileID: 5429821624073691138, guid: 59030ecad53ee7142b97702da4adab84, type: 3}
+  switchList: []
+  resource: {fileID: 11400000, guid: ca987885152007c4f9f94fc40cde4d2a, type: 2}
+  baseState: {fileID: 11400000, guid: e298c28d4576326468fb17fc2c0c6da7, type: 2}
