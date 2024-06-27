@@ -6,6 +6,7 @@ using Game.Cells;
 using Game.Services.ProxyServices;
 using Game.Services.ProxyServices.Abstraction;
 using Game.Services.ProxyServices.Providers;
+using Game.UI.Abstraction;
 using Game.Utility;
 using UnityEngine;
 
@@ -27,23 +28,16 @@ namespace Game.UI.Menu
             _callbackOpen = new ClickCallback<MenuTypes>();
             MenuTypesExitProvider.CallBackTunneling<UIMenuContainer>(_callbackClose);
             MenuTypesOpenProvider.CallBackTunneling<UIMenuContainer>(_callbackOpen);
-            
+            Proxy.Connect<UICellContainerProvider, IUICellContainer,UIMenuBuilding>( ClickedByUICellContainerObject);
+
             Proxy.Connect<CellProvider, Cell, UIMenuContainer>(OnUpdateSelect);
             Proxy.Connect<CellAddDetectorProvider, CellAddDetector, CellAddDetector>(PlayerClickedByAddCellObject);
             return Task.CompletedTask;
         }
-        private void OnUpdateSelect(Port type, Cell obj) => CloseMenu(); 
-        
-        private void PlayerClickedByAddCellObject(Port type, CellAddDetector obj)
-        {
-            OpenMenu();
-        }
 
-        private void ExitMenu(Port type, MenuTypes obj)
-        {
-            if (obj == MenuTypes.ContainerMenu || obj == MenuTypes.BuildingMenu) CloseMenu();
-        }
-        
+        private void ClickedByUICellContainerObject(Port arg1, IUICellContainer arg2) => CloseMenu();
+        private void OnUpdateSelect(Port type, Cell obj) => CloseMenu(); 
+        private void PlayerClickedByAddCellObject(Port type, CellAddDetector obj) => OpenMenu();
         public void OpenMenu()
         {
             status = true;

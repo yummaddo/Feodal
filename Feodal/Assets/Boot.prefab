@@ -3216,7 +3216,7 @@ PrefabInstance:
       objectReference: {fileID: 7806803588015312857}
     - target: {fileID: 2318439921913212979, guid: 9bd1fe91f312cbe469d7b3f27a7aec3a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 385.0028
+      value: 385.00287
       objectReference: {fileID: 0}
     - target: {fileID: 2694443552199676580, guid: 9bd1fe91f312cbe469d7b3f27a7aec3a, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3233,6 +3233,10 @@ PrefabInstance:
     - target: {fileID: 2694443552199676580, guid: 9bd1fe91f312cbe469d7b3f27a7aec3a, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -263.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 2698905177966858773, guid: 9bd1fe91f312cbe469d7b3f27a7aec3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2989147821179864481, guid: 9bd1fe91f312cbe469d7b3f27a7aec3a, type: 3}
       propertyPath: m_RaycastTarget
@@ -3430,6 +3434,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 8307148858201292207, guid: 9bd1fe91f312cbe469d7b3f27a7aec3a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.00015968
+      objectReference: {fileID: 0}
+    - target: {fileID: 8307148858201292207, guid: 9bd1fe91f312cbe469d7b3f27a7aec3a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -20.657
+      objectReference: {fileID: 0}
+    - target: {fileID: 8307148858201292207, guid: 9bd1fe91f312cbe469d7b3f27a7aec3a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -162
+      objectReference: {fileID: 0}
     - target: {fileID: 8828004192961162331, guid: 9bd1fe91f312cbe469d7b3f27a7aec3a, type: 3}
       propertyPath: m_TargetGraphic
       value: 
@@ -3448,7 +3464,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9080630323919715940, guid: 9bd1fe91f312cbe469d7b3f27a7aec3a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -52.57
+      value: -52.570007
       objectReference: {fileID: 0}
     - target: {fileID: 9109754550779798259, guid: 9bd1fe91f312cbe469d7b3f27a7aec3a, type: 3}
       propertyPath: m_RaycastTarget

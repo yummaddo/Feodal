@@ -164,9 +164,9 @@ namespace Game.RepositoryEngine.Abstraction
       }
 
         static string DataPath() {
-#if UNITY_EDITOR
-            return Application.streamingAssetsPath + $"/{SaveFileName}";
-#endif
+// #if UNITY_EDITOR
+//             return Application.streamingAssetsPath + $"/{SaveFileName}";
+// #endif
               if (Directory.Exists(Application.persistentDataPath))
               {
                   return Application.persistentDataPath + $"/{SaveFileName}";

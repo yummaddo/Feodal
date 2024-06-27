@@ -25,7 +25,7 @@ namespace Game.Services.CellServices.Microservice
         protected override Task OnStart(IProgress<float> progress)
         {
             Proxy.Connect<CellAddDetectorProvider, CellAddDetector,CellAddDetector>( ClickedByAddCellObject);
-            Proxy.Connect<UICellContainerProvider, IUICellContainer,UIMenuContainer>( ClickedByUICellContainerObject);
+            Proxy.Connect<UICellContainerProvider, IUICellContainer,UIMenuBuilding>( ClickedByUICellContainerObject);
             Proxy.Connect<MenuTypesExitProvider, MenuTypes, ButtonExitMenuCallBack>( ClickedByUICellContainerExit);
             return Task.CompletedTask;
         }

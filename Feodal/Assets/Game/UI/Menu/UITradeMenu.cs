@@ -40,15 +40,16 @@ namespace Game.UI.Menu
             
             Proxy.Connect<UITechnologyElementProvider,    UITechnologyListElement, UITechnologyMenu>     (OnClickedByTechnology);
             Proxy.Connect<UIListResourceElementProvider,  UIResourceListElement,   UIResourceListElement>(OnClickedByResource);
-            Proxy.Connect<UICellContainerElementProvider, IUICellContainerElement, UIMenuBuilding>       (OnBuildSelected);
+            Proxy.Connect<UICellContainerElementProvider, IUICellContainerElement, IUICellContainerElement> (OnBuildSelected);
             
+            Proxy.Connect<BuildingTradeProvider,BuildingTradeCallBack>(OnBuildWasBay, Port.TradeSuccessfully);
+            Proxy.Connect<BuildingTradeProvider,BuildingTradeCallBack>(OnBuildWasNoBy, Port.TradeFailed);
             Proxy.Connect<DatabaseSeedProvider,Seed, Seed>(OnSeedWasBay);
             return Task.CompletedTask;
         }
-        private void OnTechnologyWasBay(Port arg1, TechnologyTradeCallBack arg2) => controller.ViewTechnologyUpdate(arg2);
-        private void OnBuildWasBay(Port arg1, BuildingTradeCallBack arg2) => controller.ViewBuildingUpdate(arg2);
-        
-        private void OnResourceUpdate(Port arg1, ResourceTempedCallBack arg2) => controller.ViewResourceUpdate(arg2);
+        // private void OnTechnologyWasBay(Port arg1, TechnologyTradeCallBack arg2) => controller.ViewTechnologyUpdate(arg2);
+        // private void OnBuildWasBay(Port arg1, BuildingTradeCallBack arg2) => controller.ViewBuildingUpdate(arg2);
+        // private void OnResourceUpdate(Port arg1, ResourceTempedCallBack arg2) => controller.ViewResourceUpdate(arg2);
         private void OnSeedWasBay(Port arg1, Seed arg2) => controller.ViewSeedUpdate(arg2);
         
         public void OpenTechnology(UITechnologyListElement uiTechnologyListElement)
@@ -59,30 +60,29 @@ namespace Game.UI.Menu
         }
         private void OnBuildSelected(Port port, IUICellContainerElement element)
         {
-            root.SetActive(true);
+            OpenMenu();
             controller.ViewBuilding(element);
+            
         }
         private void OnClickedByResource(Port port,UIResourceListElement element)
         {
+            OpenMenu();
             if (element.type == ResourceType.Seed)
             {
-                root.SetActive(true);
                 controller.ViewSeed(element);
             }
             else
             {
-                root.SetActive(true);
                 controller.ViewResource(element);
             }
-
-            OpenMenu();
         }
         private void OnClickedByTechnology(Port port,UITechnologyListElement element)
         {
             OpenMenu();
             controller.ViewTechnology(element);
         }
-
+        private void OnBuildWasNoBy(Port port, BuildingTradeCallBack callBack) => CloseMenu();
+        private void OnBuildWasBay(Port port, BuildingTradeCallBack callBack) => CloseMenu();
         private void OpenMenu()
         {
             Debugger.Logger("OpenMenu OnClickedByTechnology UITradeMenu Menu", ContextDebug.Menu, Process.Action);

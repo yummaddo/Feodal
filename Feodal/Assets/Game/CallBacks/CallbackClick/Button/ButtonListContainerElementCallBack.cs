@@ -14,7 +14,7 @@ namespace Game.CallBacks.CallbackClick.Button
         public MenuTypes menuTypesToClose = MenuTypes.BuildingMenu;
         public override void Initialization()
         {
-            UICellContainerElementProvider.CallBackTunneling<UIMenuBuilding>(this);
+            UICellContainerElementProvider.CallBackTunneling<IUICellContainerElement>(this);
             StatusInit = true;
         }
         protected override void BeforeButtonClick()
@@ -23,7 +23,7 @@ namespace Game.CallBacks.CallbackClick.Button
         }
         public override Port GetSenderPort()
         {
-            return Porting.Type<UIMenuBuilding>();
+            return Porting.Type<IUICellContainerElement>();
         }
     }
 }

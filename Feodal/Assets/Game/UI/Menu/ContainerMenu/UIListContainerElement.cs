@@ -17,7 +17,7 @@ using UnityEngine.UI.Extensions;
 namespace Game.UI.Menu.ContainerMenu
 {
 
-    public class UIListContainerElement : FancyCell<UICellContainerData, Context>, ICallBack<IUICellContainer>
+    public class UIListContainerElement : FancyCell<UICellContainerData, Context>
     {
         public UICellContainer uIContainer;
         public CellContainer container;
@@ -34,10 +34,8 @@ namespace Game.UI.Menu.ContainerMenu
         public Image cell;
         public Image pool;
         public Text title;
-        
         public Action<Port, IUICellContainer> OnCallBackInvocation { get; set; }
         public bool IsInit { get; set; }
-        
         private static readonly int Scroll = Animator.StringToHash("scroll");
         private float _currentPosition = 0;
         private CellSeedControllingMicroservice _seedControllingMicroservice;
@@ -98,9 +96,7 @@ namespace Game.UI.Menu.ContainerMenu
         {
             if (SessionLifeStyleManager.Instance.IsMicroServiceSessionInit && uIContainer != null)
             {
-                UICellContainerProvider.CallBackTunneling<UIMenuBuilding>(this);
-                _seedControllingMicroservice =
-                    SessionLifeStyleManager.Instance.ServiceLocator.Resolve<CellSeedControllingMicroservice>();
+                _seedControllingMicroservice = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<CellSeedControllingMicroservice>();
                 UpdateCellContainerColor();
             }
         }
@@ -123,14 +119,12 @@ namespace Game.UI.Menu.ContainerMenu
         {
             try
             {
-                UICellContainerProvider.CallBackTunneling<UIMenuBuilding>(this);
+                // UICellContainerProvider.CallBackTunneling<UIMenuBuilding>(this);
                 _seedControllingMicroservice = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<CellSeedControllingMicroservice>();
                 if (_seedControllingMicroservice.CanCreateNewSeed(uIContainer.Data.Container.seed))
                 {
                     Debugger.Logger($"Create {uIContainer.Data.Container.seed}", Process.Create);
-                    OnCallBackInvocation?.Invoke(Porting.Type<UIMenuBuilding>(),uIContainer.Data);
-                    
-                    closeMenuCallBack.OnCallBackInvocation?.Invoke(Porting.Type<ButtonExitMenuCallBack>(), menuTypesToClose);
+                    _seedControllingMicroservice.ContainerClick(uIContainer.Data);
                 }
                 else 
                     Debugger.Logger($"No Amount {uIContainer.Data.Container.seed}");

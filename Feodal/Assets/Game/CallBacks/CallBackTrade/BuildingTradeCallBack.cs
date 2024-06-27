@@ -7,10 +7,6 @@ namespace Game.CallBacks.CallBackTrade
 {
     public class BuildingTradeCallBack :  ITradeCallBack<BuildingTradeCallBack,BuildingTrade >
     {
-        public BuildingTradeCallBack()
-        {
-            
-        }
         public Action<Port, BuildingTradeCallBack> OnCallBackInvocation { get; set; }
         public bool IsInit { get; set; } = false;
         public int Amount { get; set; } = 0;

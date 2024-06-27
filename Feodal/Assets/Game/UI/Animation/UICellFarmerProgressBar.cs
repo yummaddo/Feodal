@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,18 +16,34 @@ namespace Game.UI.Animation
         public void Init(Sprite resourceImg)
         {
             resource.sprite = resourceImg;
+            animator = GetComponent<UICellPickUpAnimation>();
+            animator.Initialization();
         }
         public void GetResource(float value)
         {
-            animator.Play(value);
+            try
+            {
+                animator.Play(value);
+
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
         }
         public void ResourceNone()
         {
-            animator.PlayNone();
         }
         public void SetFarmValue(float value)
         {
-            valueText.text = value.ToString();
+            try
+            {
+                valueText.text = value.ToString(CultureInfo.CurrentCulture);
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
         }
         public void SetFarmFrame(float value)
         {

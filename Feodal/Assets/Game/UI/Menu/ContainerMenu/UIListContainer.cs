@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.DataStructures.UI;
+using Game.Services.ProxyServices.Providers;
 using Game.UI.Abstraction;
 using UnityEngine;
 using UnityEngine.UI.Extensions;

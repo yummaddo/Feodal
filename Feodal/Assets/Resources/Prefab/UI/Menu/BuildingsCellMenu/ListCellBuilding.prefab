@@ -165,8 +165,6 @@ GameObject:
   - component: {fileID: 586808650990471802}
   - component: {fileID: 6060987426051115482}
   - component: {fileID: -1293954491591914379}
-  - component: {fileID: 3631198961840877588}
-  - component: {fileID: 3556884922739672303}
   m_Layer: 5
   m_Name: ListCellBuilding
   m_TagString: Untagged
@@ -248,12 +246,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21eab9437b3f4b84bc646c260f574c4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  elementCallBack: {fileID: 3631198961840877588}
   cellImage: {fileID: 8863985014946251549}
   resource: {fileID: 1880449606459451676}
   universalResource: {fileID: 2726260232843438940}
   cellTitle: {fileID: 3831805190857524216}
   element: {fileID: 11400000, guid: f967492aa5ec5b045917e641f452718a, type: 2}
+  onClick: {fileID: -1293954491591914379}
 --- !u!114 &6060987426051115482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,34 +325,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6060987426051115482}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
---- !u!114 &3631198961840877588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4031970821207215495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc7c822367f5402b9f34e4d61fe748e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: -1293954491591914379}
-  callBack: {fileID: 3556884922739672303}
-  menuTypesToClose: 0
---- !u!114 &3556884922739672303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4031970821207215495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b8a2a345f8f4cfe8308cb08bb36d2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+      m_Calls:
+      - m_Target: {fileID: 586808650990471802}
+        m_TargetAssemblyTypeName: Game.UI.Menu.BuildingCellMenuList.UICellListBuildingElement,
+          Game
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4232140457757132380
 GameObject:
   m_ObjectHideFlags: 0

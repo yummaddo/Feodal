@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 namespace Game.UI.Animation
@@ -8,10 +9,11 @@ namespace Game.UI.Animation
         public Animator animator;
         public Text Text;
 
-        public void PlayNone()
+        public void Initialization()
         {
-            
+            animator = GetComponent<Animator>();
         }
+
         public void Play(float value)
         {
             Text.text = value.ToString();

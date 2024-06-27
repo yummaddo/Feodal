@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Game.CallBacks.CallBackTrade;
 using Game.Cells;
@@ -12,6 +13,8 @@ using Game.Services.ProxyServices.Abstraction;
 using Game.Services.ProxyServices.Providers;
 using Game.Services.ProxyServices.Providers.DatabaseProviders;
 using Game.Services.StorageServices;
+using Game.UI.Abstraction;
+using Game.UI.Menu;
 using Game.Utility;
 
 namespace Game.Services.CellServices.Microservice
@@ -26,12 +29,21 @@ namespace Game.Services.CellServices.Microservice
         private CellMap _map;
         public Action<Port, Seed> OnCallBackInvocation { get; set; }
         public bool IsInit { get; set; }
+        private IClickCallback<IUICellContainer> _callbackContainer;
+
         protected override Task OnStart(IProgress<float> progress)
         {
             return Task.CompletedTask;
         }
+
+        public void ContainerClick(IUICellContainer cellContainerElement)
+        {
+            _callbackContainer.OnCallBackInvocation?.Invoke(Porting.Type<UIMenuBuilding>(),cellContainerElement);
+        }
+
         protected override Task OnAwake(IProgress<float> progress)
         {
+            _callbackContainer = new ClickCallback<IUICellContainer>();
             _seedToAmountUsage = new Dictionary<string, long>();
             SessionLifeStyleManager.AddLifeIteration(InstanceSceneAwakeMicroServiceSession, SessionLifecycle.OnSceneAwakeClose);
             DatabaseSeedProvider.CallBackTunneling<Seed>(this);
@@ -39,10 +51,12 @@ namespace Game.Services.CellServices.Microservice
         }
         private Task InstanceSceneAwakeMicroServiceSession(IProgress<float> progress)
         {
-            // _microserviceTrades = SessionStateManager.Instance.ServiceLocator.Resolve<TradeMicroservice>();
             _microserviceCell = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<CellService>();
             _microserviceStorage = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<StorageService>();
+            
             Proxy.Connect<SeedTradeProvider,SeedTradeCallBack>(OnSeedWasBay, Port.TradeSuccessfully);
+            UICellContainerProvider.CallBackTunneling<UIMenuBuilding>(_callbackContainer);
+
             _resourceTemp = _microserviceStorage.GetResourceTemp();
             if (_microserviceCell.IsMapCellInitial)
                 MicroserviceCellMapInitial(_microserviceCell.cellMap);

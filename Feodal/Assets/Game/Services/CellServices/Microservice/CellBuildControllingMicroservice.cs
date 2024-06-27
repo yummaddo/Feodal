@@ -11,6 +11,7 @@ using Game.Services.ProxyServices.Abstraction;
 using Game.Services.ProxyServices.Providers;
 using Game.Services.StorageServices;
 using Game.Typing;
+using Game.UI.Abstraction;
 using Game.UI.Menu;
 using Game.Utility;
 using UnityEngine;
@@ -26,6 +27,7 @@ namespace Game.Services.CellServices.Microservice
         private Action<Port, MenuTypes> _onCallBackInvocation;
         public Action<Port, CellState> OnCallBackInvocation { get; set; }
         private IClickCallback<MenuTypes> _menuExit;
+        private IClickCallback<IUICellContainerElement> _buildSelect;
         public bool IsInit { get; set; }
         
         protected override Task OnStart(IProgress<float> progress) {return Task.CompletedTask; }
@@ -38,13 +40,18 @@ namespace Game.Services.CellServices.Microservice
             CellStateProvider.CallBackTunneling<CellState>(this);
             return Task.CompletedTask;
         }
-        
+        public void BuildSelected(IUICellContainerElement elementData)
+        {
+            _buildSelect.OnCallBackInvocation?.Invoke(Porting.Type<IUICellContainerElement>(),elementData);
+        }
         private void OnBuildWasBay(Port port, BuildingTradeCallBack successfullyCellTrade)
         {
             if (successfullyCellTrade.Result != TradeCallBackResult.Successfully) return;
             Debugger.Logger($"Build was bay {successfullyCellTrade.Trade.@into.externalName}", ContextDebug.Session, Process.Update);
             var cellState = successfullyCellTrade.Trade.@into;
+            
             OnCallBackInvocation?.Invoke(Porting.Type<CellState>(),cellState);
+            
             _menuExit.OnCallBackInvocation?.Invoke(Porting.Type<ButtonExitMenuCallBack>(), MenuTypes.Technology);
             _menuExit.OnCallBackInvocation?.Invoke(Porting.Type<ButtonExitMenuCallBack>(), MenuTypes.TradeMenu);
             _menuExit.OnCallBackInvocation?.Invoke(Porting.Type<ButtonExitMenuCallBack>(), MenuTypes.BuildingMenu);
@@ -53,6 +60,8 @@ namespace Game.Services.CellServices.Microservice
         private Task InstanceSceneAwakeMicroServiceSession(IProgress<float> progress)
         {
             _menuExit = new ClickCallback<MenuTypes>();
+            _buildSelect = new ClickCallback<IUICellContainerElement>();
+            UICellContainerElementProvider.CallBackTunneling<IUICellContainerElement>(_buildSelect);
             MenuTypesExitProvider.CallBackTunneling<ButtonExitMenuCallBack>(_menuExit);
             _resourceTemp = _microserviceStorage.GetResourceTemp();
             if (_microserviceCell.IsMapCellInitial)
@@ -71,5 +80,7 @@ namespace Game.Services.CellServices.Microservice
         }
 
         public GameObject TargetObject { get; set; }
+
+
     }
 }

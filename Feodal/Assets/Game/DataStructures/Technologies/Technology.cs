@@ -1,4 +1,5 @@
-﻿using Game.DataStructures.Abstraction;
+﻿using System;
+using Game.DataStructures.Abstraction;
 using Game.DataStructures.Technologies.Abstraction;
 using Game.DataStructures.Trades;
 using Game.RepositoryEngine.TechnologyRepositories;
@@ -25,8 +26,17 @@ namespace Game.DataStructures.Technologies
         }
         public bool Status()
         {
-            if (Temp != null)
-                return Temp.GetAmount(Title);
+            try
+            {
+                if (Temp != null)
+                    return Temp.GetAmount(Title);
+                return false;
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.ToString());
+            }
+
             return false;
         }
         internal override string DataNamePattern => $"Technology_stage[{stage}][{Title}]";

@@ -8,6 +8,7 @@ using Game.DataStructures.Abstraction;
 using Game.DataStructures.Technologies.Abstraction;
 using Game.DataStructures.Trades;
 using Game.Typing;
+using Game.UI.Abstraction;
 using Game.UI.Menu;
 using Game.UI.Menu.ResourceListMenu;
 using Game.UI.Menu.TechnologyMenu;
@@ -24,6 +25,7 @@ namespace Game.Services.ProxyServices
             // SimpleClickCallback<Cell>
             // CellProvider
             {typeof(CellAddDetector), Port.Port1},
+            {typeof(IUICellContainerElement), Port.Port1},
             {typeof(CellUpdatedDetector), Port.Port2},
             {typeof(CellResourceFarmer), Port.Port3},
             //

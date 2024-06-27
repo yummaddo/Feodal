@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game.CallBacks.CallbackClick.Button;
+using Game.CallBacks.CallBackTrade;
 using Game.Cells;
 using Game.DataStructures.UI;
 using Game.Services.ProxyServices;
@@ -31,10 +32,15 @@ namespace Game.UI.Menu
             _callbackOpen = new ClickCallback<MenuTypes>();
             MenuTypesExitProvider.CallBackTunneling<UIMenuBuilding>(_callbackClose);
             MenuTypesOpenProvider.CallBackTunneling<UIMenuBuilding>(_callbackOpen);
-            
+            Proxy.Connect<BuildingTradeProvider,BuildingTradeCallBack>(OnBuildWasBay, Port.TradeSuccessfully);
+            Proxy.Connect<BuildingTradeProvider,BuildingTradeCallBack>(OnBuildWasNoBy, Port.TradeFailed);
             Proxy.Connect<CellProvider, Cell, CellUpdatedDetector>(OpenMenu);
             return Task.CompletedTask;
         }
+
+        private void OnBuildWasNoBy(Port port, BuildingTradeCallBack callBack) => CloseMenu();
+        private void OnBuildWasBay(Port port, BuildingTradeCallBack callBack) => CloseMenu();
+
         public void CloseMenu()
         {
             status = false;
