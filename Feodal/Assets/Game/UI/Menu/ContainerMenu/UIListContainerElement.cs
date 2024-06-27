@@ -72,7 +72,6 @@ namespace Game.UI.Menu.ContainerMenu
             _isInit = true;
             callBack.onClick.AddListener(OnButtonClick);
             _seedControllingMicroservice = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<CellSeedControllingMicroservice>();
-            callBack.onClick.AddListener(OnButtonClick);
         }
         private void OnEnableSProcess()
         {

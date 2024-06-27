@@ -617,6 +617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2148186040062439578}
+  animatorTarget: {fileID: 6931966401561684235}
   Text: {fileID: 2316523152198363849}
 --- !u!1 &5851076405229873622
 GameObject:

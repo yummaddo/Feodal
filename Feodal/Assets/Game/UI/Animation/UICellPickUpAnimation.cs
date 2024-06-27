@@ -7,11 +7,12 @@ namespace Game.UI.Animation
     public class UICellPickUpAnimation : MonoBehaviour
     {
         public Animator animator;
+        public GameObject animatorTarget;
         public Text Text;
 
         public void Initialization()
         {
-            animator = GetComponent<Animator>();
+            animator = animatorTarget.GetComponent<Animator>();
         }
 
         public void Play(float value)
