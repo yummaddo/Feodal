@@ -40,12 +40,11 @@ namespace Game.Services.ProxyServices
             {typeof(UIResourceListElement), Port.TradeResource},
             {typeof(UITechnologyListElement), Port.TradeResource},
             //
-            {typeof(UITradeMenu), Port.Port1},
-            {typeof(UITechnologyMenu), Port.Port1},
-
-            {typeof(UIMenuContainer), Port.Port2},
-            {typeof(UIMenuResource), Port.Port2},
-            {typeof(UIMenuBuilding), Port.Port2},
+            {typeof(UIMenuContainer), Port.Port3},
+            {typeof(UIMenuResource), Port.Port4},
+            {typeof(UIMenuBuilding), Port.Port5},
+            {typeof(UITechnologyMenu), Port.Port6},
+            {typeof(UITradeMenu), Port.Port7},
             //
             {typeof(ButtonExitMenuCallBack), Port.ButtonExitMenu},
             {typeof(ButtonOpenMenuCallBack), Port.ButtonOpenMenu},

@@ -5,6 +5,7 @@ using Game.CallBacks.CallbackClick.Button;
 using Game.Cells;
 using Game.DataStructures.UI;
 using Game.Services.ProxyServices;
+using Game.Services.ProxyServices.Abstraction;
 using Game.Services.ProxyServices.Providers;
 using Game.UI.Menu.BuildingCellMenuList;
 using Game.Utility;
@@ -15,34 +16,45 @@ namespace Game.UI.Menu
     public class UIMenuBuilding : MonoBehaviour
     {
         [SerializeField] private UICellListBuilding listBuilding;
-        [SerializeField] private ButtonExitMenuCallBack exitMenuCallBack;
         public Transform target;
+        public bool status = false;
         public List<UICellContainer> containers;
-
+        private IClickCallback<MenuTypes> _callbackClose;
+        private IClickCallback<MenuTypes> _callbackOpen;
         private void Awake()
         {
             SessionLifeStyleManager.AddLifeIteration( OnSceneAwakeMicroServiceSession, SessionLifecycle.OnSceneAwakeMicroServiceSession);
         }
         private Task OnSceneAwakeMicroServiceSession(IProgress<float> progress)
         {
-            Proxy.Connect<MenuTypesExitProvider, MenuTypes,UIMenuBuilding>(ExitMenu);
-            Proxy.Connect<MenuTypesExitProvider, MenuTypes,CellMap>(ExitMenu);
+            _callbackClose = new ClickCallback<MenuTypes>();
+            _callbackOpen = new ClickCallback<MenuTypes>();
+            MenuTypesExitProvider.CallBackTunneling<UIMenuBuilding>(_callbackClose);
+            MenuTypesOpenProvider.CallBackTunneling<UIMenuBuilding>(_callbackOpen);
+            
             Proxy.Connect<CellProvider, Cell, CellUpdatedDetector>(OpenMenu);
-            Proxy.Connect<MenuTypesExitProvider, MenuTypes, UIMenuContainer>(ExitMenu);
-            Proxy.Connect<MenuTypesExitProvider, MenuTypes, ButtonExitMenuCallBack>(ExitMenu);
             return Task.CompletedTask;
         }
-
-        private void ExitMenu(Port type, MenuTypes obj)
+        public void CloseMenu()
         {
-            if (obj == MenuTypes.BuildingMenu)
-                target.gameObject.SetActive(false);
+            status = false;
+            target.gameObject.SetActive(false);
+            Debugger.Logger("CloseMenu UIMenuResource Menu", ContextDebug.Menu, Process.Action);
+            _callbackOpen.OnCallBackInvocation?.Invoke(Porting.Type<UIMenuBuilding>(), MenuTypes.ResourceMenu);
+            _callbackOpen.OnCallBackInvocation?.Invoke(Porting.Type<UIMenuBuilding>(), MenuTypes.BuildingMenu);
         }
+        public void OpenMenu()
+        {
+            status = true;
+            target.gameObject.SetActive(true);
+            Debugger.Logger("OpenMenu UIMenuResource Menu", ContextDebug.Menu, Process.Action);
+            _callbackOpen.OnCallBackInvocation?.Invoke(Porting.Type<UIMenuBuilding>(), MenuTypes.BuildingMenu);
+        }
+        
         private void OpenMenu(Port type, Cell cell)
         {
-            target.gameObject.SetActive(true);
+            OpenMenu();
             var container = cell.container.Data;
-            Debugger.Logger($"Open Menu Type {MenuTypes.BuildingMenu}", ContextDebug.Menu , Process.Action);
             OpenMenuWithBase(container.Initial.ExternalName);
         }
         private void OpenMenuWithBase(string nameOfContainer)
@@ -50,7 +62,6 @@ namespace Game.UI.Menu
             var element = containers.Find(container => container.Data.Container.initial.externalName == nameOfContainer);
             if (element != null)
             {
-                target.gameObject.SetActive(true);
                 listBuilding.UpdateData(element);
             }
         }

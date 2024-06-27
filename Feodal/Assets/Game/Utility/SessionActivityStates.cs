@@ -1,4 +1,4 @@
-﻿namespace Game
+﻿namespace Game.Utility
 {
     public enum SessionActivityStates
     {

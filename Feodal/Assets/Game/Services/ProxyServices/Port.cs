@@ -22,5 +22,9 @@
         SelectionCellBase,
         CellDeleteContainer,
         CellDeleteBuilding,
+        Port4,
+        Port5,
+        Port6,
+        Port7
     }
 }

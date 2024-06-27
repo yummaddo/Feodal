@@ -118,6 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInit: 0
+  menu: {fileID: 2283959615572268651}
   targetTradeTemplate: {fileID: 5020484136211286836, guid: 1f7fa3ed326901a43ac2e875c0c32c30, type: 3}
   targetTechnologyTemplate: {fileID: 5307906380094863253, guid: 77d9315858324224c95fc428b6bdc7c4, type: 3}
   targetRoot: {fileID: 2938322133534485665}
@@ -272,7 +273,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2282354626697350688}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2283959615572268651}
+        m_TargetAssemblyTypeName: Game.UI.Menu.UITradeMenu, Game
+        m_MethodName: CloseMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1261556879851070106
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,7 +742,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2938322133534485665}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.00019957}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -740,8 +753,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0000018124, y: 0.00012207}
-  m_SizeDelta: {x: 669.8, y: 1278.2}
+  m_AnchoredPosition: {x: -0.0000018124, y: -41.87372}
+  m_SizeDelta: {x: 669.8, y: 1194.4524}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2947502814792342469
 GameObject:
@@ -2144,7 +2157,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3476410371469992039}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2283959615572268651}
+        m_TargetAssemblyTypeName: Game.UI.Menu.UITradeMenu, Game
+        m_MethodName: CloseMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &3273493834407312281
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2351,7 +2376,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -211, y: -358}
+  m_AnchoredPosition: {x: -165, y: -86}
   m_SizeDelta: {x: 1313.4, y: 1995.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &162379619552804872

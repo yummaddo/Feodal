@@ -16,7 +16,7 @@ namespace Game.CallBacks.CallbackClick.Abstraction
         private Action<Port, TData> _onClick;
         private void Awake()
         {
-            SessionLifeStyleManager.AddLifeIteration(AwakeButton, SessionLifecycle.OnSceneAwakeSession);
+            SessionLifeStyleManager.AddLifeIteration(AwakeButton, SessionLifecycle.OnSceneAwakeClose);
             StatusInit = false;
         }
         private Task AwakeButton(IProgress<float> progress)
@@ -28,8 +28,7 @@ namespace Game.CallBacks.CallbackClick.Abstraction
         {
             Initialization();
             TargetObject = this.gameObject;
-            if (!button)
-                button = transform.GetComponent<UnityEngine.UI.Button>();
+            if (!button) button = transform.GetComponent<UnityEngine.UI.Button>();
             if (button != null)
             {
                 button.onClick.AddListener(ButtonClick);
@@ -38,26 +37,16 @@ namespace Game.CallBacks.CallbackClick.Abstraction
             {
                 throw new Exception($"no button element on {transform.name}");
             }
-
-            StatusInit = true;
             StatusIteration = true;
         }
-        private void OnEnable()
-        {
-            if (!StatusInit && !StatusIteration)
-            {
-                Construct();
-                StatusInit = true;
-            }
-        }
-        protected abstract void OnButtonClick();
+        protected abstract void BeforeButtonClick();
         private void ButtonClick()
         {
-            OnButtonClick();
-            OnCallBackInvocation?.Invoke(GetPort(),Data);
+            BeforeButtonClick();
+            OnCallBackInvocation?.Invoke(GetSenderPort(),Data);
         }
         public void DataInitialization(TData data) => Data = data;
-        public abstract Port GetPort();
+        public abstract Port GetSenderPort();
         public virtual void Initialization()
         {
             StatusInit = true;

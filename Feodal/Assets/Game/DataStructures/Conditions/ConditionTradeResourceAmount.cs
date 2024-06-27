@@ -2,10 +2,10 @@
 using Game.DataStructures.Trades;
 using Game.RepositoryEngine.ResourcesRepository;
 using Game.RepositoryEngine.TechnologyRepositories;
-#if UNITY_EDITOR
-    using UnityEditor;
-#endif
+using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+#endif
 
 namespace Game.DataStructures.Conditions
 {

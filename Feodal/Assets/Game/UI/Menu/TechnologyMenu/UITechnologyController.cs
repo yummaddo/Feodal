@@ -11,48 +11,35 @@ using UnityEngine.UI;
 
 namespace Game.UI.Menu.TechnologyMenu
 {
-    public class UITechnologyController : UIElementOnEnable 
+    public class UITechnologyController : UIElementOnEnable
     {
+        public UITechnologyMenu menu;
         public Button technologyButton;
         public GameObject technologyRoot;
         public List<UITechnologyListElement> elements = new List<UITechnologyListElement>();
+        
         private ICallBack<UITechnologyListElement> _callBackTechnologyListElement;
-        private ICallBack<MenuTypes> _callBackInvocationButtonExitMenu;
+        
         private UITradeMenu _tradeMenu;
-        private Action<Port, ButtonExitMenuCallBack> _onCallBackInvocation;
-        private bool _menuStatus = false;
-        public override void OnEnableSProcess()
+        
+        protected override void OnEnableSProcess()
         {
         }
-        public override void OnAwake()
+        protected override void OnAwake()
         {
-            _callBackInvocationButtonExitMenu = new MenuTypesCallback();
             _callBackTechnologyListElement = new UITechnologyListElementCallBack();
-            SessionLifeStyleManager.AddLifeIteration(OnSceneAwakeMicroServiceSession, SessionLifecycle.OnSceneAwakeMicroServiceSession);
+            UITechnologyElementProvider.CallBackTunneling<UITechnologyMenu>(_callBackTechnologyListElement);
         }
-        public override void UpdateOnInit()
+        protected override void UpdateOnInit()
         {
-            UITechnologyElementProvider.CallBackTunneling<UITechnologyListElement>(_callBackTechnologyListElement);
-            MenuTypesExitProvider.CallBackTunneling<ButtonExitMenuCallBack>(_callBackInvocationButtonExitMenu);
+            isInit = true;
+            SessionLifeStyleManager.AddLifeIteration(OnSceneAwakeMicroServiceSession, SessionLifecycle.OnSceneAwakeMicroServiceSession);
         }
         private Task OnSceneAwakeMicroServiceSession(IProgress<float> progress)
         {
-            UITechnologyElementProvider.CallBackTunneling<UITechnologyListElement>(_callBackTechnologyListElement);
-            MenuTypesExitProvider.CallBackTunneling<ButtonExitMenuCallBack>(_callBackInvocationButtonExitMenu);
             foreach (var element in elements)
-            {
                 element.Inject(this);
-            }
             return Task.CompletedTask;
-        }
-        public void OnTechnologyButtonClick()
-        {
-            if (_menuStatus)
-            {
-                _callBackInvocationButtonExitMenu.OnCallBackInvocation?.Invoke(Porting.Type<ButtonExitMenuCallBack>(), MenuTypes.Technology);
-                CloseMenuManaged();
-            }
-            else OpenMenuManaged();
         }
         internal void TechnologyElementActiveCall(UITechnologyListElement listElement)
         {
@@ -60,18 +47,8 @@ namespace Game.UI.Menu.TechnologyMenu
         }
         internal void TechnologyElementDisabledCall(UITechnologyListElement listElement)
         {
-            _callBackTechnologyListElement.OnCallBackInvocation?.Invoke(Porting.Type<UITechnologyListElement>(),listElement);
-            // OnCallBackInvocation?.Invoke(Porting.Type<UITechnologyElement>(),element);
-        }
-        public void OpenMenuManaged()
-        {
-            _menuStatus = true;
-            technologyRoot.SetActive(true);
-        }
-        public void CloseMenuManaged()
-        {
-            _menuStatus = false;
-            technologyRoot.SetActive(false);
+            _callBackTechnologyListElement.OnCallBackInvocation?.Invoke(Porting.Type<UITechnologyMenu>(),listElement);
+            menu.CloseMenu();
         }
     }
 }

@@ -18,12 +18,12 @@ namespace Game.CallBacks.CallbackClick.Button
             StatusInit = true;
         }
 
-        protected override void OnButtonClick()
+        protected override void BeforeButtonClick()
         {
             callBack.OnCallBackInvocation?.Invoke(Porting.Type<ButtonExitMenuCallBack>(), menuTypesToClose);
         }
 
-        public override Port GetPort()
+        public override Port GetSenderPort()
         {
             return Porting.Type<UIMenuBuilding>();
         }

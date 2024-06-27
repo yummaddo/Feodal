@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6122046313381089122}
   - component: {fileID: 4772229785454906533}
   - component: {fileID: -6154195293341617383}
-  - component: {fileID: 3555255333020338330}
   m_Layer: 5
   m_Name: UIListElement
   m_TagString: Untagged
@@ -87,22 +86,7 @@ MonoBehaviour:
   rare: {fileID: 4681600387709331230}
   title: {fileID: 5433265853034525587}
   value: {fileID: 2246720885396154616}
-  universal: {fileID: 0}
-  buttonResourceCallBack: {fileID: 3231929342143716325}
---- !u!114 &3555255333020338330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 224971787152736985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87f8a9ccf0ec4853aa755b5a2529e856, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 902821251679809710}
-  <Data>k__BackingField: 4
+  click: {fileID: 902821251679809710}
 --- !u!1 &6547586586858848472
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,7 +99,6 @@ GameObject:
   - component: {fileID: 3807516854797451887}
   - component: {fileID: 5739573666327500422}
   - component: {fileID: 902821251679809710}
-  - component: {fileID: 3231929342143716325}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -226,20 +209,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3231929342143716325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6547586586858848472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d35c928926fc4cde865590c377e942ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 902821251679809710}
-  <Data>k__BackingField: {fileID: -6154195293341617383}
 --- !u!1 &7035261913330798628
 GameObject:
   m_ObjectHideFlags: 0

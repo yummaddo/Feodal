@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Game.CallBacks.CallbackClick.Button;
+using Game.DataStructures;
 using Game.DataStructures.Abstraction;
 using Game.Services.ProxyServices;
+using Game.Services.ProxyServices.Abstraction;
 using Game.Services.ProxyServices.Providers;
+using Game.Typing;
 using Game.UI.Menu.ResourceListMenu;
+using Game.Utility;
 using UnityEngine;
 
 namespace Game.UI.Menu
@@ -13,6 +17,8 @@ namespace Game.UI.Menu
     {
         [SerializeField] private UIResourceListController controller;
         public Transform target;
+        private IClickCallback<MenuTypes> _callbackClose;
+        private IClickCallback<MenuTypes> _callbackOpen;
         private void Awake()
         {
             SessionLifeStyleManager.AddLifeIteration(OnSceneAwakeMicroServiceSession, SessionLifecycle.OnSceneAwakeMicroServiceSession);
@@ -20,31 +26,38 @@ namespace Game.UI.Menu
         }
         private Task OnSceneAwakeMicroServiceSession(IProgress<float> progress)
         {
-            Proxy.Connect<UniversalResourceProvider, IResource, UIMenuResource>(OnClickedByUniversalResource);
-            Proxy.Connect<MenuTypesExitProvider, MenuTypes, UIMenuResource>(OnClickedByMenuExit);
-            Proxy.Connect<MenuTypesExitProvider, MenuTypes, ButtonExitMenuCallBack>(OnClickedByMenuExit);
+            _callbackClose = new ClickCallback<MenuTypes>();
+            _callbackOpen = new ClickCallback<MenuTypes>();
+            MenuTypesExitProvider.CallBackTunneling<UIMenuResource>(_callbackClose);
+            MenuTypesOpenProvider.CallBackTunneling<UIMenuResource>(_callbackOpen);
             return Task.CompletedTask;
         }
-        private void CloseMenu()
+        public void CloseMenu()
         {
             controller.Clear();
+            Debugger.Logger("CloseMenu UIMenuResource Menu", ContextDebug.Menu, Process.Action);
+            _callbackOpen.OnCallBackInvocation?.Invoke(Porting.Type<ButtonOpenMenuCallBack>(), MenuTypes.ResourceMenu);
             target.gameObject.SetActive(false);
         }
-        private void OnClickedByMenuExit(Port type, MenuTypes obj)
+        public void OpenMenu()
         {
-            if (obj == MenuTypes.ResourceMenu)
-            {
-                CloseMenu();
-            }
+            Debugger.Logger("OpenMenu UIMenuResource Menu", ContextDebug.Menu, Process.Action);
+            _callbackOpen.OnCallBackInvocation?.Invoke(Porting.Type<ButtonOpenMenuCallBack>(), MenuTypes.ResourceMenu);
+            target.gameObject.SetActive(true);
+            controller.Clear();
         }
         private void ControllerTradeFindAndProcessed()
         {
             CloseMenu();
         }
-        private void OnClickedByUniversalResource(Port type, IResource resource)
+        public void OnClickedByUniversalResource(Resource resource)
         {
-            target.gameObject.SetActive(true);
-            controller.Clear();
+            OpenMenu();
+            controller.ViewList(controller.ResourcesListCompare[resource.Data]);
+        }
+        private void OnClickedByUniversalResource(IResource resource)
+        {
+            OpenMenu();
             controller.ViewList(controller.ResourcesListCompare[resource]);
         }
     }
