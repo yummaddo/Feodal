@@ -1,4 +1,6 @@
-﻿using Game.CallBacks;
+﻿using System;
+using System.Threading.Tasks;
+using Game.CallBacks;
 using Game.DataStructures;
 using Game.Services.ProxyServices;
 using Game.Services.ProxyServices.Providers.DatabaseProviders;
@@ -13,15 +15,16 @@ namespace Game.UI.Menu.ResourceListMenu
         public Resource resource;
         public Text value;
         public Text title;
-
-        protected override void OnEnableSProcess()
-        {
-        }
-
+        protected override void OnEnableSProcess() { }
         protected override void OnAwake()
         {
+            SessionLifeStyleManager.AddLifeIteration(AwakeButton, SessionLifecycle.OnSceneAwakeClose);
         }
-
+        private Task AwakeButton(IProgress<float> progress)
+        {
+            Proxy.Connect<DatabaseResourceProvider,ResourceTempedCallBack,ResourceTempedCallBack>(SomeResourceUpdate);
+            return Task.CompletedTask;
+        }
         protected override void UpdateOnInit()
         {
             isInit = true;
@@ -30,9 +33,7 @@ namespace Game.UI.Menu.ResourceListMenu
             if( title)
                 title.text = resource.title;
             UpdateValue(temp.GetAmount(resource.Data.Title));
-            Proxy.Connect<DatabaseResourceProvider,ResourceTempedCallBack,ResourceTempedCallBack>(SomeResourceUpdate);
         }
-
         private void SomeResourceUpdate(Port port, ResourceTempedCallBack callBack)
         {
             if (callBack.Resource.Title == resource.Data.Title) 
