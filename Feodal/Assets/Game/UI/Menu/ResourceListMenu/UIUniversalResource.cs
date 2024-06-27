@@ -23,17 +23,17 @@ namespace Game.UI.Menu.ResourceListMenu
         private Task AwakeButton(IProgress<float> progress)
         {
             Proxy.Connect<DatabaseResourceProvider,ResourceTempedCallBack,ResourceTempedCallBack>(SomeResourceUpdate);
-            return Task.CompletedTask;
-        }
-        protected override void UpdateOnInit()
-        {
-            isInit = true;
             var store = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<StorageService>();
             var temp = store.GetResourceTemp();
             if( title)
                 title.text = resource.title;
             UpdateValue(temp.GetAmount(resource.Data.Title));
+            return Task.CompletedTask;
         }
+        protected override void UpdateOnInit()
+        {
+            isInit = true;
+         }
         private void SomeResourceUpdate(Port port, ResourceTempedCallBack callBack)
         {
             if (callBack.Resource.Title == resource.Data.Title) 
