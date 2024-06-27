@@ -31,13 +31,13 @@ namespace Game.UI
             }
         }
 
-        public virtual void AwakeLifeIterationInjection(
+        protected virtual void AwakeLifeIterationInjection(
             SessionLifecycle sessionLifecycle = SessionLifecycle.OnSceneAwakeClose)
         {
             SessionLifeStyleManager.AddLifeIteration(UpdateOnInit,sessionLifecycle);
         }
-        public abstract void OnEnableSProcess();
-        public abstract void OnAwake();
-        public abstract void UpdateOnInit();
+        protected abstract void OnEnableSProcess();
+        protected abstract void OnAwake();
+        protected abstract void UpdateOnInit();
     }
 }

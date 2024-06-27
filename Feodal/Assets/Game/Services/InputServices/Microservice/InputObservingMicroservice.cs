@@ -17,6 +17,7 @@ namespace Game.Services.InputServices.Microservice
     public class InputObservingMicroservice : AbstractMicroservice<InputService>
     {        
         [Header("Program input parameters")]
+        [Range(0.3f, 0.01f)]public float deactivationTime = 0.2f;
         [Range(0.3f, 0.01f)]public float timeForClick = 0.02f;
         [Range(0.31f, 1.5f)]public float timeForSelection = 0.5f;
         [Range(0.01f, 1f)]public float speedForCameraMove = 0.02f;
@@ -34,17 +35,18 @@ namespace Game.Services.InputServices.Microservice
         private float _time = 0;
         private bool _isClick = false;
         private bool _activeTouch = false;
-        internal bool ActiveStatus => _technology && _tradeMenu && _buildingMenu && _containerMenu && _initMap && _cellSetterMenu;
-
         private bool _initMap = false;
-        private bool _technology = true;
-        private bool _tradeMenu = true;
-        private bool _buildingMenu = true;
-        private bool _containerMenu = true;        
-        private bool _cellSetterMenu = true;
-        
         private float _screenSwipeSpeed = 0;
         private float _distanceOfStartEndTouch = 0;
+        private float _deactivationTimeProcessing = 0;
+        
+        private bool ActiveStatus => !buildingMenu.status && !containerMenu.status && !tradeMenu.status && !technologyMenu.status && _initMap && !setterMenu.status;
+        public UIMenuBuilding buildingMenu;
+        public UIMenuContainer containerMenu;
+        public UITradeMenu tradeMenu;
+        public UITechnologyMenu technologyMenu;
+        public UICellSetterMenu setterMenu;
+
         
         private ControlService _controlService;
         private CellService _cellService;
@@ -74,25 +76,6 @@ namespace Game.Services.InputServices.Microservice
         }
         protected override Task OnAwake(IProgress<float> progress)
         {
-            Proxy.Connect<CellProvider, Cell>(OpenMenuCallFormMenu,  Port.SelectionCellBase);
-            Proxy.Connect<CellProvider, Cell>(ExitMenuCallFormMenu,  Port.CellDeleteBuilding);
-            Proxy.Connect<CellProvider, Cell>(ExitMenuCallFormMenu,  Port.CellDeleteContainer);
-            Proxy.Connect<CellAddDetectorProvider, CellAddDetector, CellAddDetector>(OpenMenuCallFormMenu);
-            // all exit
-            Proxy.Connect<MenuTypesExitProvider, MenuTypes, ButtonExitMenuCallBack>(ExitMenuCallFormMenu);
-            Proxy.Connect<MenuTypesExitProvider, MenuTypes, UIMenuBuilding>(ExitMenuCallFormMenu);
-            Proxy.Connect<MenuTypesExitProvider, MenuTypes, UIMenuContainer>(ExitMenuCallFormMenu);
-            Proxy.Connect<MenuTypesExitProvider, MenuTypes, UITechnologyMenu>(ExitMenuCallFormMenu);
-            Proxy.Connect<MenuTypesExitProvider, MenuTypes, UITradeMenu>(ExitMenuCallFormMenu);
-            Proxy.Connect<MenuTypesOpenProvider, MenuTypes, UICellSetterMenu>(ExitMenuCallFormMenu);
-            // all open
-            Proxy.Connect<MenuTypesOpenProvider, MenuTypes, ButtonOpenMenuCallBack>(OpenMenuCallFormMenu);
-            Proxy.Connect<MenuTypesOpenProvider, MenuTypes, UIMenuBuilding>(OpenMenuCallFormMenu);
-            Proxy.Connect<MenuTypesOpenProvider, MenuTypes, UIMenuContainer>(OpenMenuCallFormMenu);
-            Proxy.Connect<MenuTypesOpenProvider, MenuTypes, UITechnologyMenu>(OpenMenuCallFormMenu);
-            Proxy.Connect<MenuTypesOpenProvider, MenuTypes, UITradeMenu>(OpenMenuCallFormMenu);
-            //
-            _controlService = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<ControlService>();
             SessionLifeStyleManager.AddLifeIteration(InstanceSceneSession,SessionLifecycle.OnSceneAwakeClose);
             return Task.CompletedTask;
         }
@@ -101,6 +84,7 @@ namespace Game.Services.InputServices.Microservice
         {
             _controlService = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<ControlService>();
             _cellService = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<CellService>();
+            
             if (_cellService.IsMapCellInitial) 
                 _initMap = true;
             else 
@@ -108,30 +92,17 @@ namespace Game.Services.InputServices.Microservice
             return Task.CompletedTask;
         }
         protected override Task OnStart(IProgress<float> progress) { return Task.CompletedTask;}
-
         private void CellServiceCellMapInitial(CellMap obj) => _initMap = true;
-        private void ExitMenuCallFormMenu(Port arg1, Cell arg2) =>  MenuCallFormMenuSwitcher(MenuTypes.CellSetterMenu, true);
-        private void OpenMenuCallFormMenu(Port arg1, Cell arg2) => MenuCallFormMenuSwitcher(MenuTypes.CellSetterMenu, false);
-        private void OpenMenuCallFormMenu(Port arg1, MenuTypes arg2) => MenuCallFormMenuSwitcher(arg2, false);
-        private void ExitMenuCallFormMenu(Port arg1, MenuTypes arg2) => MenuCallFormMenuSwitcher(arg2, true);
-        private void OpenMenuCallFormMenu(Port type, CellAddDetector obj) => _containerMenu = false;
         
-        private void MenuCallFormMenuSwitcher(MenuTypes menu, bool status)
-        {
-            if (menu == MenuTypes.Technology)
-                _technology = status;
-            if (menu == MenuTypes.TradeMenu)
-                _tradeMenu = status;
-            if (menu == MenuTypes.ContainerMenu)
-                _containerMenu = status;
-            if (menu == MenuTypes.BuildingMenu)
-                _buildingMenu = status;
-            if (menu == MenuTypes.CellSetterMenu)
-                _cellSetterMenu = status;
-        }
         private void Update()
         {
-            if (!ActiveStatus) return;
+            if (!ActiveStatus) 
+                _deactivationTimeProcessing = 0;
+            if (_deactivationTimeProcessing < deactivationTime)
+            {
+                _deactivationTimeProcessing += Time.deltaTime;
+                return;
+            }
             if (Input.GetButton("Fire1"))
             {
                 _activeTouch = true;
@@ -158,7 +129,6 @@ namespace Game.Services.InputServices.Microservice
             else _activeTouch = false;
             if ((_distanceOfStartEndTouch > maximumTouchScreenDistance) && _isClick) { _isMoveCamera = true; }
         }
-
         private void LateUpdate()
         {
             if (ActiveStatus && !_activeTouch && _isClick) // find touch result
@@ -180,7 +150,6 @@ namespace Game.Services.InputServices.Microservice
 
             if (!_activeTouch && _isClick) Reset();
         }
-
         private void Reset()
         {
             _screenPositionStart = Vector2.zero;

@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Game.DataStructures.Technologies;
 using Game.DataStructures.Technologies.Abstraction;
 using Game.Services.ProxyServices;
+using Game.Services.ProxyServices.Abstraction;
+using Game.Services.ProxyServices.Providers;
 using Game.Services.ProxyServices.Providers.DatabaseProviders;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,10 +25,16 @@ namespace Game.UI.Menu.TechnologyMenu
         
         private UITechnologyController _controller;
         
-        public override void OnAwake()
+        protected override void OnAwake()
         {
         }
-        public override void OnEnableSProcess()
+
+        protected override void UpdateOnInit()
+        {
+            isInit = true;
+        }
+
+        protected override void OnEnableSProcess()
         {
             if (_controller)
             {
@@ -35,22 +43,20 @@ namespace Game.UI.Menu.TechnologyMenu
                     status = technology.Status();
                     image.color = status ? activeColor : disableColor;
                 }
-                click.onClick.AddListener(ButtonCall);
-                OnButtonCallActive += _controller.TechnologyElementActiveCall;
-                OnButtonCallDisable += _controller.TechnologyElementDisabledCall;
             }
-            var sessionManager = SessionLifeStyleManager.Instance;
-            if (sessionManager.IsMicroServiceSessionInit && !isInit)
-                UpdateOnInit();
         }
-        public override void UpdateOnInit()
+        internal void InjectFromTrade( UITradeMenu menu )
         {
-            Proxy.Connect<DatabaseTechnologyProvider,ITechnologyStore,ITechnologyStore>(SomeResourceUpdate);
-            UpdateStatus();
+            OnButtonCallDisable += menu.OpenTechnology;
         }
         internal void Inject(UITechnologyController controller)
         {
+            isInit = true;
             _controller = controller;
+            Proxy.Connect<DatabaseTechnologyProvider,ITechnologyStore,ITechnologyStore>(SomeResourceUpdate);
+            OnButtonCallActive += _controller.TechnologyElementActiveCall;
+            OnButtonCallDisable += _controller.TechnologyElementDisabledCall;
+            UpdateStatus();
         }
         public void UpdateValue(Technology newTechnology)
         {
@@ -82,25 +88,15 @@ namespace Game.UI.Menu.TechnologyMenu
                 image.color = status ? activeColor : disableColor;
             }
         }
-        private void OnDisable()
-        {
-            if (!gameObject.activeSelf) return;
-            if (_controller)
-            {
-                click.onClick.RemoveListener(ButtonCall);
-                OnButtonCallActive -= _controller.TechnologyElementActiveCall;
-                OnButtonCallDisable -= _controller.TechnologyElementDisabledCall;
-            }
-        }
-        private void ButtonCall()
+        public void ButtonCall()
         {
             if (!gameObject.activeSelf) return;
             if (status == false)
             {
-                Debug.Log("OnButtonCallActive?.Invoke(this);");
                 OnButtonCallDisable?.Invoke(this);;
             }
-            else OnButtonCallActive?.Invoke(this);
+            else 
+                OnButtonCallActive?.Invoke(this);
             
         }
     }

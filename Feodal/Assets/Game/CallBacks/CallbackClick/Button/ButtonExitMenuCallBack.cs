@@ -13,12 +13,12 @@ namespace Game.CallBacks.CallbackClick.Button
             MenuTypesExitProvider.CallBackTunneling<ButtonExitMenuCallBack>(this);
         }
 
-        protected override void OnButtonClick()
+        protected override void BeforeButtonClick()
         {
             
         }
 
-        public override Port GetPort()
+        public override Port GetSenderPort()
         {
             return Porting.Type<ButtonExitMenuCallBack>();
         }

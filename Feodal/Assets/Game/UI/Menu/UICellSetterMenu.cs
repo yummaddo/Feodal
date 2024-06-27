@@ -17,7 +17,7 @@ namespace Game.UI.Menu
         private IClickCallback<MenuTypes> _clickExitCallback;
         private IClickCallback<Cell> _clickCellDeleteContainerCallback;
         private IClickCallback<Cell> _clickCellDeleteBuildingCallback;
-        private bool _active = false;
+        public bool status = false;
         [SerializeField] private UICellSetterMenuController controller;
         [SerializeField] private GameObject root;
         private void Awake()
@@ -47,16 +47,16 @@ namespace Game.UI.Menu
         private void OnExitClick()
         {
             Debugger.Logger("Exit UICellSetterMenu", ContextDebug.Menu, Process.Action);
-            _active = false;
+            status = false;
             root.SetActive(false); 
         }
         
         private void OnOpenMenu(Port arg1, Cell arg2)
         {
             Debugger.Logger("Open UICellSetterMenu", ContextDebug.Menu, Process.Action);
-            if (!_active)
+            if (!status)
             {
-                _active = true;
+                status = true;
                 _temp = arg2;
                 root.SetActive(true);
             }
@@ -64,21 +64,21 @@ namespace Game.UI.Menu
         
         public void OnRemoveCellClick()
         {
-            if (_active)
+            if (status)
                 _clickCellDeleteContainerCallback.OnCallBackInvocation?.Invoke(Port.CellDeleteContainer, _temp);
             OnExitClick();
         }
         
         public void OnRemoveBuildClick()
         {
-            if (_active)
+            if (status)
                 _clickCellDeleteBuildingCallback.OnCallBackInvocation?.Invoke(Port.CellDeleteBuilding, _temp);
             OnExitClick();
         }
         
         private void SetStatus(Port arg1, MenuTypes arg2)
         {
-            _active = false;
+            status = false;
             _clickExitCallback.OnCallBackInvocation?.Invoke(Porting.Type<ButtonExitMenuCallBack>(), MenuTypes.CellSetterMenu);
             root.SetActive(false);
         }

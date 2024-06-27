@@ -12,11 +12,11 @@ namespace Game.CallBacks.CallbackClick.Button
             StatusInit = true;
             MenuTypesOpenProvider.CallBackTunneling<ButtonOpenMenuCallBack>(this);
         }
-        protected override void OnButtonClick()
+        protected override void BeforeButtonClick()
         {
             
         }
-        public override Port GetPort()
+        public override Port GetSenderPort()
         {
             return Porting.Type<ButtonOpenMenuCallBack>();
         }

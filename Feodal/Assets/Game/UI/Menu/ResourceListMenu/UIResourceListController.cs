@@ -5,6 +5,8 @@ using Game.CallBacks;
 using Game.DataStructures.Abstraction;
 using Game.DataStructures.UI;
 using Game.Services.ProxyServices;
+using Game.Services.ProxyServices.Abstraction;
+using Game.Services.ProxyServices.Providers;
 using Game.Services.ProxyServices.Providers.DatabaseProviders;
 using UnityEngine;
 
@@ -17,17 +19,18 @@ namespace Game.UI.Menu.ResourceListMenu
         [SerializeField] private GameObject target;
         [SerializeField] private GameObject targetUniversal;
         [SerializeField] private GameObject templateUIResource;
-        
+        private IClickCallback<UIResourceListElement> _callbackResource;
+
         [Range(1,10)]public int itemInListRoot = 4;
         public List<Transform> targetsListRoot;
-        
         private List<UIResourceListElement> _tempControllerElements;
         private List<GameObject> _temp;
-        
         internal Dictionary<IResource,UIResourcesList> ResourcesListCompare;
+        
         internal event Action OnTradeFindAndProcessed;
-        public override void OnAwake()
+        protected override void OnAwake()
         {
+            _callbackResource = new ClickCallback<UIResourceListElement>();
             ResourcesListCompare = new Dictionary<IResource, UIResourcesList>();
             _tempControllerElements = new List<UIResourceListElement>();
             _temp = new List<GameObject>();
@@ -35,11 +38,14 @@ namespace Game.UI.Menu.ResourceListMenu
                 ResourcesListCompare.Add(list.universal, list);
             SessionLifeStyleManager.AddLifeIteration(OnSceneAwakeMicroServiceSession, SessionLifecycle.OnSceneAwakeMicroServiceSession);
             SessionLifeStyleManager.AddLifeIteration(OnSceneStart, SessionLifecycle.OnSceneStartSession);
+            
+            UIListResourceElementProvider.CallBackTunneling<UIResourceListElement>(_callbackResource);
         }
-        public override void UpdateOnInit()
+        protected override void UpdateOnInit()
         {
+            isInit = true;
         }
-        public override void OnEnableSProcess()
+        protected override void OnEnableSProcess()
         {
         }
         private Task OnSceneAwakeMicroServiceSession(IProgress<float> progress)
@@ -59,7 +65,9 @@ namespace Game.UI.Menu.ResourceListMenu
             {
                 foreach (var element in _tempControllerElements)
                     if (element.TryUpdate(callBack.Resource, callBack.Value))
-                    { OnTradeFindAndProcessed?.Invoke(); break; }
+                    {
+                        OnTradeFindAndProcessed?.Invoke(); break;
+                    }
             }
         }
         internal void Clear()
@@ -94,6 +102,7 @@ namespace Game.UI.Menu.ResourceListMenu
             _temp.Add(newElementInList);
             var newElementController = newElementInList.GetComponent<UIResourceListElement>();
             _tempControllerElements.Add(newElementController);
+            newElementController.OnClickEvent += NewElementControllerOnClickEvent;
             newElementController.UpdateData(list.seeds[i]);
         }
         private void CreateNewListElements(int i, UIResourcesList list)
@@ -104,7 +113,13 @@ namespace Game.UI.Menu.ResourceListMenu
             _temp.Add(newElementInList);
             var newElementController = newElementInList.GetComponent<UIResourceListElement>();
             _tempControllerElements.Add(newElementController);
+            newElementController.OnClickEvent += NewElementControllerOnClickEvent;
             newElementController.UpdateData(list.resources[i]);
+        }
+
+        private void NewElementControllerOnClickEvent(UIResourceListElement obj)
+        {
+            _callbackResource.OnCallBackInvocation?.Invoke(Porting.Type<UIResourceListElement>(),obj);
         }
     }
 }

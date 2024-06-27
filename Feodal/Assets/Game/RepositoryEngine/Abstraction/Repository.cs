@@ -163,7 +163,10 @@ namespace Game.RepositoryEngine.Abstraction
               return dataString;
       }
 
-      static string DataPath() {
+        static string DataPath() {
+#if UNITY_EDITOR
+            return Application.streamingAssetsPath + $"/{SaveFileName}";
+#endif
               if (Directory.Exists(Application.persistentDataPath))
               {
                   return Application.persistentDataPath + $"/{SaveFileName}";
@@ -171,7 +174,7 @@ namespace Game.RepositoryEngine.Abstraction
               return Path.Combine(Application.streamingAssetsPath + $"/{SaveFileName}");
       }
 
-      static void CheckFileExistance(string filePath, bool isReading = false) {
+        static void CheckFileExistance(string filePath, bool isReading = false) {
               if (!File.Exists(filePath)){
                   File.Create(filePath).Close();
                   if (isReading) {

@@ -21,6 +21,7 @@ namespace Game.UI.Menu.TradeMenu
 {
     public class UITradeListController : UIElementOnEnable
     {
+        public UITradeMenu menu;
         public GameObject targetTradeTemplate;
         public GameObject targetTechnologyTemplate;
         [Header("Control Elements")] public GameObject targetRoot;
@@ -86,14 +87,14 @@ namespace Game.UI.Menu.TradeMenu
             TechnologyTradeTemped = null;
             _tradeType = TradeType.None;
         }
-        public override void OnEnableSProcess()
+        protected override void OnEnableSProcess()
         {
             SliderValueChangeCheck();
         }
-        public override void OnAwake()
+        protected override void OnAwake()
         {
         }
-        public override void UpdateOnInit()
+        protected override void UpdateOnInit()
         {
             SessionLifeStyleManager.AddLifeIteration(Inject, SessionLifecycle.OnSceneAwakeClose);
             slider.onValueChanged.AddListener(delegate { SliderValueChangeCheck(); });
@@ -102,6 +103,7 @@ namespace Game.UI.Menu.TradeMenu
         {
             _service = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<StorageService>();
             _tradeMicroservice = SessionLifeStyleManager.Instance.ServiceLocator.Resolve<TradeMicroservice>();
+            
             TempResourceTemped = _service.GetResourceTemp();
             TempTechnologyTemped = _service.GetTechnologyTemp();
             return Task.CompletedTask;
@@ -119,6 +121,7 @@ namespace Game.UI.Menu.TradeMenu
         public void ViewResource(UIResourceListElement element)
         {
             Reset();
+            Debugger.Logger("Trade View Resource", Process.Load);
             targetRoot.SetActive(true);
             payRoot.SetActive(false);
             amountSlider.SetActive(true);            
@@ -130,6 +133,7 @@ namespace Game.UI.Menu.TradeMenu
         public void ViewSeed(UIResourceListElement element)
         {
             Reset();
+            Debugger.Logger("Trade View Seed", Process.Load);
             targetRoot.SetActive(true);
             payRoot.SetActive(true);
             amountSlider.SetActive(false);
@@ -141,6 +145,7 @@ namespace Game.UI.Menu.TradeMenu
         public void ViewTechnology(UITechnologyListElement listElement)
         {
             Reset();
+            Debugger.Logger("Trade View Technology", Process.Load);
             targetRoot.SetActive(true);
             payRoot.SetActive(true);
             amountSlider.SetActive(false);
@@ -152,6 +157,7 @@ namespace Game.UI.Menu.TradeMenu
         public void ViewBuilding(IUICellContainerElement element)
         {
             Reset();
+            Debugger.Logger("Trade View Building", Process.Load);
             targetRoot.SetActive(true);
             payRoot.SetActive(true);
             amountSlider.SetActive(false);

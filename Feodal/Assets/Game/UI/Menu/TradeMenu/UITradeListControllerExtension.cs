@@ -101,6 +101,7 @@ namespace Game.UI.Menu.TradeMenu
                     controller.TechnologyTradeCompare.Add(element.GetInstanceID(), element);
                     controller.TechnologyTradeTemped = condition.Data.Trade;
                     var ui = controller.TechnologyTradeTemped.sprite;
+                    component.InjectFromTrade(controller.menu);
                     component.UpdateValue(condition);
                     component.UpdateStatus();
                 }
